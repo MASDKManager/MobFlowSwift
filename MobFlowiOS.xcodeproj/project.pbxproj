@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0D7792C8288173C1009936AB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7792C7288173C1009936AB /* StoreKit.framework */; };
+		0D89F51B29B0F3BA001BF79A /* MobFlowiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */; };
 		0DBA546A2875C12F00A599FA /* ExtMobiFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54652875C12E00A599FA /* ExtMobiFlowDelegate.swift */; };
 		0DBA546B2875C12F00A599FA /* ExtAdjustDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */; };
 		0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */; };
 		0DBA54722875CE5A00A599FA /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54712875CE5A00A599FA /* Functions.swift */; };
-		0DD776BA29A8BD6400B9F5C2 /* MobFlowiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DD776B929A8BD6400B9F5C2 /* MobFlowiOS.h */; };
 		18B70C8627462C640003F67F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B70C8527462C640003F67F /* Extensions.swift */; };
 		AC9056DD260DD6C80084E14F /* NoInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */; };
 		AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */; };
@@ -20,19 +20,18 @@
 		AC9056E3260DD6E90084E14F /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E1260DD6E90084E14F /* close.png */; };
 		AC9056E4260DD6E90084E14F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E2260DD6E90084E14F /* Main.storyboard */; };
 		AC9056F6260DD74B0084E14F /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9056F5260DD74B0084E14F /* images.xcassets */; };
-		B5481749A9FB6FB2A7DA2D78 /* Pods_MobFlowiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4EB2CFDD0C6D2DD359CC269 /* Pods_MobFlowiOS.framework */; };
+		F84849548291AD1315B53925 /* Pods_MobFlowiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		054FB5A01EC99EDC6C7787A1 /* Pods-MobFlowiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.release.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.release.xcconfig"; sourceTree = "<group>"; };
 		0D7792C7288173C1009936AB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobFlowiOS.h; path = "../../../ios-html-sdk-main 2/MobFlowiOS/SDK/MobFlowiOS.h"; sourceTree = "<group>"; };
+		0D89F51C29B0F4A5001BF79A /* MobFlowiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobFlowiOS.h; sourceTree = "<group>"; };
 		0DBA54652875C12E00A599FA /* ExtMobiFlowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtMobiFlowDelegate.swift; sourceTree = "<group>"; };
 		0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtAdjustDelegate.swift; sourceTree = "<group>"; };
 		0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0DBA54712875CE5A00A599FA /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
-		0DD776B929A8BD6400B9F5C2 /* MobFlowiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobFlowiOS.h; sourceTree = "<group>"; };
 		18B70C8527462C640003F67F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../SDK/Extensions.swift; sourceTree = "<group>"; };
-		A07B0D5BD1CB4CF60674519B /* Pods-MobFlowiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.debug.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.debug.xcconfig"; sourceTree = "<group>"; };
 		AC9056BE260DD3E30084E14F /* MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9056C2260DD3E30084E14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
@@ -41,7 +40,9 @@
 		AC9056E1260DD6E90084E14F /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		AC9056E2260DD6E90084E14F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		AC9056F5260DD74B0084E14F /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
-		D4EB2CFDD0C6D2DD359CC269 /* Pods_MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC1C754CA008DD2A306A4809 /* Pods-MobFlowiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.release.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.release.xcconfig"; sourceTree = "<group>"; };
+		EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F83108C85850775D9344A2F7 /* Pods-MobFlowiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.debug.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D7792C8288173C1009936AB /* StoreKit.framework in Frameworks */,
-				B5481749A9FB6FB2A7DA2D78 /* Pods_MobFlowiOS.framework in Frameworks */,
+				F84849548291AD1315B53925 /* Pods_MobFlowiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +61,7 @@
 		0DBA545F2875AE9200A599FA /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */,
 				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
 			);
 			path = SDK;
@@ -96,6 +98,7 @@
 		AC9056B4260DD3E30084E14F = {
 			isa = PBXGroup;
 			children = (
+				0D89F51C29B0F4A5001BF79A /* MobFlowiOS.h */,
 				AC9056C0260DD3E30084E14F /* MobFlowiOS */,
 				AC9056BF260DD3E30084E14F /* Products */,
 				CF540FA7656CAE6FBA99A935 /* Frameworks */,
@@ -114,7 +117,6 @@
 		AC9056C0260DD3E30084E14F /* MobFlowiOS */ = {
 			isa = PBXGroup;
 			children = (
-				0DD776B929A8BD6400B9F5C2 /* MobFlowiOS.h */,
 				AC9056C2260DD3E30084E14F /* Info.plist */,
 				AC9056F5260DD74B0084E14F /* images.xcassets */,
 				AC9056E1260DD6E90084E14F /* close.png */,
@@ -131,7 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				0D7792C7288173C1009936AB /* StoreKit.framework */,
-				D4EB2CFDD0C6D2DD359CC269 /* Pods_MobFlowiOS.framework */,
+				EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,8 +141,8 @@
 		D7BF5A99212F1F40B58FB890 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A07B0D5BD1CB4CF60674519B /* Pods-MobFlowiOS.debug.xcconfig */,
-				054FB5A01EC99EDC6C7787A1 /* Pods-MobFlowiOS.release.xcconfig */,
+				F83108C85850775D9344A2F7 /* Pods-MobFlowiOS.debug.xcconfig */,
+				EC1C754CA008DD2A306A4809 /* Pods-MobFlowiOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -152,7 +154,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DD776BA29A8BD6400B9F5C2 /* MobFlowiOS.h in Headers */,
+				0D89F51B29B0F3BA001BF79A /* MobFlowiOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +165,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC9056C6260DD3E30084E14F /* Build configuration list for PBXNativeTarget "MobFlowiOS" */;
 			buildPhases = (
-				ED5D6201E1FE7B2E84FE2E08 /* [CP] Check Pods Manifest.lock */,
+				417FCD7FE036CD5839422942 /* [CP] Check Pods Manifest.lock */,
 				AC9056B9260DD3E30084E14F /* Headers */,
 				AC9056BA260DD3E30084E14F /* Sources */,
 				AC9056BB260DD3E30084E14F /* Frameworks */,
@@ -224,7 +226,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ED5D6201E1FE7B2E84FE2E08 /* [CP] Check Pods Manifest.lock */ = {
+		417FCD7FE036CD5839422942 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -396,7 +398,7 @@
 		};
 		AC9056C7260DD3E30084E14F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A07B0D5BD1CB4CF60674519B /* Pods-MobFlowiOS.debug.xcconfig */;
+			baseConfigurationReference = F83108C85850775D9344A2F7 /* Pods-MobFlowiOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -442,7 +444,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "MobFlowiOS/$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME).h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -451,7 +454,7 @@
 		};
 		AC9056C8260DD3E30084E14F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 054FB5A01EC99EDC6C7787A1 /* Pods-MobFlowiOS.release.xcconfig */;
+			baseConfigurationReference = EC1C754CA008DD2A306A4809 /* Pods-MobFlowiOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -498,7 +501,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "MobFlowiOS/$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SWIFT_MODULE_NAME).h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME).h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
