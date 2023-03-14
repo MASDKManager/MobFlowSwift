@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D7792C8288173C1009936AB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7792C7288173C1009936AB /* StoreKit.framework */; };
-		0D89F51B29B0F3BA001BF79A /* MobFlowiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */; };
-		0DBA546A2875C12F00A599FA /* ExtMobiFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54652875C12E00A599FA /* ExtMobiFlowDelegate.swift */; };
+		0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */; };
 		0DBA546B2875C12F00A599FA /* ExtAdjustDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */; };
 		0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */; };
 		0DBA54722875CE5A00A599FA /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54712875CE5A00A599FA /* Functions.swift */; };
@@ -25,13 +24,12 @@
 
 /* Begin PBXFileReference section */
 		0D7792C7288173C1009936AB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobFlowiOS.h; path = "../../../ios-html-sdk-main 2/MobFlowiOS/SDK/MobFlowiOS.h"; sourceTree = "<group>"; };
 		0D89F51C29B0F4A5001BF79A /* MobFlowiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobFlowiOS.h; sourceTree = "<group>"; };
-		0DBA54652875C12E00A599FA /* ExtMobiFlowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtMobiFlowDelegate.swift; sourceTree = "<group>"; };
+		0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobiFlowDelegate.swift; sourceTree = "<group>"; };
 		0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtAdjustDelegate.swift; sourceTree = "<group>"; };
 		0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0DBA54712875CE5A00A599FA /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
-		18B70C8527462C640003F67F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../SDK/Extensions.swift; sourceTree = "<group>"; };
+		18B70C8527462C640003F67F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AC9056BE260DD3E30084E14F /* MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9056C2260DD3E30084E14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
@@ -61,38 +59,16 @@
 		0DBA545F2875AE9200A599FA /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				0D89F51A29B0F3B9001BF79A /* MobFlowiOS.h */,
 				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
+				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
+				0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */,
+				18B70C8527462C640003F67F /* Extensions.swift */,
+				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
+				0DBA54712875CE5A00A599FA /* Functions.swift */,
+				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,
+				AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */,
 			);
 			path = SDK;
-			sourceTree = "<group>";
-		};
-		0DBA54622875C12400A599FA /* Delegates */ = {
-			isa = PBXGroup;
-			children = (
-				0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */,
-				0DBA54652875C12E00A599FA /* ExtMobiFlowDelegate.swift */,
-				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,
-			);
-			path = Delegates;
-			sourceTree = "<group>";
-		};
-		0DBA546D2875C21800A599FA /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */,
-				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		0DBA546E2875C31800A599FA /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				18B70C8527462C640003F67F /* Extensions.swift */,
-				0DBA54712875CE5A00A599FA /* Functions.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		AC9056B4260DD3E30084E14F = {
@@ -121,9 +97,6 @@
 				AC9056F5260DD74B0084E14F /* images.xcassets */,
 				AC9056E1260DD6E90084E14F /* close.png */,
 				AC9056E2260DD6E90084E14F /* Main.storyboard */,
-				0DBA546E2875C31800A599FA /* Utils */,
-				0DBA546D2875C21800A599FA /* ViewControllers */,
-				0DBA54622875C12400A599FA /* Delegates */,
 				0DBA545F2875AE9200A599FA /* SDK */,
 			);
 			path = MobFlowiOS;
@@ -154,7 +127,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D89F51B29B0F3BA001BF79A /* MobFlowiOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,7 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18B70C8627462C640003F67F /* Extensions.swift in Sources */,
-				0DBA546A2875C12F00A599FA /* ExtMobiFlowDelegate.swift in Sources */,
+				0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */,
 				0DBA546B2875C12F00A599FA /* ExtAdjustDelegate.swift in Sources */,
 				AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */,
 				0DBA54722875CE5A00A599FA /* Functions.swift in Sources */,
@@ -401,12 +373,12 @@
 			baseConfigurationReference = F83108C85850775D9344A2F7 /* Pods-MobFlowiOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_ASSET_PATHS = "MobFlowiOS/images.xcassets MobFlowiOS/Main.storyboard MobFlowiOS/close.png";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = SSV94XWA9F;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -457,13 +429,12 @@
 			baseConfigurationReference = EC1C754CA008DD2A306A4809 /* Pods-MobFlowiOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_ASSET_PATHS = "MobFlowiOS/images.xcassets MobFlowiOS/Main.storyboard MobFlowiOS/close.png";
 				DEVELOPMENT_TEAM = SSV94XWA9F;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

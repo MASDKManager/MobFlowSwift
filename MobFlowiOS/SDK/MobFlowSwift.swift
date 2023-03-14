@@ -1,13 +1,16 @@
 import UIKit
+import Adjust
 import AppTrackingTransparency
 import AdSupport
 import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
+import OneSignal
+
 
 public class MobiFlowSwift: NSObject
 {
-    
+     
     private let mob_sdk_version = "1.6.7"
     private var endpoint = ""
     private var adjustToken = ""
@@ -27,14 +30,15 @@ public class MobiFlowSwift: NSObject
  
     let nc = NotificationCenter.default
     
-    public init(initDelegate: MobiFlowDelegate, endpoint : String , adjustToken : String  , adjustEventToken : String   ) {
+    public init(initDelegate: MobiFlowDelegate, endpoint : String , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
         self.endpoint = endpoint
         self.adjustToken = adjustToken
         self.adjustEventToken = adjustEventToken
-         
+ 
+        
         FirebaseApp.configure()
          
         let appDefaults: [String: Any?] = [
@@ -61,9 +65,24 @@ public class MobiFlowSwift: NSObject
             self.run = true
             self.initialiseSDK()
         }
+        
+        // Remove this method to stop OneSignal Debugging
+        OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
+        
+        OneSignal.setLaunchURLsInApp(false); // before Initialize
+        
+        // OneSignal initialization
+        OneSignal.initWithLaunchOptions(launchOptions)
+        OneSignal.setAppId(oneSignalToken)
+        
+        // promptForPushNotifications will show the native iOS notification permission prompt.
+        // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 8)
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+          print("User accepted notifications: \(accepted)")
+        })
+          
     }
 
-    
     func initialiseSDK() {
         
         if hasInitialized {
@@ -102,8 +121,6 @@ public class MobiFlowSwift: NSObject
         }
     }
     
- 
-    
     @objc private func onDataReceived(){
         if (endpoint != "") {
             let packageName = Bundle.main.bundleIdentifier ?? ""
@@ -131,7 +148,6 @@ public class MobiFlowSwift: NSObject
         
     }
     
-  
     func createParamsURL()
     {
         
@@ -140,7 +156,8 @@ public class MobiFlowSwift: NSObject
          
         
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-        printMobLog(description: "GPS_ADID", value: idfa)
+        printMobLog(description:  "GPS_ADID", value: idfa)
+      
         
         let idfv = UIDevice.current.identifierForVendor!.uuidString
         printMobLog(description: "Device ID", value: idfv)
@@ -167,7 +184,6 @@ public class MobiFlowSwift: NSObject
         self.customURL = customString
         
     }
-     
     
     func initWebViewURL() -> WebViewController
     {

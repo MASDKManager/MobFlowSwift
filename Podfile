@@ -11,7 +11,9 @@ target 'MobFlowiOS' do
   pod 'Firebase'
   pod 'FirebaseAnalytics'
   pod 'FirebaseCrashlytics'
-  pod 'FirebaseRemoteConfig' 
+  pod 'FirebaseRemoteConfig'
+  
+  pod 'OneSignalXCFramework', '>= 3.0.0', '< 4.0'
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
