@@ -19,7 +19,7 @@
 		AC9056E3260DD6E90084E14F /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E1260DD6E90084E14F /* close.png */; };
 		AC9056E4260DD6E90084E14F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E2260DD6E90084E14F /* Main.storyboard */; };
 		AC9056F6260DD74B0084E14F /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9056F5260DD74B0084E14F /* images.xcassets */; };
-		F84849548291AD1315B53925 /* Pods_MobFlowiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */; };
+		FF53A57B4BEE5A7CE988E359 /* Pods_MobFlowiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +49,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D7792C8288173C1009936AB /* StoreKit.framework in Frameworks */,
-				F84849548291AD1315B53925 /* Pods_MobFlowiOS.framework in Frameworks */,
+				FF53A57B4BEE5A7CE988E359 /* Pods_MobFlowiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,11 +137,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC9056C6260DD3E30084E14F /* Build configuration list for PBXNativeTarget "MobFlowiOS" */;
 			buildPhases = (
-				417FCD7FE036CD5839422942 /* [CP] Check Pods Manifest.lock */,
+				A11C56ED884B41065DA918EC /* [CP] Check Pods Manifest.lock */,
 				AC9056B9260DD3E30084E14F /* Headers */,
 				AC9056BA260DD3E30084E14F /* Sources */,
 				AC9056BB260DD3E30084E14F /* Frameworks */,
 				AC9056BC260DD3E30084E14F /* Resources */,
+				0DC7A34D29C1E72F005297C1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -198,7 +199,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		417FCD7FE036CD5839422942 /* [CP] Check Pods Manifest.lock */ = {
+		0DC7A34D29C1E72F005297C1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+		A11C56ED884B41065DA918EC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
