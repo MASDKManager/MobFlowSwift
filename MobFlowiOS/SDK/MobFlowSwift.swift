@@ -11,8 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    
-    private let mob_sdk_version = "2.0.3"
+    private let mob_sdk_version = "2.0.4"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -52,7 +51,7 @@ public class MobiFlowSwift: NSObject
             if status == .success {
                 RemoteConfig.remoteConfig().activate { _, error in
                     DispatchQueue.main.async {
-                        self.run = RemoteConfig.remoteConfig().configValue(forKey: "run").boolValue
+                        self.run = RemoteConfig.remoteConfig()["run"].boolValue
                         self.initialiseSDK()
                     }
                 }

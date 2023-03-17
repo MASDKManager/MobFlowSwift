@@ -9,16 +9,12 @@
 /* Begin PBXBuildFile section */
 		0D7792C8288173C1009936AB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7792C7288173C1009936AB /* StoreKit.framework */; };
 		0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */; };
-		0DBA546B2875C12F00A599FA /* ExtAdjustDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */; };
 		0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */; };
 		0DBA54722875CE5A00A599FA /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54712875CE5A00A599FA /* Functions.swift */; };
 		18B70C8627462C640003F67F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B70C8527462C640003F67F /* Extensions.swift */; };
-		AC9056DD260DD6C80084E14F /* NoInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */; };
 		AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */; };
 		AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DC260DD6C70084E14F /* WebViewController.swift */; };
-		AC9056E3260DD6E90084E14F /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E1260DD6E90084E14F /* close.png */; };
 		AC9056E4260DD6E90084E14F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E2260DD6E90084E14F /* Main.storyboard */; };
-		AC9056F6260DD74B0084E14F /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9056F5260DD74B0084E14F /* images.xcassets */; };
 		FF53A57B4BEE5A7CE988E359 /* Pods_MobFlowiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,18 +22,14 @@
 		0D7792C7288173C1009936AB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0D89F51C29B0F4A5001BF79A /* MobFlowiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobFlowiOS.h; sourceTree = "<group>"; };
 		0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobiFlowDelegate.swift; sourceTree = "<group>"; };
-		0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtAdjustDelegate.swift; sourceTree = "<group>"; };
 		0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0DBA54712875CE5A00A599FA /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		18B70C8527462C640003F67F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AC9056BE260DD3E30084E14F /* MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9056C2260DD3E30084E14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
 		AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobFlowSwift.swift; sourceTree = "<group>"; };
 		AC9056DC260DD6C70084E14F /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		AC9056E1260DD6E90084E14F /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		AC9056E2260DD6E90084E14F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		AC9056F5260DD74B0084E14F /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
 		EC1C754CA008DD2A306A4809 /* Pods-MobFlowiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.release.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.release.xcconfig"; sourceTree = "<group>"; };
 		EDFE27DAFE3161DE0BBA793A /* Pods_MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F83108C85850775D9344A2F7 /* Pods-MobFlowiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobFlowiOS.debug.xcconfig"; path = "Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -59,14 +51,12 @@
 		0DBA545F2875AE9200A599FA /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
-				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
-				0DBA54662875C12E00A599FA /* ExtAdjustDelegate.swift */,
 				18B70C8527462C640003F67F /* Extensions.swift */,
-				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
 				0DBA54712875CE5A00A599FA /* Functions.swift */,
+				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
+				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
+				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
 				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,
-				AC9056DA260DD6C70084E14F /* NoInternetViewController.swift */,
 			);
 			path = SDK;
 			sourceTree = "<group>";
@@ -94,8 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				AC9056C2260DD3E30084E14F /* Info.plist */,
-				AC9056F5260DD74B0084E14F /* images.xcassets */,
-				AC9056E1260DD6E90084E14F /* close.png */,
 				AC9056E2260DD6E90084E14F /* Main.storyboard */,
 				0DBA545F2875AE9200A599FA /* SDK */,
 			);
@@ -142,7 +130,6 @@
 				AC9056BA260DD3E30084E14F /* Sources */,
 				AC9056BB260DD3E30084E14F /* Frameworks */,
 				AC9056BC260DD3E30084E14F /* Resources */,
-				0DC7A34D29C1E72F005297C1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -190,8 +177,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC9056F6260DD74B0084E14F /* images.xcassets in Resources */,
-				AC9056E3260DD6E90084E14F /* close.png in Resources */,
 				AC9056E4260DD6E90084E14F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,23 +184,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0DC7A34D29C1E72F005297C1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
-		};
 		A11C56ED884B41065DA918EC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -247,12 +215,10 @@
 			files = (
 				18B70C8627462C640003F67F /* Extensions.swift in Sources */,
 				0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */,
-				0DBA546B2875C12F00A599FA /* ExtAdjustDelegate.swift in Sources */,
 				AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */,
 				0DBA54722875CE5A00A599FA /* Functions.swift in Sources */,
 				AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */,
 				0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */,
-				AC9056DD260DD6C80084E14F /* NoInternetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +361,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_ASSET_PATHS = "MobFlowiOS/images.xcassets MobFlowiOS/Main.storyboard MobFlowiOS/close.png";
+				DEVELOPMENT_ASSET_PATHS = MobFlowiOS/Main.storyboard;
 				DEVELOPMENT_TEAM = SSV94XWA9F;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -451,7 +417,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_ASSET_PATHS = "MobFlowiOS/images.xcassets MobFlowiOS/Main.storyboard MobFlowiOS/close.png";
+				DEVELOPMENT_ASSET_PATHS = MobFlowiOS/Main.storyboard;
 				DEVELOPMENT_TEAM = SSV94XWA9F;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
