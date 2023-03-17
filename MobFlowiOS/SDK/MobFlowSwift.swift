@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.4"
+    private let mob_sdk_version = "2.0.5"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -98,7 +98,6 @@ public class MobiFlowSwift: NSObject
             let adjustConfig = ADJConfig(appToken: adjustToken, environment: ADJEnvironmentProduction)
             
             adjustConfig?.sendInBackground = true
-            adjustConfig?.delegate = self
             adjustConfig?.linkMeEnabled = true
               
             Adjust.appDidLaunch(adjustConfig)

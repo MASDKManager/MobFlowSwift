@@ -158,14 +158,7 @@ extension WebViewController: WKNavigationDelegate
     
     func presentNoInternetViewController()
     { 
-        let frameworkBundle = Bundle(for: Self.self)
-        let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("MobFlowiOS.bundle")
-        let bundle = Bundle(url: bundleURL!)
-        let storyBoard = UIStoryboard(name: "Main", bundle:bundle)
-        let view = storyBoard.instantiateViewController(withIdentifier: "NoInternetViewController") as! NoInternetViewController
-        view.backgroundColor = self.backgroundColor
-        view.tintColor = self.tintColor
-        self.present(view, animated: true, completion: nil)
+        
     }
 }
 
