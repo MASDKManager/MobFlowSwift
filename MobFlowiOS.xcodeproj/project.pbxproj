@@ -51,9 +51,9 @@
 		0DBA545F2875AE9200A599FA /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
 				18B70C8527462C640003F67F /* Extensions.swift */,
 				0DBA54712875CE5A00A599FA /* Functions.swift */,
-				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
 				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
 				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
 				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,

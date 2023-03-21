@@ -14,7 +14,7 @@ extension MobiFlowSwift: WebViewControllerDelegate
    func present(dic: [String : Any])
    {
        self.delegate?.present(dic: dic)
-       requestPremission() 
+       requestPremission()
    }
    
    func set(schemeURL: String, addressURL: String)

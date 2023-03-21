@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.5"
+    private let mob_sdk_version = "2.0.6"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -19,7 +19,7 @@ public class MobiFlowSwift: NSObject
     public var schemeURL = ""
     public var addressURL = ""
     private var faid = ""
-    private var params = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution&appmetrica_device_id=$appmetrica_device_id"
+    private var params = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
     private var run = true
     private var hasInitialized: Bool = false
     public var hideToolbar = false
@@ -74,12 +74,7 @@ public class MobiFlowSwift: NSObject
         // OneSignal initialization
         OneSignal.initWithLaunchOptions(launchOptions)
         OneSignal.setAppId(oneSignalToken)
-        
-        // promptForPushNotifications will show the native iOS notification permission prompt.
-        // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 8)
-        OneSignal.promptForPushNotifications(userResponse: { accepted in
-          print("User accepted notifications: \(accepted)")
-        })
+         
           
     }
 
@@ -162,6 +157,7 @@ public class MobiFlowSwift: NSObject
         printMobLog(description: "Device ID", value: idfv)
         
         printMobLog(description: "self.params before changing macro", value: self.params.description)
+         
         
         let paramsQuery = self.params
                             .replacingOccurrences(of: "$adjust_campaign_name", with: Adjust.attribution()?.campaign ?? "")
