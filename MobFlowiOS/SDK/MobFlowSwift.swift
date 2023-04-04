@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.7"
+    private let mob_sdk_version = "2.0.8"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -27,14 +27,13 @@ public class MobiFlowSwift: NSObject
     public var delegate : MobiFlowDelegate? = nil
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
- 
+  
     let nc = NotificationCenter.default
     
-    public init(initDelegate: MobiFlowDelegate, endpoint : String , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
-        self.delegate = initDelegate
-       // self.endpoint = endpoint
+        self.delegate = initDelegate 
         self.adjustToken = adjustToken
         self.adjustEventToken = adjustEventToken
  
