@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.6"
+    private let mob_sdk_version = "2.0.7"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -52,6 +52,8 @@ public class MobiFlowSwift: NSObject
                 RemoteConfig.remoteConfig().activate { _, error in
                     DispatchQueue.main.async {
                         self.run = RemoteConfig.remoteConfig()["run"].boolValue
+                        self.endpoint = RemoteConfig.remoteConfig()["sub_endu"].stringValue ?? ""
+                        
                         self.initialiseSDK()
                     }
                 }
@@ -61,10 +63,10 @@ public class MobiFlowSwift: NSObject
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.run = true
-            self.initialiseSDK()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//            self.run = true
+//            self.initialiseSDK()
+//        }
         
         // Remove this method to stop OneSignal Debugging
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
