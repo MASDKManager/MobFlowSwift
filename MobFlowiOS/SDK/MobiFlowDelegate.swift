@@ -9,5 +9,5 @@ import Foundation
 
 @objc public protocol MobiFlowDelegate
 {
-    func present(dic: [String: Any])
+    func present(dic: [String: Any]) 
 }

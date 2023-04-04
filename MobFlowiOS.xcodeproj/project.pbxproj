@@ -11,7 +11,8 @@
 		0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */; };
 		0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */; };
 		0DBA54722875CE5A00A599FA /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54712875CE5A00A599FA /* Functions.swift */; };
-		18B70C8627462C640003F67F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B70C8527462C640003F67F /* Extensions.swift */; };
+		0DBA5DD829DC1EDB00B0287C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */; };
+		0DBA5DDC29DC1EDB00B0287C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA5DD629DC1EDB00B0287C /* Extensions.swift */; };
 		AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */; };
 		AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DC260DD6C70084E14F /* WebViewController.swift */; };
 		AC9056E4260DD6E90084E14F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9056E2260DD6E90084E14F /* Main.storyboard */; };
@@ -24,7 +25,8 @@
 		0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobiFlowDelegate.swift; sourceTree = "<group>"; };
 		0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0DBA54712875CE5A00A599FA /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
-		18B70C8527462C640003F67F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		0DBA5DD629DC1EDB00B0287C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AC9056BE260DD3E30084E14F /* MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9056C2260DD3E30084E14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobFlowSwift.swift; sourceTree = "<group>"; };
@@ -52,7 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
-				18B70C8527462C640003F67F /* Extensions.swift */,
+				0DBA5DD629DC1EDB00B0287C /* Extensions.swift */,
+				0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */,
 				0DBA54712875CE5A00A599FA /* Functions.swift */,
 				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
 				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
@@ -213,11 +216,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18B70C8627462C640003F67F /* Extensions.swift in Sources */,
 				0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */,
 				AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */,
 				0DBA54722875CE5A00A599FA /* Functions.swift in Sources */,
+				0DBA5DD829DC1EDB00B0287C /* WebViewController.swift in Sources */,
 				AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */,
+				0DBA5DDC29DC1EDB00B0287C /* Extensions.swift in Sources */,
 				0DBA546C2875C12F00A599FA /* WebViewControllerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

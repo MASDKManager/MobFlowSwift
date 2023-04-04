@@ -51,7 +51,7 @@ public class WebViewController: UIViewController
         // Do any additional setup after loading the view.
         self.view.backgroundColor = self.backgroundColor
         let request = URLRequest(url: self.urlToOpen!)
-        self.webView.navigationDelegate = self
+        self.webView.navigationDelegate = self 
         self.webView.backgroundColor = self.backgroundColor
         
         self.webView.load(request)
@@ -157,7 +157,7 @@ extension WebViewController: WKNavigationDelegate
     }
     
     func presentNoInternetViewController()
-    {
+    { 
         
     }
 }

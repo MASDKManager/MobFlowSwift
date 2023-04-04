@@ -34,7 +34,7 @@ public class MobiFlowSwift: NSObject
         super.init()
         
         self.delegate = initDelegate
-        self.endpoint = endpoint
+       // self.endpoint = endpoint
         self.adjustToken = adjustToken
         self.adjustEventToken = adjustEventToken
  
@@ -53,7 +53,6 @@ public class MobiFlowSwift: NSObject
                     DispatchQueue.main.async {
                         self.run = RemoteConfig.remoteConfig()["run"].boolValue
                         self.endpoint = RemoteConfig.remoteConfig()["sub_endu"].stringValue ?? ""
-                        
                         self.initialiseSDK()
                     }
                 }
@@ -63,11 +62,7 @@ public class MobiFlowSwift: NSObject
             }
         }
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-//            self.run = true
-//            self.initialiseSDK()
-//        }
-        
+ 
         // Remove this method to stop OneSignal Debugging
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
