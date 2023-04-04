@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.8"
+    private let mob_sdk_version = "2.0.9"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -20,7 +20,7 @@ public class MobiFlowSwift: NSObject
     public var addressURL = ""
     private var faid = ""
     private var params = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
-    private var run = true
+    private var run = false
     private var hasInitialized: Bool = false
     public var hideToolbar = false
     private var timer = Timer()
@@ -50,8 +50,9 @@ public class MobiFlowSwift: NSObject
             if status == .success {
                 RemoteConfig.remoteConfig().activate { _, error in
                     DispatchQueue.main.async {
-                        self.run = RemoteConfig.remoteConfig()["run"].boolValue
-                        self.endpoint = RemoteConfig.remoteConfig()["sub_endu"].stringValue ?? ""
+                        
+                        self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
                 }
