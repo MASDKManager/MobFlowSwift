@@ -55,8 +55,8 @@
 			children = (
 				AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */,
 				0DBA5DD629DC1EDB00B0287C /* Extensions.swift */,
-				0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */,
 				0DBA54712875CE5A00A599FA /* Functions.swift */,
+				0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */,
 				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
 				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
 				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,

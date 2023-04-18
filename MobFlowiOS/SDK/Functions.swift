@@ -56,7 +56,7 @@ func requestPremission()
 {
     if #available(iOS 14, *)
     {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             
             ATTrackingManager.requestTrackingAuthorization { (authStatus) in
                 switch authStatus
@@ -72,9 +72,15 @@ func requestPremission()
                 @unknown default:
                     break
                 }
+                
+                askForNotificationPermission()
             }
         })
     }
+
+}
+
+func askForNotificationPermission() {
     
     // promptForPushNotifications will show the native iOS notification permission prompt.
     // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 8)

@@ -11,7 +11,7 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.0.9"
+    private let mob_sdk_version = "2.1.0"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
