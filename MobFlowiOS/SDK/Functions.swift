@@ -56,7 +56,7 @@ func requestPremission()
 {
     if #available(iOS 14, *)
     {
-        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
             
             ATTrackingManager.requestTrackingAuthorization { (authStatus) in
                 switch authStatus

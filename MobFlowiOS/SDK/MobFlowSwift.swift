@@ -11,10 +11,12 @@ import OneSignal
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.0"
+    private let mob_sdk_version = "2.1.1"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
+    private var oneSignalToken = ""
+    private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
     public var addressURL = ""
@@ -30,20 +32,40 @@ public class MobiFlowSwift: NSObject
   
     let nc = NotificationCenter.default
     
+    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  , isUnityApp: Bool) {
+        super.init()
+        
+        self.delegate = initDelegate
+        self.adjustToken = adjustToken
+        self.adjustEventToken = adjustEventToken
+        self.oneSignalToken = oneSignalToken
+        self.launchOptions = launchOptions
+ 
+        
+        self.getFirebase()
+    }
+    
     public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
-        self.delegate = initDelegate 
+        self.delegate = initDelegate
         self.adjustToken = adjustToken
         self.adjustEventToken = adjustEventToken
+        self.oneSignalToken = oneSignalToken
+        self.launchOptions = launchOptions
  
+        
+        self.getFirebase()
+    }
+    
+    func getFirebase() {
         
         FirebaseApp.configure()
          
         let appDefaults: [String: Any?] = [
             "run": true,
         ]
-        
+         
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
 
         RemoteConfig.remoteConfig().fetch { (status, error) in
@@ -62,7 +84,17 @@ public class MobiFlowSwift: NSObject
             }
         }
         
- 
+    }
+
+    func initialiseSDK() {
+      
+        
+        if hasInitialized {
+            return
+        }
+        
+        self.hasInitialized = true
+           
         // Remove this method to stop OneSignal Debugging
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
@@ -71,17 +103,6 @@ public class MobiFlowSwift: NSObject
         // OneSignal initialization
         OneSignal.initWithLaunchOptions(launchOptions)
         OneSignal.setAppId(oneSignalToken)
-         
-          
-    }
-
-    func initialiseSDK() {
-        
-        if hasInitialized {
-            return
-        }
-        
-        self.hasInitialized = true
         
         if(run){
             
