@@ -87,9 +87,14 @@ class RCValues {
     func getTikTok() -> RCTikTok {
         let rCTikTokJson = RCValues.sharedInstance.string(forKey: .tiktok)
         let rCTikTokData = Data(rCTikTokJson.utf8)
-        let rCTikTok = try! JSONDecoder().decode(RCTikTok.self, from: rCTikTokData)
-        
-        return rCTikTok
+        do{
+            let rCTikTok = try JSONDecoder().decode(RCTikTok.self, from: rCTikTokData)
+            return rCTikTok
+        }
+        catch(_) {
+            let rCTikTok = RCTikTok(enabled: false, accessToken: "", appStoreId: "", tiktokAppId: "", eventName: "")
+            return rCTikTok
+        }
     }
     
     func bool(forKey key: ValueKey) -> Bool {

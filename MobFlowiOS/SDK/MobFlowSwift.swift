@@ -11,7 +11,7 @@ import TikTokBusinessSDK
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.2"
+    private let mob_sdk_version = "2.1.3"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
