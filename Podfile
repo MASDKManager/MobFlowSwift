@@ -13,7 +13,8 @@ target 'MobFlowiOS' do
   pod 'FirebaseCrashlytics'
   pod 'FirebaseRemoteConfig' 
   pod 'OneSignalXCFramework' 
-
+  pod 'TikTokBusinessSDK'
+  
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"

@@ -6,12 +6,12 @@ import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
 import OneSignal
-
+import TikTokBusinessSDK
 
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.1"
+    private let mob_sdk_version = "2.1.2"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -30,6 +30,9 @@ public class MobiFlowSwift: NSObject
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
   
+    //TikTok
+    var rcTikTok : RCTikTok!
+    
     let nc = NotificationCenter.default
     
     @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  , isUnityApp: Bool) {
@@ -74,6 +77,7 @@ public class MobiFlowSwift: NSObject
                     DispatchQueue.main.async {
                         
                         self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -104,6 +108,26 @@ public class MobiFlowSwift: NSObject
         OneSignal.initWithLaunchOptions(launchOptions)
         OneSignal.setAppId(oneSignalToken)
         
+        self.faid = Analytics.appInstanceID() ?? ""
+        
+        if self.rcTikTok.enabled {
+            
+            let tiktokID = NSNumber(value:Int(rcTikTok.tiktokAppId) ?? 0)
+            let config = TikTokConfig.init(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: tiktokID)
+            config?.setLogLevel(TikTokLogLevelVerbose)
+            TikTokBusiness.initializeSdk(config)
+            
+            let tiktokCallbackProperties : [AnyHashable : Any] = [
+                "m_sdk_ver" : mob_sdk_version,
+                "user_uuid" : generateUserUUID(),
+                "firebase_instance_id" : self.faid
+            ]
+            printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
+            
+            TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties:tiktokCallbackProperties)
+        }
+        
+        
         if(run){
             
             printMobLog(description: "Adjust initiate called with token", value:  "")
@@ -119,7 +143,6 @@ public class MobiFlowSwift: NSObject
             Adjust.addSessionCallbackParameter("user_uuid", value: generateUserUUID())
            // Adjust.addSessionCallbackParameter("firebase_instance_id", value: self.faid)
             
-            self.faid = Analytics.appInstanceID() ?? ""
             let adjustEvent = ADJEvent(eventToken: adjustEventToken)
             adjustEvent?.addCallbackParameter("eventValue", value: self.faid) //firebase Instance Id
             adjustEvent?.addCallbackParameter("click_id", value: generateUserUUID())

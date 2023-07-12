@@ -126,6 +126,7 @@ PODS:
   - PromisesSwift (2.2.0):
     - PromisesObjC (= 2.2.0)
   - ReachabilitySwift (5.0.0)
+  - TikTokBusinessSDK (0.1.18)
 
 DEPENDENCIES:
   - Adjust
@@ -135,6 +136,7 @@ DEPENDENCIES:
   - FirebaseRemoteConfig
   - OneSignalXCFramework
   - ReachabilitySwift
+  - TikTokBusinessSDK
 
 SPEC REPOS:
   trunk:
@@ -157,6 +159,7 @@ SPEC REPOS:
     - PromisesObjC
     - PromisesSwift
     - ReachabilitySwift
+    - TikTokBusinessSDK
 
 SPEC CHECKSUMS:
   Adjust: 4690e07ea401ee56d4d3f4f5bdad86c94f51903f
@@ -178,7 +181,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  TikTokBusinessSDK: 3edc635087ac97fd135db9681f60d17a0562b08b
 
-PODFILE CHECKSUM: c39fc3afcd7d0c7aeb1b6e3f1ef55f62fa6a7383
+PODFILE CHECKSUM: 3ca5f72b9cfce4969ee59c72cf20774068bec181
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.3
