@@ -11,7 +11,7 @@ import TikTokBusinessSDK
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.4"
+    private let mob_sdk_version = "2.1.6"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -123,7 +123,7 @@ public class MobiFlowSwift: NSObject
             
             let tiktokID = NSNumber(value:Int(rcTikTok.tiktokAppId) ?? 0)
             let config = TikTokConfig.init(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: tiktokID)
-            config?.setLogLevel(TikTokLogLevelVerbose)
+            config?.appTrackingDialogSuppressed = true
             TikTokBusiness.initializeSdk(config)
             
             let tiktokCallbackProperties : [AnyHashable : Any] = [
@@ -133,7 +133,9 @@ public class MobiFlowSwift: NSObject
             ]
             printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
             
-            TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties:tiktokCallbackProperties)
+            if (rcTikTok.eventName != "") {
+                TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties:tiktokCallbackProperties)
+            }
         }
         
         

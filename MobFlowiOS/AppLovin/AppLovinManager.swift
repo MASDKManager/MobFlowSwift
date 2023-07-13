@@ -63,7 +63,6 @@ extension AppLovinManager {
                 AppLovinManager.shared.loadRewardedAd()
             }
             
-            NotificationCenter.default.post(name: NSNotification.Name("notificationCallbackToViewController"), object: nil)
         })
     }
     
