@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		0DBA54722875CE5A00A599FA /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA54712875CE5A00A599FA /* Functions.swift */; };
 		0DBA5DD829DC1EDB00B0287C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */; };
 		0DBA5DDC29DC1EDB00B0287C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA5DD629DC1EDB00B0287C /* Extensions.swift */; };
+		83174F2B2A5FE8E5006DAEA6 /* AppLovinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83174F2A2A5FE8E5006DAEA6 /* AppLovinManager.swift */; };
 		833128022A5EA1E400978EC8 /* RCModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833128012A5EA1E400978EC8 /* RCModels.swift */; };
 		833128052A5EA23500978EC8 /* RCFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833128042A5EA23500978EC8 /* RCFirebase.swift */; };
 		AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */; };
@@ -29,6 +30,7 @@
 		0DBA54712875CE5A00A599FA /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		0DBA5DD229DC1EDB00B0287C /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0DBA5DD629DC1EDB00B0287C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		83174F2A2A5FE8E5006DAEA6 /* AppLovinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLovinManager.swift; sourceTree = "<group>"; };
 		833128012A5EA1E400978EC8 /* RCModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCModels.swift; sourceTree = "<group>"; };
 		833128042A5EA23500978EC8 /* RCFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCFirebase.swift; sourceTree = "<group>"; };
 		AC9056BE260DD3E30084E14F /* MobFlowiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobFlowiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +70,14 @@
 			path = SDK;
 			sourceTree = "<group>";
 		};
+		83174F292A5FDD2C006DAEA6 /* AppLovin */ = {
+			isa = PBXGroup;
+			children = (
+				83174F2A2A5FE8E5006DAEA6 /* AppLovinManager.swift */,
+			);
+			path = AppLovin;
+			sourceTree = "<group>";
+		};
 		833128032A5EA22200978EC8 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 			children = (
 				AC9056C2260DD3E30084E14F /* Info.plist */,
 				AC9056E2260DD6E90084E14F /* Main.storyboard */,
+				83174F292A5FDD2C006DAEA6 /* AppLovin */,
 				833128032A5EA22200978EC8 /* Firebase */,
 				0DBA545F2875AE9200A599FA /* SDK */,
 			);
@@ -147,6 +158,7 @@
 				AC9056BA260DD3E30084E14F /* Sources */,
 				AC9056BB260DD3E30084E14F /* Frameworks */,
 				AC9056BC260DD3E30084E14F /* Resources */,
+				38700458690F79E7FA441535 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -201,6 +213,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		38700458690F79E7FA441535 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MobFlowiOS/Pods-MobFlowiOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A11C56ED884B41065DA918EC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +263,7 @@
 				AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */,
 				833128022A5EA1E400978EC8 /* RCModels.swift in Sources */,
 				0DBA54722875CE5A00A599FA /* Functions.swift in Sources */,
+				83174F2B2A5FE8E5006DAEA6 /* AppLovinManager.swift in Sources */,
 				833128052A5EA23500978EC8 /* RCFirebase.swift in Sources */,
 				0DBA5DD829DC1EDB00B0287C /* WebViewController.swift in Sources */,
 				AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */,

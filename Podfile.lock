@@ -2,6 +2,10 @@ PODS:
   - Adjust (4.33.4):
     - Adjust/Core (= 4.33.4)
   - Adjust/Core (4.33.4)
+  - AppLovinMediationUnityAdsAdapter (4.8.0.1):
+    - AppLovinSDK
+    - UnityAds (= 4.8.0)
+  - AppLovinSDK (11.10.1)
   - Firebase (10.8.0):
     - Firebase/Core (= 10.8.0)
   - Firebase/Core (10.8.0):
@@ -127,9 +131,12 @@ PODS:
     - PromisesObjC (= 2.2.0)
   - ReachabilitySwift (5.0.0)
   - TikTokBusinessSDK (0.1.18)
+  - UnityAds (4.8.0)
 
 DEPENDENCIES:
   - Adjust
+  - AppLovinMediationUnityAdsAdapter
+  - AppLovinSDK
   - Firebase
   - FirebaseAnalytics
   - FirebaseCrashlytics
@@ -141,6 +148,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
+    - AppLovinMediationUnityAdsAdapter
+    - AppLovinSDK
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -160,9 +169,12 @@ SPEC REPOS:
     - PromisesSwift
     - ReachabilitySwift
     - TikTokBusinessSDK
+    - UnityAds
 
 SPEC CHECKSUMS:
   Adjust: 4690e07ea401ee56d4d3f4f5bdad86c94f51903f
+  AppLovinMediationUnityAdsAdapter: b372cde7ee94362aed39cc4bf46408cd978f35d0
+  AppLovinSDK: a76e8ec3d34fb172c7a32c15efe6805e070c918a
   Firebase: b49ef44e5ec9a3d0c1f6450f410337e97872279c
   FirebaseABTesting: 0c7038e4dce273821e417bdc2b0373ee0e0e8df3
   FirebaseAnalytics: e1fc758bd5d71823bba970c076abee4b2450a5f4
@@ -182,7 +194,8 @@ SPEC CHECKSUMS:
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   TikTokBusinessSDK: 3edc635087ac97fd135db9681f60d17a0562b08b
+  UnityAds: 390144b2029ac9ce2ec81c3cfd0007686b59236a
 
-PODFILE CHECKSUM: 3ca5f72b9cfce4969ee59c72cf20774068bec181
+PODFILE CHECKSUM: e60b72240bd792b1599b30a40dc04a8759e0d97c
 
 COCOAPODS: 1.11.3

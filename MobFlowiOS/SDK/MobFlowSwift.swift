@@ -11,7 +11,7 @@ import TikTokBusinessSDK
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.3"
+    private let mob_sdk_version = "2.1.4"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -33,9 +33,15 @@ public class MobiFlowSwift: NSObject
     //TikTok
     var rcTikTok : RCTikTok!
     
+    //AppLovin
+    private var appLovinManager = AppLovinManager.shared
+    private var rewardedId = ""
+    private var interestialId = ""
+    private var bannerId = ""
+    
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  , isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
@@ -48,7 +54,7 @@ public class MobiFlowSwift: NSObject
         self.getFirebase()
     }
     
-    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
@@ -56,9 +62,12 @@ public class MobiFlowSwift: NSObject
         self.adjustEventToken = adjustEventToken
         self.oneSignalToken = oneSignalToken
         self.launchOptions = launchOptions
- 
+        self.bannerId = bannerId
+        self.interestialId = interestialId
+        self.rewardedId = rewardedId
         
         self.getFirebase()
+        self.initialiseAppLovin()
     }
     
     func getFirebase() {
@@ -154,6 +163,22 @@ public class MobiFlowSwift: NSObject
         }else{
             self.showNativeWithPermission(dic: [String : Any]())
         }
+    }
+    
+    private func initialiseAppLovin(){
+        self.appLovinManager.initializeAppLovin(rewardedId: self.rewardedId, interestialId: self.interestialId, bannerId: self.bannerId)
+    }
+    
+    @objc public func showBannerAd(vc : UIViewController) {
+        self.appLovinManager.loadBannerAd(vc: vc)
+    }
+    
+    @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
+        self.appLovinManager.showInterestialAd(onClose: onClose)
+    }
+    
+    @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
+        self.appLovinManager.showInterestialAd(onClose: onClose)
     }
     
     @objc private func onDataReceived(){
