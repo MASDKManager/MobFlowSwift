@@ -28,6 +28,8 @@ Pod::Spec.new do |spec|
   spec.dependency 'FirebaseRemoteConfig'  
   spec.dependency 'OneSignalXCFramework'
   spec.dependency 'TikTokBusinessSDK'
+  spec.dependency 'AppLovinSDK'
+  spec.dependency 'AppLovinMediationUnityAdsAdapter'
   spec.source_files  = "MobFlowiOS/**/*.{h,m,swift}"
   spec.resource_bundles = {
     'MobFlowiOS' => ['MobFlowiOS/**/*.{storyboard,xib,xcassets,lproj,png}']
