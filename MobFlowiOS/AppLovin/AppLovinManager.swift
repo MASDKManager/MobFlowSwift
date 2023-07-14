@@ -80,7 +80,7 @@ extension AppLovinManager {
         AppLovinManager.shared.adView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - height - 15, width: width, height: height)
         
         // Set background or background color for banners to be fully functional
-        AppLovinManager.shared.adView.backgroundColor = .blue
+        AppLovinManager.shared.adView.backgroundColor = .clear
         
         vc.view.addSubview(AppLovinManager.shared.adView)
         
@@ -102,16 +102,6 @@ extension AppLovinManager {
     
     func showInterestialAd(onClose : @escaping (Bool) -> ()) {
         
-        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
-            AppLovinManager.shared.interestialAdView?.show()
-            AppLovinManager.shared.onClose = onClose
-        } else {
-            debugPrint("interestial ads failed to show")
-            onClose(false)
-        }
-    }
-    
-    func showRewardedAd(onClose : @escaping (Bool) -> ()) {
         AppLovinManager.shared.clickCount += 1
         
         debugPrint("current click count: \(AppLovinManager.shared.clickCount)")
@@ -122,6 +112,17 @@ extension AppLovinManager {
             onClose(false)
             return
         }
+        
+        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
+            AppLovinManager.shared.interestialAdView?.show()
+            AppLovinManager.shared.onClose = onClose
+        } else {
+            debugPrint("interestial ads failed to show")
+            onClose(false)
+        }
+    }
+    
+    func showRewardedAd(onClose : @escaping (Bool) -> ()) {
         
         if (AppLovinManager.shared.rewardedAdView?.isReady ?? false) {
             AppLovinManager.shared.rewardUser = false
@@ -175,8 +176,10 @@ extension AppLovinManager: MAAdDelegate {
         debugPrint("Ad didHide \(ad.adUnitIdentifier)")
         if (ad.adUnitIdentifier == AppLovinManager.shared.rewardedId) {
             AppLovinManager.shared.onClose?(AppLovinManager.shared.rewardUser)
+            AppLovinManager.shared.loadRewardedAd()
         } else {
             AppLovinManager.shared.onClose?(true)
+            AppLovinManager.shared.loadInterestialAd()
         }
     }
     

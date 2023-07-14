@@ -11,7 +11,7 @@ import TikTokBusinessSDK
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.6"
+    private let mob_sdk_version = "2.1.7"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -67,7 +67,10 @@ public class MobiFlowSwift: NSObject
         self.rewardedId = rewardedId
         
         self.getFirebase()
-        self.initialiseAppLovin()
+        if (!(bannerId == "" && interestialId == "" && rewardedId == "")) {
+            self.initialiseAppLovin()
+        }
+        
     }
     
     func getFirebase() {
@@ -172,15 +175,25 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
-        self.appLovinManager.loadBannerAd(vc: vc)
+        if (self.bannerId != ""){
+            self.appLovinManager.loadBannerAd(vc: vc)
+        }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        self.appLovinManager.showInterestialAd(onClose: onClose)
+        if (self.interestialId != "") {
+            self.appLovinManager.showInterestialAd(onClose: onClose)
+        } else {
+            onClose(false)
+        }
     }
     
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        self.appLovinManager.showInterestialAd(onClose: onClose)
+        if (self.rewardedId != "") {
+            self.appLovinManager.showRewardedAd(onClose: onClose)
+        } else {
+            onClose(false)
+        }
     }
     
     @objc private func onDataReceived(){
