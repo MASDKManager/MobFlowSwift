@@ -7,11 +7,13 @@ import FirebaseAnalytics
 import FirebaseRemoteConfig
 import OneSignal
 import TikTokBusinessSDK
+import StoreKit
+import AdServices
 
 public class MobiFlowSwift: NSObject
 {
      
-    private let mob_sdk_version = "2.1.7"
+    private let mob_sdk_version = "2.1.8"
     private var endpoint = ""
     private var adjustToken = ""
     private var adjustEventToken = ""
@@ -24,6 +26,7 @@ public class MobiFlowSwift: NSObject
     private var params = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
     private var run = false
     private var hasInitialized: Bool = false
+    private var hasSwitchedToApp: Bool = false
     public var hideToolbar = false
     private var timer = Timer()
     public var delegate : MobiFlowDelegate? = nil
@@ -35,26 +38,13 @@ public class MobiFlowSwift: NSObject
     
     //AppLovin
     private var appLovinManager = AppLovinManager.shared
-    private var rewardedId = ""
+    private var appLovinKey = ""
     private var interestialId = ""
     private var bannerId = ""
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String ,launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
-        super.init()
-        
-        self.delegate = initDelegate
-        self.adjustToken = adjustToken
-        self.adjustEventToken = adjustEventToken
-        self.oneSignalToken = oneSignalToken
-        self.launchOptions = launchOptions
- 
-        
-        self.getFirebase()
-    }
-    
-    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
@@ -64,11 +54,38 @@ public class MobiFlowSwift: NSObject
         self.launchOptions = launchOptions
         self.bannerId = bannerId
         self.interestialId = interestialId
-        self.rewardedId = rewardedId
+        self.appLovinKey = appLovinKey
         
         self.getFirebase()
-        if (!(bannerId == "" && interestialId == "" && rewardedId == "")) {
-            self.initialiseAppLovin()
+        self.initialiseAppLovin()
+        
+        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+        super.init()
+        
+        self.delegate = initDelegate
+        self.adjustToken = adjustToken
+        self.adjustEventToken = adjustEventToken
+        self.oneSignalToken = oneSignalToken
+        self.launchOptions = launchOptions
+        self.bannerId = bannerId
+        self.interestialId = interestialId
+        self.appLovinKey = appLovinKey
+        
+        self.getFirebase()
+        self.initialiseAppLovin()
+        
+        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc func appMovedToForeground() {
+        debugPrint("Mobibox: Will Enter Foreground")
+        if self.hasSwitchedToApp && (self.endpoint == "") {
+            self.appLovinManager.showInterestialAdWithoutCount { _ in
+            
+            }
         }
         
     }
@@ -166,12 +183,15 @@ public class MobiFlowSwift: NSObject
             self.onDataReceived()
             
         }else{
-            self.showNativeWithPermission(dic: [String : Any]())
+            self.appLovinManager.showInterestialAdWithoutCount { _ in
+                self.showNativeWithPermission(dic: [String : Any]())
+            }
+            
         }
     }
     
     private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(rewardedId: self.rewardedId, interestialId: self.interestialId, bannerId: self.bannerId)
+        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId)
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
@@ -188,14 +208,6 @@ public class MobiFlowSwift: NSObject
         }
     }
     
-    @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rewardedId != "") {
-            self.appLovinManager.showRewardedAd(onClose: onClose)
-        } else {
-            onClose(false)
-        }
-    }
-    
     @objc private func onDataReceived(){
         if (endpoint != "") {
             let packageName = Bundle.main.bundleIdentifier ?? ""
@@ -204,7 +216,9 @@ public class MobiFlowSwift: NSObject
             printMobLog(description: "fetch endpoint url", value: apiString)
             self.checkIfEndPointAvailable(endPoint: apiString)
         } else {
-            self.showNativeWithPermission(dic: [:])
+            self.appLovinManager.showInterestialAdWithoutCount { _ in
+                self.showNativeWithPermission(dic: [:])
+            }
         }
     }
     
@@ -289,6 +303,7 @@ public class MobiFlowSwift: NSObject
     
     public func showNativeWithPermission(dic: [String : Any]) {
         printMobLog(description: "show Native With Permission", value: "")
+        self.hasSwitchedToApp = true
         self.delegate?.present(dic: dic)
         requestPremission()
     }

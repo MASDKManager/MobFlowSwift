@@ -9,6 +9,7 @@ import Foundation
 import AppLovinSDK
 import AdSupport
 import UIKit
+import Adjust
 
 class AppLovinManager : NSObject {
     
@@ -25,7 +26,6 @@ class AppLovinManager : NSObject {
     
     private var adView: MAAdView!
     
-    private var rewardedId = ""
     private var interestialId = ""
     private var bannerId = ""
     
@@ -38,29 +38,26 @@ class AppLovinManager : NSObject {
 
 extension AppLovinManager {
     
-    func initializeAppLovin(rewardedId: String, interestialId: String, bannerId: String) {
-        AppLovinManager.shared.rewardedId = rewardedId
+    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String) {
         AppLovinManager.shared.interestialId = interestialId
         AppLovinManager.shared.bannerId = bannerId
         
+        let appLovin = ALSdk.shared(withKey: appLovinKey)
 #if DEBUG
         debugPrint("Not App Store build")
         let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-        ALSdk.shared()!.settings.testDeviceAdvertisingIdentifiers = [gpsadid]
+        appLovin!.settings.testDeviceAdvertisingIdentifiers = [gpsadid]
 #else
         debugPrint("App Store build")
 #endif
-        
-        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
-        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
+        appLovin!.userIdentifier = Adjust.adid() ?? ""
+        appLovin!.mediationProvider = ALMediationProviderMAX
+        appLovin!.initializeSdk(completionHandler: { configuration in
             //         AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             debugPrint("AppLovin SDK is initialized, start loading ads now or later if ad gate is reached")
             
             if (AppLovinManager.shared.interestialId != "") {
                 AppLovinManager.shared.loadInterestialAd()
-            }
-            if (AppLovinManager.shared.rewardedId != "") {
-                AppLovinManager.shared.loadRewardedAd()
             }
             
         })
@@ -94,12 +91,6 @@ extension AppLovinManager {
         AppLovinManager.shared.interestialAdView?.load()
     }
     
-    private func loadRewardedAd() {
-        AppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: AppLovinManager.shared.rewardedId)
-        AppLovinManager.shared.rewardedAdView?.delegate = self
-        AppLovinManager.shared.rewardedAdView?.load()
-    }
-    
     func showInterestialAd(onClose : @escaping (Bool) -> ()) {
         
         AppLovinManager.shared.clickCount += 1
@@ -122,17 +113,14 @@ extension AppLovinManager {
         }
     }
     
-    func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        
-        if (AppLovinManager.shared.rewardedAdView?.isReady ?? false) {
-            AppLovinManager.shared.rewardUser = false
-            AppLovinManager.shared.rewardedAdView?.show()
+    func showInterestialAdWithoutCount(onClose : @escaping (Bool) -> ()) {
+        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
+            AppLovinManager.shared.interestialAdView?.show()
             AppLovinManager.shared.onClose = onClose
         } else {
-            debugPrint("rewarded ads failed to show")
+            debugPrint("interestial ads failed to show")
             onClose(false)
         }
-        
     }
     
 }
@@ -148,22 +136,13 @@ extension AppLovinManager: MAAdDelegate {
         if (adUnitIdentifier == interestialId) {
             // Interstitial ad failed to load
             // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-            
-            AppLovinManager.shared.retryInterestialAttempt += 1
-            let delaySec = pow(2.0, min(6.0, AppLovinManager.shared.retryInterestialAttempt))
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
-                AppLovinManager.shared.interestialAdView?.load()
-            }
-        } else if (adUnitIdentifier == AppLovinManager.shared.rewardedId) {
-            // Interstitial ad failed to load
-            // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-            
-            AppLovinManager.shared.retryRewardedAttempt += 1
-            let delaySec = pow(2.0, min(6.0, AppLovinManager.shared.retryRewardedAttempt))
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
-                AppLovinManager.shared.rewardedAdView?.load()
+            if AppLovinManager.shared.retryInterestialAttempt < 3 {
+                AppLovinManager.shared.retryInterestialAttempt += 1
+                let delaySec = 3.0
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
+                    AppLovinManager.shared.interestialAdView?.load()
+                }
             }
         }
     }
@@ -174,10 +153,7 @@ extension AppLovinManager: MAAdDelegate {
     
     func didHide(_ ad: MAAd) {
         debugPrint("Ad didHide \(ad.adUnitIdentifier)")
-        if (ad.adUnitIdentifier == AppLovinManager.shared.rewardedId) {
-            AppLovinManager.shared.onClose?(AppLovinManager.shared.rewardUser)
-            AppLovinManager.shared.loadRewardedAd()
-        } else {
+        if (ad.adUnitIdentifier == AppLovinManager.shared.interestialId){
             AppLovinManager.shared.onClose?(true)
             AppLovinManager.shared.loadInterestialAd()
         }
