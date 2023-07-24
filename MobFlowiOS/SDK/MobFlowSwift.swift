@@ -9,21 +9,21 @@ import OneSignal
 import TikTokBusinessSDK
 import StoreKit
 import AdServices
+import AppsFlyerLib
 
 public class MobiFlowSwift: NSObject
 {
-     
-    private let mob_sdk_version = "2.1.8"
+    
+    private let mob_sdk_version = "2.1.9"
     private var endpoint = ""
-    private var adjustToken = ""
-    private var adjustEventToken = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
     public var addressURL = ""
     private var faid = ""
-    private var params = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
+    private var adjustParams = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
+    private var appFlyerParams = "naming=$af_campaign_name_encoded&gps_adid=$idfa&adid=$idfa&afid=$appsflyer_id&idfv=$idfv&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id"
     private var run = false
     private var hasInitialized: Bool = false
     private var hasSwitchedToApp: Bool = false
@@ -32,9 +32,15 @@ public class MobiFlowSwift: NSObject
     public var delegate : MobiFlowDelegate? = nil
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
-  
+    
+    //Adjust
+    var rcAdjust : RCAdjust!
+    
     //TikTok
     var rcTikTok : RCTikTok!
+    
+    //AppFlyers
+    var rcAppsFlyers : RCAppsFlyers!
     
     //AppLovin
     private var appLovinManager = AppLovinManager.shared
@@ -44,12 +50,10 @@ public class MobiFlowSwift: NSObject
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
-        self.adjustToken = adjustToken
-        self.adjustEventToken = adjustEventToken
         self.oneSignalToken = oneSignalToken
         self.launchOptions = launchOptions
         self.bannerId = bannerId
@@ -59,15 +63,14 @@ public class MobiFlowSwift: NSObject
         self.getFirebase()
         self.initialiseAppLovin()
         
+        //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public init(initDelegate: MobiFlowDelegate , adjustToken : String  , adjustEventToken : String , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
-        self.adjustToken = adjustToken
-        self.adjustEventToken = adjustEventToken
         self.oneSignalToken = oneSignalToken
         self.launchOptions = launchOptions
         self.bannerId = bannerId
@@ -77,6 +80,7 @@ public class MobiFlowSwift: NSObject
         self.getFirebase()
         self.initialiseAppLovin()
         
+        //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -84,29 +88,30 @@ public class MobiFlowSwift: NSObject
         debugPrint("Mobibox: Will Enter Foreground")
         if self.hasSwitchedToApp && (self.endpoint == "") {
             self.appLovinManager.showInterestialAdWithoutCount { _ in
-            
+                
             }
         }
-        
     }
     
     func getFirebase() {
         
         FirebaseApp.configure()
-         
+        
         let appDefaults: [String: Any?] = [
             "run": true,
         ]
-         
+        
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
-
+        
         RemoteConfig.remoteConfig().fetch { (status, error) in
             if status == .success {
                 RemoteConfig.remoteConfig().activate { _, error in
                     DispatchQueue.main.async {
                         
                         self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
+                        self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -118,16 +123,16 @@ public class MobiFlowSwift: NSObject
         }
         
     }
-
+    
     func initialiseSDK() {
-      
+        
         
         if hasInitialized {
             return
         }
         
         self.hasInitialized = true
-           
+        
         // Remove this method to stop OneSignal Debugging
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
@@ -158,34 +163,55 @@ public class MobiFlowSwift: NSObject
             }
         }
         
+        if (!run) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                self.appLovinManager.showInterestialAdWithoutCount { _ in
+                    self.showNativeWithPermission(dic: [String : Any]())
+                }
+            })
+            return
+        }
         
-        if(run){
+        if (rcAppsFlyers.enabled) { //Init Apps Flyers SDK
+            debugPrint("Apps Flyers SDK initiate called")
             
-            printMobLog(description: "Adjust initiate called with token", value:  "")
+            AppsFlyerLib.shared().appsFlyerDevKey = rcAppsFlyers.devKey
+            AppsFlyerLib.shared().appleAppID = rcAppsFlyers.appStoreId
             
-            let adjustConfig = ADJConfig(appToken: adjustToken, environment: ADJEnvironmentProduction)
+#if DEBUG
+            debugPrint("Not App Store build")
+            //  Set isDebug to true to see AppsFlyer debug logs
+            AppsFlyerLib.shared().isDebug = true
+#else
+            debugPrint("App Store build")
+#endif
+            
+            AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
+                if (error != nil){
+                    debugPrint(error ?? "")
+                    return
+                } else {
+                    debugPrint("Apps Flyers SDK response dictionary: \(dictionary ?? [:])")
+                    return
+                }
+            })
+            
+        } else if (rcAdjust.enabled){
+            
+            debugPrint("Adjust initiate called with token")
+            
+            let adjustConfig = ADJConfig(appToken: rcAdjust.appToken, environment: ADJEnvironmentProduction)
             
             adjustConfig?.sendInBackground = true
             adjustConfig?.linkMeEnabled = true
-              
+            
             Adjust.appDidLaunch(adjustConfig)
             
             Adjust.addSessionCallbackParameter("m_sdk_ver", value: mob_sdk_version)
             Adjust.addSessionCallbackParameter("user_uuid", value: generateUserUUID())
-           // Adjust.addSessionCallbackParameter("firebase_instance_id", value: self.faid)
+            // Adjust.addSessionCallbackParameter("firebase_instance_id", value: self.faid)
             
-            let adjustEvent = ADJEvent(eventToken: adjustEventToken)
-            adjustEvent?.addCallbackParameter("eventValue", value: self.faid) //firebase Instance Id
-            adjustEvent?.addCallbackParameter("click_id", value: generateUserUUID())
-            
-            Adjust.trackEvent(adjustEvent)
-             
             self.onDataReceived()
-            
-        }else{
-            self.appLovinManager.showInterestialAdWithoutCount { _ in
-                self.showNativeWithPermission(dic: [String : Any]())
-            }
             
         }
     }
@@ -242,30 +268,43 @@ public class MobiFlowSwift: NSObject
         
         let adjustAttributes = Adjust.attribution()?.description ?? ""
         let encodedAdjustAttributes = adjustAttributes.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-         
+        
         
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         printMobLog(description:  "GPS_ADID", value: idfa)
-      
+        
         
         let idfv = UIDevice.current.identifierForVendor!.uuidString
         printMobLog(description: "Device ID", value: idfv)
         
-        printMobLog(description: "self.params before changing macro", value: self.params.description)
-         
+        printMobLog(description: "self.AdjustParams before changing macro", value: self.adjustParams.description)
+        printMobLog(description: "self.AppsFlyersParams before changing macro", value: self.appFlyerParams.description)
         
-        let paramsQuery = self.params
-                            .replacingOccurrences(of: "$adjust_campaign_name", with: Adjust.attribution()?.campaign ?? "")
-                            .replacingOccurrences(of: "$idfa", with: idfa)
-                            .replacingOccurrences(of: "$idfv", with: idfv)
-                            .replacingOccurrences(of: "$adjust_id", with: Adjust.adid() ?? "")
-                            .replacingOccurrences(of: "$deeplink", with: "")
-                            .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
-                            .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
-                            .replacingOccurrences(of: "$click_id", with: generateUserUUID())
-                            .replacingOccurrences(of: "$adjust_attribution", with: encodedAdjustAttributes)
-                         
-        printMobLog(description: "self.params after changing macro", value: self.params.description)
+        var paramsQuery = ""
+        if (rcAppsFlyers.enabled) {
+            paramsQuery = self.appFlyerParams
+                .replacingOccurrences(of: "$af_campaign_name_encoded", with: getAppFlyersCampanName())
+                .replacingOccurrences(of: "$idfa", with: idfa)
+                .replacingOccurrences(of: "$idfv", with: idfv)
+                .replacingOccurrences(of: "$appsflyer_id", with: AppsFlyerLib.shared().getAppsFlyerUID())
+                .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
+                .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
+                .replacingOccurrences(of: "$click_id", with: generateUserUUID())
+        } else if (rcAdjust.enabled) {
+            paramsQuery = self.adjustParams
+                .replacingOccurrences(of: "$adjust_campaign_name", with: Adjust.attribution()?.campaign ?? "")
+                .replacingOccurrences(of: "$idfa", with: idfa)
+                .replacingOccurrences(of: "$idfv", with: idfv)
+                .replacingOccurrences(of: "$adjust_id", with: Adjust.adid() ?? "")
+                .replacingOccurrences(of: "$deeplink", with: "")
+                .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
+                .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
+                .replacingOccurrences(of: "$click_id", with: generateUserUUID())
+                .replacingOccurrences(of: "$adjust_attribution", with: encodedAdjustAttributes)
+        }
+        
+        printMobLog(description: "self.adjustParams after changing macro", value: self.adjustParams.description)
+        printMobLog(description: "self.AppsFlyersParams after changing macro", value: self.appFlyerParams.description)
         
         let customString =  self.endpoint + "/?"  + paramsQuery
         
@@ -293,8 +332,8 @@ public class MobiFlowSwift: NSObject
         
         return webView
     }
-     
-  
+    
+    
     func present(webView: WebViewController)
     {
         UIApplication.shared.windows.first?.rootViewController = webView
@@ -307,4 +346,32 @@ public class MobiFlowSwift: NSObject
         self.delegate?.present(dic: dic)
         requestPremission()
     }
+}
+
+extension MobiFlowSwift :  AppsFlyerLibDelegate {
+    public func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
+        
+        if let campaign = conversionInfo["campaign"] as? String {
+            debugPrint("AppsFlyers: onConversionDataSuccess: campaign: \(campaign)")
+            let encodedCampain = campaign.utf8EncodedString()
+            saveAppFlyersCampanName(encodedCampain)
+        }
+        
+        if let status = conversionInfo["af_status"] as? String {
+            if (status == "Non-organic") {
+                // Business logic for Non-organic install scenario is invoked
+                debugPrint("AppsFlyers: onConversionDataSuccess: Non-organic install")
+            }
+            else {
+                // Business logic for organic install scenario is invoked
+                debugPrint("AppsFlyers: onConversionDataSuccess: Organic install")
+            }
+        }
+    }
+    
+    public func onConversionDataFail(_ error: Error) {
+        // Logic for when conversion data resolution fails
+        debugPrint("AppsFlyers: onConversionDataFail: error: \(error.localizedDescription)")
+    }
+    
 }

@@ -15,3 +15,20 @@ struct RCTikTok : Codable {
     let tiktokAppId: String
     let eventName: String
 }
+
+// MARK: - RCAppsFlyers
+struct RCAppsFlyers : Codable {
+    let enabled: Bool
+    let devKey: String
+    let appStoreId: String
+}
+
+// MARK: - RCAdjust
+struct RCAdjust : Codable {
+    let enabled: Bool
+    let appToken: String
+    let appInstanceIDEventToken: String
+    let attrLogEventToken: String
+    let callbackDelay: String
+    let sdk_signature: String
+}

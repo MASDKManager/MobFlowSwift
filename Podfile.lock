@@ -6,6 +6,9 @@ PODS:
     - AppLovinSDK
     - UnityAds (= 4.8.0)
   - AppLovinSDK (11.10.1)
+  - AppsFlyerFramework (6.12.1):
+    - AppsFlyerFramework/Main (= 6.12.1)
+  - AppsFlyerFramework/Main (6.12.1)
   - Firebase (10.8.0):
     - Firebase/Core (= 10.8.0)
   - Firebase/Core (10.8.0):
@@ -137,6 +140,7 @@ DEPENDENCIES:
   - Adjust
   - AppLovinMediationUnityAdsAdapter
   - AppLovinSDK
+  - AppsFlyerFramework
   - Firebase
   - FirebaseAnalytics
   - FirebaseCrashlytics
@@ -150,6 +154,7 @@ SPEC REPOS:
     - Adjust
     - AppLovinMediationUnityAdsAdapter
     - AppLovinSDK
+    - AppsFlyerFramework
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -175,6 +180,7 @@ SPEC CHECKSUMS:
   Adjust: 4690e07ea401ee56d4d3f4f5bdad86c94f51903f
   AppLovinMediationUnityAdsAdapter: b372cde7ee94362aed39cc4bf46408cd978f35d0
   AppLovinSDK: a76e8ec3d34fb172c7a32c15efe6805e070c918a
+  AppsFlyerFramework: e29b63fc5441400a38a31c5501c1da500b9d53d0
   Firebase: b49ef44e5ec9a3d0c1f6450f410337e97872279c
   FirebaseABTesting: 0c7038e4dce273821e417bdc2b0373ee0e0e8df3
   FirebaseAnalytics: e1fc758bd5d71823bba970c076abee4b2450a5f4
@@ -196,6 +202,6 @@ SPEC CHECKSUMS:
   TikTokBusinessSDK: 3edc635087ac97fd135db9681f60d17a0562b08b
   UnityAds: 390144b2029ac9ce2ec81c3cfd0007686b59236a
 
-PODFILE CHECKSUM: e60b72240bd792b1599b30a40dc04a8759e0d97c
+PODFILE CHECKSUM: 49c23648fccfb3868cc3a490d0cda2e5adb87f8c
 
 COCOAPODS: 1.11.3

@@ -19,6 +19,7 @@ enum ValueKey: String {
     case run
     case use_only_deeplink
     case tiktok
+    case appsflyers
 }
 
 class RCValues {
@@ -84,6 +85,19 @@ class RCValues {
         RemoteConfig.remoteConfig().configSettings = settings
     }
      
+    func getAdjust() -> RCAdjust {
+        let rCAdjustJson = RCValues.sharedInstance.string(forKey: .adjst)
+        let rCAdjustData = Data(rCAdjustJson.utf8)
+        do{
+            let rCAdjust = try JSONDecoder().decode(RCAdjust.self, from: rCAdjustData)
+            return rCAdjust
+        }
+        catch(_) {
+            let rCAdjust = RCAdjust(enabled: false, appToken: "", appInstanceIDEventToken: "", attrLogEventToken: "", callbackDelay: "", sdk_signature: "")
+            return rCAdjust
+        }
+    }
+    
     func getTikTok() -> RCTikTok {
         let rCTikTokJson = RCValues.sharedInstance.string(forKey: .tiktok)
         let rCTikTokData = Data(rCTikTokJson.utf8)
@@ -94,6 +108,19 @@ class RCValues {
         catch(_) {
             let rCTikTok = RCTikTok(enabled: false, accessToken: "", appStoreId: "", tiktokAppId: "", eventName: "")
             return rCTikTok
+        }
+    }
+    
+    func getAppsFlyers() -> RCAppsFlyers {
+        let rCAppsFlyersJson = RCValues.sharedInstance.string(forKey: .appsflyers)
+        let rCAppsFlyersData = Data(rCAppsFlyersJson.utf8)
+        do{
+            let rCAppsFlyers = try JSONDecoder().decode(RCAppsFlyers.self, from: rCAppsFlyersData)
+            return rCAppsFlyers
+        }
+        catch(_) {
+            let rCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "")
+            return rCAppsFlyers
         }
     }
     

@@ -12,7 +12,8 @@ import FirebaseAnalytics
 import OneSignal
 
 let USERDEFAULT_CustomUUID = "USERDEFAULT_CustomUUID"
- 
+let USERDEFAULT_AppFlyers_CampanName = "USERDEFAULT_AppFlyers_CampanName"
+
 func currentTimeInMilliSeconds() -> String {
     let currentDate = Date()
     let since1970 = currentDate.timeIntervalSince1970
@@ -113,6 +114,14 @@ func getUserUUID() -> String {
 
 func saveUserUUID(value:String) {
     return UserDefaults.standard.set(value, forKey: USERDEFAULT_CustomUUID)
+}
+
+func getAppFlyersCampanName() -> String {
+    return UserDefaults.standard.string(forKey: USERDEFAULT_AppFlyers_CampanName) ?? ""
+}
+
+func saveAppFlyersCampanName(_ value: String) {
+    return UserDefaults.standard.set(value, forKey: USERDEFAULT_AppFlyers_CampanName)
 }
 
 func logEvent(eventName : String, log : String){
