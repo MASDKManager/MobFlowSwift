@@ -13,6 +13,7 @@ import OneSignal
 
 let USERDEFAULT_CustomUUID = "USERDEFAULT_CustomUUID"
 let USERDEFAULT_AppFlyers_CampanName = "USERDEFAULT_AppFlyers_CampanName"
+let USERDEFAULT_Deeplink = "USERDEFAULT_Deeplink"
 
 func currentTimeInMilliSeconds() -> String {
     let currentDate = Date()
@@ -122,6 +123,14 @@ func getAppFlyersCampanName() -> String {
 
 func saveAppFlyersCampanName(_ value: String) {
     return UserDefaults.standard.set(value, forKey: USERDEFAULT_AppFlyers_CampanName)
+}
+
+func getDeeplink() -> String {
+    return UserDefaults.standard.string(forKey: USERDEFAULT_Deeplink) ?? ""
+}
+
+func saveDeeplink(_ value: String) {
+    return UserDefaults.standard.set(value, forKey: USERDEFAULT_Deeplink)
 }
 
 func logEvent(eventName : String, log : String){

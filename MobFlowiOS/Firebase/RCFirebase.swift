@@ -93,7 +93,7 @@ class RCValues {
             return rCAdjust
         }
         catch(_) {
-            let rCAdjust = RCAdjust(enabled: false, appToken: "", appInstanceIDEventToken: "", attrLogEventToken: "", callbackDelay: "", sdk_signature: "")
+            let rCAdjust = RCAdjust(enabled: false, appToken: "", macros: "")
             return rCAdjust
         }
     }
@@ -119,7 +119,7 @@ class RCValues {
             return rCAppsFlyers
         }
         catch(_) {
-            let rCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "")
+            let rCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
             return rCAppsFlyers
         }
     }

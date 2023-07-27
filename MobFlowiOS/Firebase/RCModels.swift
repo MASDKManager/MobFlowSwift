@@ -21,14 +21,12 @@ struct RCAppsFlyers : Codable {
     let enabled: Bool
     let devKey: String
     let appStoreId: String
+    let macros : String
 }
 
 // MARK: - RCAdjust
 struct RCAdjust : Codable {
     let enabled: Bool
     let appToken: String
-    let appInstanceIDEventToken: String
-    let attrLogEventToken: String
-    let callbackDelay: String
-    let sdk_signature: String
+    let macros : String
 }

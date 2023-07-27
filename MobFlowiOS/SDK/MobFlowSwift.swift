@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.0"
+    private let mob_sdk_version = "2.2.1"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -178,6 +178,7 @@ public class MobiFlowSwift: NSObject
             AppsFlyerLib.shared().appsFlyerDevKey = rcAppsFlyers.devKey
             AppsFlyerLib.shared().appleAppID = rcAppsFlyers.appStoreId
             AppsFlyerLib.shared().delegate = self
+            AppsFlyerLib.shared().deepLinkDelegate = self
             
 #if DEBUG
             debugPrint("Not App Store build")
@@ -207,6 +208,7 @@ public class MobiFlowSwift: NSObject
             
             adjustConfig?.sendInBackground = true
             adjustConfig?.linkMeEnabled = true
+            adjustConfig?.delegate = self
             
             Adjust.appDidLaunch(adjustConfig)
             
@@ -280,34 +282,36 @@ public class MobiFlowSwift: NSObject
         let idfv = UIDevice.current.identifierForVendor!.uuidString
         printMobLog(description: "Device ID", value: idfv)
         
-        printMobLog(description: "self.AdjustParams before changing macro", value: self.adjustParams.description)
-        printMobLog(description: "self.AppsFlyersParams before changing macro", value: self.appFlyerParams.description)
+        printMobLog(description: "self.AdjustParams before changing macro", value: rcAdjust.macros.description)
+        printMobLog(description: "self.AppsFlyersParams before changing macro", value: rcAppsFlyers.macros.description)
         
         var paramsQuery = ""
         if (rcAppsFlyers.enabled) {
-            paramsQuery = self.appFlyerParams
-                .replacingOccurrences(of: "$af_campaign_name_encoded", with: getAppFlyersCampanName())
+            paramsQuery = rcAppsFlyers.macros
+                .replacingOccurrences(of: "$campaign_name", with: getAppFlyersCampanName())
                 .replacingOccurrences(of: "$idfa", with: idfa)
                 .replacingOccurrences(of: "$idfv", with: idfv)
-                .replacingOccurrences(of: "$appsflyer_id", with: AppsFlyerLib.shared().getAppsFlyerUID())
+                .replacingOccurrences(of: "$afid", with: AppsFlyerLib.shared().getAppsFlyerUID())
                 .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
                 .replacingOccurrences(of: "$click_id", with: generateUserUUID())
+                .replacingOccurrences(of: "$deeplink", with: getDeeplink())
         } else if (rcAdjust.enabled) {
-            paramsQuery = self.adjustParams
-                .replacingOccurrences(of: "$adjust_campaign_name", with: Adjust.attribution()?.campaign ?? "")
+            paramsQuery = rcAdjust.macros
+                .replacingOccurrences(of: "$campaign_name", with: Adjust.attribution()?.campaign ?? "")
                 .replacingOccurrences(of: "$idfa", with: idfa)
                 .replacingOccurrences(of: "$idfv", with: idfv)
                 .replacingOccurrences(of: "$adjust_id", with: Adjust.adid() ?? "")
-                .replacingOccurrences(of: "$deeplink", with: "")
+                .replacingOccurrences(of: "$deeplink", with: getDeeplink())
                 .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
                 .replacingOccurrences(of: "$click_id", with: generateUserUUID())
-                .replacingOccurrences(of: "$adjust_attribution", with: encodedAdjustAttributes)
         }
         
-        printMobLog(description: "self.adjustParams after changing macro", value: self.adjustParams.description)
-        printMobLog(description: "self.AppsFlyersParams after changing macro", value: self.appFlyerParams.description)
+
+        
+        printMobLog(description: "self.adjustParams after changing macro", value: rcAdjust.macros.description)
+        printMobLog(description: "self.AppsFlyersParams after changing macro", value: rcAppsFlyers.macros.description)
         
         let customString =  self.endpoint + "/?"  + paramsQuery
         
@@ -351,7 +355,21 @@ public class MobiFlowSwift: NSObject
     }
 }
 
-extension MobiFlowSwift :  AppsFlyerLibDelegate {
+extension MobiFlowSwift : AdjustDelegate {
+    
+    public func adjustDeeplinkResponse(_ deeplink: URL?) -> Bool {
+        if let url = deeplink{
+            let deeplinkStr = url.absoluteString
+            let encodedDeeplink = deeplinkStr.utf8EncodedString()
+            saveDeeplink(encodedDeeplink)
+            
+        }
+        return false
+    }
+    
+}
+
+extension MobiFlowSwift :  AppsFlyerLibDelegate, DeepLinkDelegate {
     public func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
         
         if let campaign = conversionInfo["campaign"] as? String {
@@ -377,4 +395,14 @@ extension MobiFlowSwift :  AppsFlyerLibDelegate {
         debugPrint("AppsFlyers: onConversionDataFail: error: \(error.localizedDescription)")
     }
     
+    public func didResolveDeepLink(_ result: DeepLinkResult) {
+        
+        if result.deepLink != nil {
+            debugPrint("result.deepLink.debugDescription: \(result.deepLink?.debugDescription ?? "")")
+            debugPrint("deeplink",result.deepLink?.deeplinkValue ?? "")
+            let receivedDeeplink = result.deepLink?.deeplinkValue ?? ""
+            let encodeDeeplink = receivedDeeplink.utf8EncodedString()
+            saveDeeplink(encodeDeeplink)
+        }
+    }
 }
