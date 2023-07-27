@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.1.9"
+    private let mob_sdk_version = "2.2.0"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -177,6 +177,7 @@ public class MobiFlowSwift: NSObject
             
             AppsFlyerLib.shared().appsFlyerDevKey = rcAppsFlyers.devKey
             AppsFlyerLib.shared().appleAppID = rcAppsFlyers.appStoreId
+            AppsFlyerLib.shared().delegate = self
             
 #if DEBUG
             debugPrint("Not App Store build")
@@ -195,6 +196,8 @@ public class MobiFlowSwift: NSObject
                     return
                 }
             })
+            
+            self.onDataReceived()
             
         } else if (rcAdjust.enabled){
             
