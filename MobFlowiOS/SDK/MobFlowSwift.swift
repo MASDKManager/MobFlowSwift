@@ -5,7 +5,7 @@ import AdSupport
 import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
-import OneSignal
+import OneSignalFramework
 import TikTokBusinessSDK
 import StoreKit
 import AdServices
@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.1"
+    private let mob_sdk_version = "2.2.2"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -22,8 +22,6 @@ public class MobiFlowSwift: NSObject
     public var schemeURL = ""
     public var addressURL = ""
     private var faid = ""
-    private var adjustParams = "naming=$adjust_campaign_name&gps_adid=$idfa&adid=$adjust_id&idfv=$idfv&deeplink=$deeplink&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id&adjust_attribution=$adjust_attribution"
-    private var appFlyerParams = "naming=$af_campaign_name_encoded&gps_adid=$idfa&adid=$idfa&afid=$appsflyer_id&idfv=$idfv&firebase_instance_id=$firebase_instance_id&package=$package_id&click_id=$click_id"
     private var run = false
     private var hasInitialized: Bool = false
     private var hasSwitchedToApp: Bool = false
@@ -32,7 +30,7 @@ public class MobiFlowSwift: NSObject
     public var delegate : MobiFlowDelegate? = nil
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
-    
+    private var stopLaunchAds = false
     //Adjust
     var rcAdjust : RCAdjust!
     
@@ -109,6 +107,7 @@ public class MobiFlowSwift: NSObject
                     DispatchQueue.main.async {
                         
                         self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        self.stopLaunchAds = RCValues.sharedInstance.stopLaunchAds()
                         self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
@@ -134,13 +133,12 @@ public class MobiFlowSwift: NSObject
         self.hasInitialized = true
         
         // Remove this method to stop OneSignal Debugging
-        OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
+        OneSignal.Debug.setLogLevel(.LL_VERBOSE)
         
-        OneSignal.setLaunchURLsInApp(false); // before Initialize
+//        OneSignal.setLaunchURLsInApp(false); // before Initialize
         
         // OneSignal initialization
-        OneSignal.initWithLaunchOptions(launchOptions)
-        OneSignal.setAppId(oneSignalToken)
+        OneSignal.initialize(oneSignalToken,withLaunchOptions: launchOptions)
         
         self.faid = Analytics.appInstanceID() ?? ""
         
@@ -164,11 +162,15 @@ public class MobiFlowSwift: NSObject
         }
         
         if (!run) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                self.appLovinManager.showInterestialAdWithoutCount { _ in
-                    self.showNativeWithPermission(dic: [String : Any]())
-                }
-            })
+            if (self.stopLaunchAds) {
+                self.showNativeWithPermission(dic: [String : Any]())
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    self.appLovinManager.showInterestialAdWithoutCount { _ in
+                        self.showNativeWithPermission(dic: [String : Any]())
+                    }
+                })
+            }
             return
         }
         
@@ -214,7 +216,6 @@ public class MobiFlowSwift: NSObject
             
             Adjust.addSessionCallbackParameter("m_sdk_ver", value: mob_sdk_version)
             Adjust.addSessionCallbackParameter("user_uuid", value: generateUserUUID())
-            // Adjust.addSessionCallbackParameter("firebase_instance_id", value: self.faid)
             
             self.onDataReceived()
             
@@ -247,8 +248,14 @@ public class MobiFlowSwift: NSObject
             printMobLog(description: "fetch endpoint url", value: apiString)
             self.checkIfEndPointAvailable(endPoint: apiString)
         } else {
-            self.appLovinManager.showInterestialAdWithoutCount { _ in
-                self.showNativeWithPermission(dic: [:])
+            if (self.stopLaunchAds) {
+                self.showNativeWithPermission(dic: [String : Any]())
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    self.appLovinManager.showInterestialAdWithoutCount { _ in
+                        self.showNativeWithPermission(dic: [String : Any]())
+                    }
+                })
             }
         }
     }

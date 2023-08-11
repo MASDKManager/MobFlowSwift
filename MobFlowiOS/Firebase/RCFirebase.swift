@@ -20,6 +20,7 @@ enum ValueKey: String {
     case use_only_deeplink
     case tiktok
     case appsflyers
+    case stop_launch_ads
 }
 
 class RCValues {
@@ -122,6 +123,11 @@ class RCValues {
             let rCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
             return rCAppsFlyers
         }
+    }
+    
+    func stopLaunchAds() -> Bool {
+        let rCStopLaunchAds = RCValues.sharedInstance.bool(forKey: .stop_launch_ads)
+        return rCStopLaunchAds
     }
     
     func bool(forKey key: ValueKey) -> Bool {

@@ -9,7 +9,7 @@ import Foundation
 import AppTrackingTransparency
 import FirebaseCore
 import FirebaseAnalytics
-import OneSignal
+import OneSignalFramework
 
 let USERDEFAULT_CustomUUID = "USERDEFAULT_CustomUUID"
 let USERDEFAULT_AppFlyers_CampanName = "USERDEFAULT_AppFlyers_CampanName"
@@ -86,9 +86,7 @@ func askForNotificationPermission() {
     
     // promptForPushNotifications will show the native iOS notification permission prompt.
     // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 8)
-    OneSignal.promptForPushNotifications(userResponse: { accepted in
-      print("User accepted notifications: \(accepted)")
-    })
+    OneSignal.User.pushSubscription.optIn()
 }
 
 func generateUserUUID() -> String {
