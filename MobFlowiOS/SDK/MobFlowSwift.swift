@@ -30,7 +30,7 @@ public class MobiFlowSwift: NSObject
     public var delegate : MobiFlowDelegate? = nil
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
-    private var stopLaunchAds = false
+    private var showAds = true
     //Adjust
     var rcAdjust : RCAdjust!
     
@@ -84,7 +84,7 @@ public class MobiFlowSwift: NSObject
     
     @objc func appMovedToForeground() {
         debugPrint("Mobibox: Will Enter Foreground")
-        if self.hasSwitchedToApp && (self.endpoint == "") {
+        if self.hasSwitchedToApp && (self.endpoint == "") && self.showAds {
             self.appLovinManager.showInterestialAdWithoutCount { _ in
                 
             }
@@ -107,7 +107,7 @@ public class MobiFlowSwift: NSObject
                     DispatchQueue.main.async {
                         
                         self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
-                        self.stopLaunchAds = RCValues.sharedInstance.stopLaunchAds()
+                        self.showAds = RCValues.sharedInstance.showAds()
                         self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
@@ -162,14 +162,14 @@ public class MobiFlowSwift: NSObject
         }
         
         if (!run) {
-            if (self.stopLaunchAds) {
-                self.showNativeWithPermission(dic: [String : Any]())
-            } else {
+            if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                     self.appLovinManager.showInterestialAdWithoutCount { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
+            } else {
+                self.showNativeWithPermission(dic: [String : Any]())
             }
             return
         }
@@ -227,13 +227,13 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.bannerId != ""){
+        if (self.bannerId != "" && self.showAds){
             self.appLovinManager.loadBannerAd(vc: vc)
         }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.interestialId != "") {
+        if (self.interestialId != "" && self.showAds) {
             self.appLovinManager.showInterestialAd(onClose: onClose)
         } else {
             onClose(false)
@@ -248,14 +248,14 @@ public class MobiFlowSwift: NSObject
             printMobLog(description: "fetch endpoint url", value: apiString)
             self.checkIfEndPointAvailable(endPoint: apiString)
         } else {
-            if (self.stopLaunchAds) {
-                self.showNativeWithPermission(dic: [String : Any]())
-            } else {
+            if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                     self.appLovinManager.showInterestialAdWithoutCount { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
+            } else {
+                self.showNativeWithPermission(dic: [String : Any]())
             }
         }
     }

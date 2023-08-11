@@ -20,7 +20,7 @@ enum ValueKey: String {
     case use_only_deeplink
     case tiktok
     case appsflyers
-    case stop_launch_ads
+    case showads
 }
 
 class RCValues {
@@ -50,7 +50,9 @@ class RCValues {
             ValueKey.delay.rawValue: 0.0,
             ValueKey.run.rawValue: true,
             ValueKey.use_only_deeplink.rawValue: false,
-            ValueKey.tiktok.rawValue: ""
+            ValueKey.tiktok.rawValue: "",
+            ValueKey.appsflyers.rawValue: "",
+            ValueKey.showads.rawValue: true
         ]
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }
@@ -125,9 +127,9 @@ class RCValues {
         }
     }
     
-    func stopLaunchAds() -> Bool {
-        let rCStopLaunchAds = RCValues.sharedInstance.bool(forKey: .stop_launch_ads)
-        return rCStopLaunchAds
+    func showAds() -> Bool {
+        let rCShowAds = RCValues.sharedInstance.bool(forKey: .showads)
+        return rCShowAds
     }
     
     func bool(forKey key: ValueKey) -> Bool {
