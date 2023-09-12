@@ -14,13 +14,14 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.3"
+    private let mob_sdk_version = "2.2.4"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
     public var addressURL = ""
+    public var showAdsBeforeNative = true
     private var faid = ""
     private var run = false
     private var hasInitialized: Bool = false
@@ -45,10 +46,11 @@ public class MobiFlowSwift: NSObject
     private var appLovinKey = ""
     private var interestialId = ""
     private var bannerId = ""
+    private var rewardedId = ""
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
@@ -56,6 +58,7 @@ public class MobiFlowSwift: NSObject
         self.launchOptions = launchOptions
         self.bannerId = bannerId
         self.interestialId = interestialId
+        self.rewardedId = rewardedId
         self.appLovinKey = appLovinKey
         
         self.getFirebase()
@@ -65,7 +68,7 @@ public class MobiFlowSwift: NSObject
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
@@ -73,6 +76,7 @@ public class MobiFlowSwift: NSObject
         self.launchOptions = launchOptions
         self.bannerId = bannerId
         self.interestialId = interestialId
+        self.rewardedId = rewardedId
         self.appLovinKey = appLovinKey
         
         self.getFirebase()
@@ -85,8 +89,8 @@ public class MobiFlowSwift: NSObject
     @objc func appMovedToForeground() {
         debugPrint("Mobibox: Will Enter Foreground")
         if self.hasSwitchedToApp && (self.endpoint == "") && self.showAds {
-            self.appLovinManager.showInterestialAdWithoutCount { _ in
-                
+            self.appLovinManager.showAppOpenAds { _ in
+                debugPrint("successfully shown AppOpen Ads.")
             }
         }
     }
@@ -164,7 +168,7 @@ public class MobiFlowSwift: NSObject
         if (!run) {
             if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    self.appLovinManager.showInterestialAdWithoutCount { _ in
+                    self.appLovinManager.showRewardedAd { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
@@ -223,7 +227,7 @@ public class MobiFlowSwift: NSObject
     }
     
     private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId)
+        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: "")
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
@@ -250,7 +254,7 @@ public class MobiFlowSwift: NSObject
         } else {
             if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    self.appLovinManager.showInterestialAdWithoutCount { _ in
+                    self.appLovinManager.showRewardedAd { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
@@ -278,6 +282,8 @@ public class MobiFlowSwift: NSObject
     func createParamsURL()
     {
         
+        var adid = ""
+        
         let adjustAttributes = Adjust.attribution()?.description ?? ""
         let encodedAdjustAttributes = adjustAttributes.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
         
@@ -304,11 +310,23 @@ public class MobiFlowSwift: NSObject
                 .replacingOccurrences(of: "$click_id", with: generateUserUUID())
                 .replacingOccurrences(of: "$deeplink", with: getDeeplink())
         } else if (rcAdjust.enabled) {
+            
+            for _ in 0...6 {
+                do {
+                    sleep(1)
+                    adid = Adjust.adid() ?? ""
+                    printMobLog(description: "fetching Adjust adid in loop, recived adid:", value: adid)
+                    if adid != "" {
+                        break
+                    }
+                }
+            }
+            
             paramsQuery = rcAdjust.macros
                 .replacingOccurrences(of: "$campaign_name", with: Adjust.attribution()?.campaign ?? "")
                 .replacingOccurrences(of: "$idfa", with: idfa)
                 .replacingOccurrences(of: "$idfv", with: idfv)
-                .replacingOccurrences(of: "$adjust_id", with: Adjust.adid() ?? "")
+                .replacingOccurrences(of: "$adjust_id", with: adid)
                 .replacingOccurrences(of: "$deeplink", with: getDeeplink())
                 .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
@@ -320,7 +338,7 @@ public class MobiFlowSwift: NSObject
         printMobLog(description: "self.adjustParams after changing macro", value: rcAdjust.macros.description)
         printMobLog(description: "self.AppsFlyersParams after changing macro", value: rcAppsFlyers.macros.description)
         
-        let customString =  self.endpoint + "/?"  + paramsQuery
+        let customString =  self.endpoint + "?"  + paramsQuery
         
         printMobLog(description: "create Params URL String", value: customString)
         

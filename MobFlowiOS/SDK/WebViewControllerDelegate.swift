@@ -17,10 +17,11 @@ extension MobiFlowSwift: WebViewControllerDelegate
        requestPremission() 
    }
    
-   func set(schemeURL: String, addressURL: String)
+    func set(schemeURL: String, addressURL: String, showAds: Bool)
    {
        self.schemeURL = schemeURL
        self.addressURL = addressURL
+       self.showAdsBeforeNative = showAds
    }
    
    func startApp()
@@ -39,11 +40,23 @@ extension MobiFlowSwift: WebViewControllerDelegate
            }
            else
            {
-               self.showNativeWithPermission(dic: [String : Any]())
-               let url = URL(string: self.schemeURL)
-               if UIApplication.shared.canOpenURL(url!)
-               {
-                   UIApplication.shared.open(url!)
+               if self.showAdsBeforeNative {
+                   self.appLovinManager.showRewardedAd { _ in
+                       self.showNativeWithPermission(dic: [String : Any]())
+                       let url = URL(string: self.schemeURL)
+                       if UIApplication.shared.canOpenURL(url!)
+                       {
+                           UIApplication.shared.open(url!)
+                       }
+                   }
+               }
+               else {
+                   self.showNativeWithPermission(dic: [String : Any]())
+                   let url = URL(string: self.schemeURL)
+                   if UIApplication.shared.canOpenURL(url!)
+                   {
+                       UIApplication.shared.open(url!)
+                   }
                }
            }
           

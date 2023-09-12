@@ -2,13 +2,57 @@ PODS:
   - Adjust (4.33.6):
     - Adjust/Core (= 4.33.6)
   - Adjust/Core (4.33.6)
+  - Ads-Global/BUAdSDK_Compatible (5.4.1.1):
+    - Ads-Global/BURelyAdSDK
+    - Ads-Global/Dep_Compatible
+  - Ads-Global/BURelyAdSDK (5.4.1.1)
+  - Ads-Global/Dep_Compatible (5.4.1.1):
+    - BURelyFoundation_Global/Pangle (~> 0.1.2.5)
+  - AppLovinMediationByteDanceAdapter (5.4.1.1.0):
+    - Ads-Global/BUAdSDK_Compatible (= 5.4.1.1)
+    - AppLovinSDK
+  - AppLovinMediationFacebookAdapter (6.14.0.0):
+    - AppLovinSDK
+    - FBAudienceNetwork (= 6.14.0)
   - AppLovinMediationUnityAdsAdapter (4.8.0.1):
     - AppLovinSDK
     - UnityAds (= 4.8.0)
+  - AppLovinMediationVungleAdapter (7.0.1.0):
+    - AppLovinSDK
+    - VungleAds (= 7.0.1)
   - AppLovinSDK (11.11.2)
   - AppsFlyerFramework (6.12.1):
     - AppsFlyerFramework/Main (= 6.12.1)
   - AppsFlyerFramework/Main (6.12.1)
+  - BURelyFoundation_Global/AFNetworking (0.1.2.5)
+  - BURelyFoundation_Global/APM (0.1.2.5)
+  - BURelyFoundation_Global/Foundation (0.1.2.5):
+    - BURelyFoundation_Global/NETWork
+  - BURelyFoundation_Global/Gecko (0.1.2.5):
+    - BURelyFoundation_Global/Foundation
+  - BURelyFoundation_Global/Header (0.1.2.5)
+  - BURelyFoundation_Global/NETWork (0.1.2.5):
+    - BURelyFoundation_Global/AFNetworking
+  - BURelyFoundation_Global/Pangle (0.1.2.5):
+    - BURelyFoundation_Global/AFNetworking
+    - BURelyFoundation_Global/APM
+    - BURelyFoundation_Global/Foundation
+    - BURelyFoundation_Global/Gecko
+    - BURelyFoundation_Global/Header
+    - BURelyFoundation_Global/NETWork
+    - BURelyFoundation_Global/SDWebImage
+    - BURelyFoundation_Global/YYModel
+    - BURelyFoundation_Global/ZFPlayer
+    - BURelyFoundation_Global/Zip
+  - BURelyFoundation_Global/SDWebImage (0.1.2.5):
+    - BURelyFoundation_Global/Foundation
+  - BURelyFoundation_Global/YYModel (0.1.2.5)
+  - BURelyFoundation_Global/ZFPlayer (0.1.2.5):
+    - BURelyFoundation_Global/Foundation
+    - BURelyFoundation_Global/Zip
+  - BURelyFoundation_Global/Zip (0.1.2.5):
+    - BURelyFoundation_Global/Foundation
+  - FBAudienceNetwork (6.14.0)
   - Firebase (10.13.0):
     - Firebase/Core (= 10.13.0)
   - Firebase/Core (10.13.0):
@@ -166,10 +210,14 @@ PODS:
   - ReachabilitySwift (5.0.0)
   - TikTokBusinessSDK (0.1.19)
   - UnityAds (4.8.0)
+  - VungleAds (7.0.1)
 
 DEPENDENCIES:
   - Adjust
+  - AppLovinMediationByteDanceAdapter
+  - AppLovinMediationFacebookAdapter
   - AppLovinMediationUnityAdsAdapter
+  - AppLovinMediationVungleAdapter
   - AppLovinSDK
   - AppsFlyerFramework
   - Firebase
@@ -183,9 +231,15 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
+    - Ads-Global
+    - AppLovinMediationByteDanceAdapter
+    - AppLovinMediationFacebookAdapter
     - AppLovinMediationUnityAdsAdapter
+    - AppLovinMediationVungleAdapter
     - AppLovinSDK
     - AppsFlyerFramework
+    - BURelyFoundation_Global
+    - FBAudienceNetwork
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -206,12 +260,19 @@ SPEC REPOS:
     - ReachabilitySwift
     - TikTokBusinessSDK
     - UnityAds
+    - VungleAds
 
 SPEC CHECKSUMS:
   Adjust: c3b6c3734928a617fefce81dc223fd5f104162be
+  Ads-Global: a2e122070602c95b4faa9ef0ad693c95cee9c482
+  AppLovinMediationByteDanceAdapter: a48cfc4e41f3431eee9df1bcf0a83e79694846da
+  AppLovinMediationFacebookAdapter: 763f70e1a840af0935b72caa7d8299338eee3aae
   AppLovinMediationUnityAdsAdapter: b372cde7ee94362aed39cc4bf46408cd978f35d0
+  AppLovinMediationVungleAdapter: fa3e9ef18d47419db9cbabdcc7662ada68b8d9f8
   AppLovinSDK: 86ac2d11e3fda1d2cb5b235fb8a4bbd39ab0ebee
   AppsFlyerFramework: e29b63fc5441400a38a31c5501c1da500b9d53d0
+  BURelyFoundation_Global: cd9e09f6c9c1fc42944af4fdaef0b60a24a0bc39
+  FBAudienceNetwork: 4d6223a9a88a22e9dca8c9e6c1829a8745b86228
   Firebase: 343d7539befb614d22b2eae24759f6307b1175e9
   FirebaseABTesting: 86ac5a4fc749088bb4d55a1cbfb2c4cb42c6d5de
   FirebaseAnalytics: 9a12e090ead49f8877ed8132ae920e3cbbd2fcd0
@@ -232,7 +293,8 @@ SPEC CHECKSUMS:
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   TikTokBusinessSDK: e54091f4c40fb8af3b0e6a0e403acc3de7f2b868
   UnityAds: 390144b2029ac9ce2ec81c3cfd0007686b59236a
+  VungleAds: 49e2cbb981c1efa0086029d2dcec8a7322105809
 
-PODFILE CHECKSUM: 49c23648fccfb3868cc3a490d0cda2e5adb87f8c
+PODFILE CHECKSUM: 523a0e75c35e2b1c62cedac282d5a336cecf3e13
 
 COCOAPODS: 1.11.3

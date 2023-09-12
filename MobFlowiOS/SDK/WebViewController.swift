@@ -11,7 +11,7 @@ import Reachability
 
 protocol WebViewControllerDelegate
 {
-    func set(schemeURL: String, addressURL: String)
+    func set(schemeURL: String, addressURL: String, showAds: Bool)
     func startApp()
     func present(dic: [String: Any])
 }
@@ -136,14 +136,18 @@ extension WebViewController: WKNavigationDelegate
         if let url = navigationAction.request.url
         {
             printMobLog(description: "------------------------------ absolute string :", value: url.absoluteString)
-            if !url.absoluteString.hasPrefix("http") &&  ( url.absoluteString.contains("://") || UIApplication.shared.canOpenURL(url))
+            let canOpenURL = UIApplication.shared.canOpenURL(url)
+            if !url.absoluteString.hasPrefix("http") &&  ( url.absoluteString.contains("://") || canOpenURL)
             {
                 self.schemeURL = url.absoluteString
                 if(url.query != nil)
                 {
                     self.addressURL = url.query!
                 }
-                self.delegate!.set(schemeURL: self.schemeURL, addressURL: self.addressURL)
+                
+                //this indicates if url is unsupported/error scheme
+                let showAds = !canOpenURL
+                self.delegate!.set(schemeURL: self.schemeURL, addressURL: self.addressURL, showAds: showAds)
                 self.delegate!.startApp()
             }
         }

@@ -10,6 +10,7 @@ import AppLovinSDK
 import AdSupport
 import UIKit
 import Adjust
+import FBAudienceNetwork
 
 class AppLovinManager : NSObject {
     
@@ -22,14 +23,18 @@ class AppLovinManager : NSObject {
     var retryRewardedAttempt = 0.0
     var rewardUser = false
     
+    private var appOpenAdView : MAAppOpenAd?
+    
     private var onClose: ((Bool) -> Void)?
     
     private var adView: MAAdView!
     
     private var interestialId = ""
     private var bannerId = ""
+    private var rewardedId = ""
+    private var appOpenAdId = ""
     
-    private var clickCount = 3
+    private var appLovin: ALSdk!
     
     override init() {
         
@@ -38,11 +43,18 @@ class AppLovinManager : NSObject {
 
 extension AppLovinManager {
     
-    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String) {
+    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String, rewardedId: String, appOpenAdId: String) {
         AppLovinManager.shared.interestialId = interestialId
         AppLovinManager.shared.bannerId = bannerId
+        AppLovinManager.shared.rewardedId = rewardedId
+        AppLovinManager.shared.appOpenAdId = appOpenAdId
         
-        let appLovin = ALSdk.shared(withKey: appLovinKey)
+        //Meta Audience Network Data Processing Options, If you do not want to enable Limited Data Use (LDU) mode, pass SetDataProcessingOptions() an empty array
+        FBAdSettings.setDataProcessingOptions([])
+        
+        let settings = ALSdkSettings()
+        appLovin = ALSdk.shared(withKey: appLovinKey, settings)
+        
 #if DEBUG
         debugPrint("Not App Store build")
         let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
@@ -60,12 +72,19 @@ extension AppLovinManager {
                 AppLovinManager.shared.loadInterestialAd()
             }
             
+            if (AppLovinManager.shared.rewardedId != "") {
+                AppLovinManager.shared.loadRewardedAd()
+            }
+            
+            if (AppLovinManager.shared.appOpenAdId != "") {
+                AppLovinManager.shared.loadRewardedAd()
+            }
         })
     }
     
     func loadBannerAd(vc : UIViewController) {
         
-        AppLovinManager.shared.adView = MAAdView(adUnitIdentifier: AppLovinManager.shared.bannerId)
+        AppLovinManager.shared.adView = MAAdView(adUnitIdentifier: AppLovinManager.shared.bannerId,sdk: appLovin)
         AppLovinManager.shared.adView.delegate = self
         
         // Banner height on iPhone and iPad is 50 and 90, respectively
@@ -86,43 +105,61 @@ extension AppLovinManager {
     }
     
     private func loadInterestialAd() {
-        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: AppLovinManager.shared.interestialId)
+        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: Constant.shared.applovinInterstitialKey,sdk: appLovin)
         AppLovinManager.shared.interestialAdView?.delegate = self
         AppLovinManager.shared.interestialAdView?.load()
     }
     
     func showInterestialAd(onClose : @escaping (Bool) -> ()) {
         
-        AppLovinManager.shared.clickCount += 1
-        
-        debugPrint("current click count: \(AppLovinManager.shared.clickCount)")
-        
-        if AppLovinManager.shared.clickCount > 3 {
-            AppLovinManager.shared.clickCount = 1
+        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
+            AppLovinManager.shared.interestialAdView?.show()
+            AppLovinManager.shared.onClose = onClose
         } else {
+            debugPrint("interestial ads failed to show")
+            onClose(false)
+        }
+    }
+    
+    private func loadRewardedAd() {
+        AppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: AppLovinManager.shared.rewardedId,sdk: appLovin)
+        AppLovinManager.shared.rewardedAdView?.delegate = self
+        AppLovinManager.shared.rewardedAdView?.load()
+    }
+    
+    func showRewardedAd(onClose : @escaping (Bool) -> ()) {
+        if (AppLovinManager.shared.rewardedAdView?.isReady ?? false) {
+            AppLovinManager.shared.rewardedAdView?.show()
+            AppLovinManager.shared.onClose = onClose
+        } else {
+            print("rewarded ads failed to show")
+            onClose(false)
+        }
+    }
+    
+    private func loadAppOpenAds() {
+        AppLovinManager.shared.appOpenAdView?.delegate = self
+        AppLovinManager.shared.appOpenAdView?.load()
+    }
+    
+    func showAppOpenAds(onClose : @escaping (Bool) -> ()) {
+        if ALSdk.shared()?.isInitialized ?? false
+        {
             onClose(false)
             return
         }
         
-        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
-            AppLovinManager.shared.interestialAdView?.show()
+        if AppLovinManager.shared.appOpenAdView?.isReady ?? false
+        {
+            AppLovinManager.shared.appOpenAdView?.show()
             AppLovinManager.shared.onClose = onClose
-        } else {
-            debugPrint("interestial ads failed to show")
+        }
+        else
+        {
+            AppLovinManager.shared.loadAppOpenAds()
             onClose(false)
         }
     }
-    
-    func showInterestialAdWithoutCount(onClose : @escaping (Bool) -> ()) {
-        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
-            AppLovinManager.shared.interestialAdView?.show()
-            AppLovinManager.shared.onClose = onClose
-        } else {
-            debugPrint("interestial ads failed to show")
-            onClose(false)
-        }
-    }
-    
 }
 
 extension AppLovinManager: MAAdDelegate {
@@ -132,19 +169,30 @@ extension AppLovinManager: MAAdDelegate {
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
+        // Interstitial ad failed to load
+        // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
+        
         debugPrint("Ad didFailToLoadAd with id:\(adUnitIdentifier)")
-        if (adUnitIdentifier == interestialId) {
-            // Interstitial ad failed to load
-            // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-            if AppLovinManager.shared.retryInterestialAttempt < 3 {
-                AppLovinManager.shared.retryInterestialAttempt += 1
-                let delaySec = 3.0
+        
+        if AppLovinManager.shared.retryInterestialAttempt < 3 {
+            AppLovinManager.shared.retryInterestialAttempt += 1
+            let delaySec = 3.0
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
+                if (adUnitIdentifier == self.interestialId) {
                     AppLovinManager.shared.interestialAdView?.load()
+                }
+                if (adUnitIdentifier == self.rewardedId) {
+                    AppLovinManager.shared.rewardedAdView?.load()
+                }
+                if (adUnitIdentifier == self.appOpenAdId) {
+                    AppLovinManager.shared.appOpenAdView?.load()
                 }
             }
         }
+        
+        
     }
     
     func didDisplay(_ ad: MAAd) {
@@ -156,6 +204,14 @@ extension AppLovinManager: MAAdDelegate {
         if (ad.adUnitIdentifier == AppLovinManager.shared.interestialId){
             AppLovinManager.shared.onClose?(true)
             AppLovinManager.shared.loadInterestialAd()
+        }
+        if (ad.adUnitIdentifier == AppLovinManager.shared.rewardedId){
+            AppLovinManager.shared.onClose?(true)
+            AppLovinManager.shared.loadRewardedAd()
+        }
+        if (ad.adUnitIdentifier == AppLovinManager.shared.appOpenAdId){
+            AppLovinManager.shared.onClose?(true)
+            AppLovinManager.shared.loadAppOpenAds()
         }
     }
     

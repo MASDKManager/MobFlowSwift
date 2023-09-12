@@ -15,6 +15,9 @@ target 'MobFlowiOS' do
   pod 'OneSignalXCFramework' 
   pod 'TikTokBusinessSDK'
   pod 'AppLovinSDK'
+  pod 'AppLovinMediationVungleAdapter'
+  pod 'AppLovinMediationFacebookAdapter'
+  pod 'AppLovinMediationByteDanceAdapter'
   pod 'AppLovinMediationUnityAdsAdapter'
   pod 'AppsFlyerFramework'
   
