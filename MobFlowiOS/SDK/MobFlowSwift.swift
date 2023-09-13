@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.7"
+    private let mob_sdk_version = "2.2.8"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?

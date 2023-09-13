@@ -53,15 +53,16 @@ extension AppLovinManager {
         FBAdSettings.setDataProcessingOptions([])
         
         let settings = ALSdkSettings()
-        appLovin = ALSdk.shared(withKey: appLovinKey, settings: settings)
+        
         
 #if DEBUG
         debugPrint("Not App Store build")
         let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-        appLovin!.settings.testDeviceAdvertisingIdentifiers = [gpsadid]
+        settings.testDeviceAdvertisingIdentifiers = [gpsadid]
 #else
         debugPrint("App Store build")
 #endif
+        appLovin = ALSdk.shared(withKey: appLovinKey, settings: settings)
         appLovin!.userIdentifier = Adjust.adid() ?? ""
         appLovin!.mediationProvider = ALMediationProviderMAX
         appLovin!.initializeSdk(completionHandler: { configuration in
