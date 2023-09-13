@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.4"
+    private let mob_sdk_version = "2.2.5"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -42,15 +42,16 @@ public class MobiFlowSwift: NSObject
     var rcAppsFlyers : RCAppsFlyers!
     
     //AppLovin
-    private var appLovinManager = AppLovinManager.shared
+    var appLovinManager = AppLovinManager.shared
     private var appLovinKey = ""
     private var interestialId = ""
     private var bannerId = ""
     private var rewardedId = ""
+    private var appOpenAdId = ""
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
@@ -60,6 +61,7 @@ public class MobiFlowSwift: NSObject
         self.interestialId = interestialId
         self.rewardedId = rewardedId
         self.appLovinKey = appLovinKey
+        self.appOpenAdId = appOpenAdId
         
         self.getFirebase()
         self.initialiseAppLovin()
@@ -68,7 +70,7 @@ public class MobiFlowSwift: NSObject
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
@@ -78,6 +80,7 @@ public class MobiFlowSwift: NSObject
         self.interestialId = interestialId
         self.rewardedId = rewardedId
         self.appLovinKey = appLovinKey
+        self.appOpenAdId = appOpenAdId
         
         self.getFirebase()
         self.initialiseAppLovin()

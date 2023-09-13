@@ -53,7 +53,7 @@ extension AppLovinManager {
         FBAdSettings.setDataProcessingOptions([])
         
         let settings = ALSdkSettings()
-        appLovin = ALSdk.shared(withKey: appLovinKey, settings)
+        appLovin = ALSdk.shared(withKey: appLovinKey, settings: settings)
         
 #if DEBUG
         debugPrint("Not App Store build")
@@ -105,7 +105,7 @@ extension AppLovinManager {
     }
     
     private func loadInterestialAd() {
-        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: Constant.shared.applovinInterstitialKey,sdk: appLovin)
+        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: AppLovinManager.shared.interestialId,sdk: appLovin)
         AppLovinManager.shared.interestialAdView?.delegate = self
         AppLovinManager.shared.interestialAdView?.load()
     }
@@ -138,6 +138,7 @@ extension AppLovinManager {
     }
     
     private func loadAppOpenAds() {
+        AppLovinManager.shared.appOpenAdView = MAAppOpenAd(adUnitIdentifier: AppLovinManager.shared.appOpenAdId, sdk: appLovin)
         AppLovinManager.shared.appOpenAdView?.delegate = self
         AppLovinManager.shared.appOpenAdView?.load()
     }
