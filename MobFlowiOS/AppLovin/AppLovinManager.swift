@@ -77,7 +77,7 @@ extension AppLovinManager {
             }
             
             if (AppLovinManager.shared.appOpenAdId != "") {
-                AppLovinManager.shared.loadRewardedAd()
+                AppLovinManager.shared.loadAppOpenAds()
             }
         })
     }
@@ -144,11 +144,6 @@ extension AppLovinManager {
     }
     
     func showAppOpenAds(onClose : @escaping (Bool) -> ()) {
-        if ALSdk.shared()?.isInitialized ?? false
-        {
-            onClose(false)
-            return
-        }
         
         if AppLovinManager.shared.appOpenAdView?.isReady ?? false
         {
@@ -166,7 +161,7 @@ extension AppLovinManager {
 extension AppLovinManager: MAAdDelegate {
     
     func didLoad(_ ad: MAAd) {
-        debugPrint("Ad didLoad")
+        debugPrint("Ad didLoad: \(ad.adUnitIdentifier)")
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {

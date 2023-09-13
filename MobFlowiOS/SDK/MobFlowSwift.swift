@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.5"
+    private let mob_sdk_version = "2.2.6"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -230,7 +230,7 @@ public class MobiFlowSwift: NSObject
     }
     
     private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: "")
+        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: appOpenAdId)
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
