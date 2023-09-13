@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.6"
+    private let mob_sdk_version = "2.2.7"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -242,6 +242,14 @@ public class MobiFlowSwift: NSObject
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
         if (self.interestialId != "" && self.showAds) {
             self.appLovinManager.showInterestialAd(onClose: onClose)
+        } else {
+            onClose(false)
+        }
+    }
+    
+    @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
+        if (self.rewardedId != "" && self.showAds) {
+            self.appLovinManager.showRewardedAd(onClose: onClose)
         } else {
             onClose(false)
         }
