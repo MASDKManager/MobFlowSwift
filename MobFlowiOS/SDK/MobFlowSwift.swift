@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "2.2.9"
+    private let mob_sdk_version = "3.0.0"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -34,7 +34,7 @@ public class MobiFlowSwift: NSObject
     private var showAds = true
     //Adjust
     var rcAdjust : RCAdjust!
-    
+    private var adid = ""
     //TikTok
     var rcTikTok : RCTikTok!
     
@@ -283,17 +283,32 @@ public class MobiFlowSwift: NSObject
         } else {
             self.endpoint = endpoint.hasPrefix("http") ? endpoint : "https://" + endpoint
             printMobLog(description: "check If EndPoint Available", value: self.endpoint)
-            DispatchQueue.main.async {
-                self.startApp()
-            }
+            var count = 0
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { callbacktimer in
+                count += 1
+                if count < 6 {
+                    debugPrint("callbacktimer count: \(count)")
+                    self.adid = Adjust.adid() ?? ""
+                    debugPrint("fetching Adjust adid in timer, recived adid: \(self.adid)")
+                    if self.adid != "" {
+                        self.timer.invalidate()
+                        DispatchQueue.main.async {
+                            self.startApp()
+                        }
+                    }
+                } else {
+                    self.timer.invalidate()
+                    DispatchQueue.main.async {
+                        self.startApp()
+                    }
+                }
+            })
         }
         
     }
     
     func createParamsURL()
     {
-        
-        var adid = ""
         
         let adjustAttributes = Adjust.attribution()?.description ?? ""
         let encodedAdjustAttributes = adjustAttributes.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
@@ -322,22 +337,11 @@ public class MobiFlowSwift: NSObject
                 .replacingOccurrences(of: "$deeplink", with: getDeeplink())
         } else if (rcAdjust.enabled) {
             
-            for _ in 0...6 {
-                do {
-                    sleep(1)
-                    adid = Adjust.adid() ?? ""
-                    printMobLog(description: "fetching Adjust adid in loop, recived adid:", value: adid)
-                    if adid != "" {
-                        break
-                    }
-                }
-            }
-            
             paramsQuery = rcAdjust.macros
                 .replacingOccurrences(of: "$campaign_name", with: Adjust.attribution()?.campaign ?? "")
                 .replacingOccurrences(of: "$idfa", with: idfa)
                 .replacingOccurrences(of: "$idfv", with: idfv)
-                .replacingOccurrences(of: "$adjust_id", with: adid)
+                .replacingOccurrences(of: "$adjust_id", with: self.adid)
                 .replacingOccurrences(of: "$deeplink", with: getDeeplink())
                 .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
