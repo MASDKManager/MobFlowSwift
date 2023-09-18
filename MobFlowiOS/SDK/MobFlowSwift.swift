@@ -14,7 +14,7 @@ import AppsFlyerLib
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.0"
+    private let mob_sdk_version = "3.0.1"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -283,26 +283,28 @@ public class MobiFlowSwift: NSObject
         } else {
             self.endpoint = endpoint.hasPrefix("http") ? endpoint : "https://" + endpoint
             printMobLog(description: "check If EndPoint Available", value: self.endpoint)
-            var count = 0
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { callbacktimer in
-                count += 1
-                if count < 6 {
+            
+            if (rcAdjust.enabled) {
+                var count = 0
+                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { callbacktimer in
+                    count += 1
+                    
                     debugPrint("callbacktimer count: \(count)")
                     self.adid = Adjust.adid() ?? ""
-                    debugPrint("fetching Adjust adid in timer, recived adid: \(self.adid)")
-                    if self.adid != "" {
+                    
+                    if count >= 6 || self.adid != "" {
+                        debugPrint("fetching Adjust adid in timer, recived adid: \(self.adid)")
                         self.timer.invalidate()
                         DispatchQueue.main.async {
                             self.startApp()
                         }
                     }
-                } else {
-                    self.timer.invalidate()
-                    DispatchQueue.main.async {
-                        self.startApp()
-                    }
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self.startApp()
                 }
-            })
+            }
         }
         
     }
