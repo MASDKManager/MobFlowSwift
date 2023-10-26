@@ -30,3 +30,11 @@ struct RCAdjust : Codable {
     let appToken: String
     let macros : String
 }
+
+// MARK: - RCFacebook
+struct RCFacebook : Codable {
+    let enabled: Bool
+    let appID: String
+    let displayName: String
+    let clientToken: String
+}

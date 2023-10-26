@@ -21,6 +21,7 @@ enum ValueKey: String {
     case tiktok
     case appsflyers
     case show_ads
+    case facebook
 }
 
 class RCValues {
@@ -52,7 +53,8 @@ class RCValues {
             ValueKey.use_only_deeplink.rawValue: false,
             ValueKey.tiktok.rawValue: "",
             ValueKey.appsflyers.rawValue: "",
-            ValueKey.show_ads.rawValue: true
+            ValueKey.show_ads.rawValue: true,
+            ValueKey.facebook.rawValue: ""
         ]
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }
@@ -124,6 +126,19 @@ class RCValues {
         catch(_) {
             let rCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
             return rCAppsFlyers
+        }
+    }
+    
+    func getFacebook() -> RCFacebook {
+        let rCFacebookJson = RCValues.sharedInstance.string(forKey: .facebook)
+        let rCFacebookData = Data(rCFacebookJson.utf8)
+        do{
+            let rCFacebook = try JSONDecoder().decode(RCFacebook.self, from: rCFacebookData)
+            return rCFacebook
+        }
+        catch(_) {
+            let rCFacebook = RCFacebook(enabled: false, appID: "", displayName: "", clientToken: "")
+            return rCFacebook
         }
     }
     

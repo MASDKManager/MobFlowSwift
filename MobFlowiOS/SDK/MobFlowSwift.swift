@@ -10,11 +10,12 @@ import TikTokBusinessSDK
 import StoreKit
 import AdServices
 import AppsFlyerLib
+import FacebookCore
 
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.1"
+    private let mob_sdk_version = "3.0.2"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -48,6 +49,9 @@ public class MobiFlowSwift: NSObject
     private var bannerId = ""
     private var rewardedId = ""
     private var appOpenAdId = ""
+    
+    //Facebook
+    var rcFacebook : RCFacebook!
     
     let nc = NotificationCenter.default
     
@@ -118,6 +122,7 @@ public class MobiFlowSwift: NSObject
                         self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
+                        self.rcFacebook = RCValues.sharedInstance.getFacebook()
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -166,6 +171,10 @@ public class MobiFlowSwift: NSObject
             if (rcTikTok.eventName != "") {
                 TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties:tiktokCallbackProperties)
             }
+        }
+        
+        if self.rcFacebook.enabled {
+            self.initialiseFacebook()
         }
         
         if (!run) {
@@ -227,6 +236,21 @@ public class MobiFlowSwift: NSObject
             self.onDataReceived()
             
         }
+    }
+    
+    private func initialiseFacebook() {
+        
+        if rcFacebook.appID.isEmpty || rcFacebook.displayName.isEmpty ||  rcFacebook.clientToken.isEmpty
+        {
+            print( "Facebook sdk keys are empty")
+            return
+        }
+        
+//        let sdkSettings = FBSDKCoreKit.Settings.appID //Settings.shared //FBSDKCoreKit.Settings()
+        Settings.appID = rcFacebook.appID
+        Settings.displayName = rcFacebook.displayName
+        Settings.clientToken = rcFacebook.clientToken
+        printMobLog(description: "Facebook sdk init", value: "")
     }
     
     private func initialiseAppLovin(){
@@ -311,11 +335,7 @@ public class MobiFlowSwift: NSObject
     
     func createParamsURL()
     {
-        
-        let adjustAttributes = Adjust.attribution()?.description ?? ""
-        let encodedAdjustAttributes = adjustAttributes.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-        
-        
+
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         printMobLog(description:  "GPS_ADID", value: idfa)
         
