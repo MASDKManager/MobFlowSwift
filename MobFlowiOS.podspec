@@ -34,7 +34,8 @@ Pod::Spec.new do |spec|
   spec.dependency 'AppLovinMediationByteDanceAdapter'
   spec.dependency 'AppLovinMediationUnityAdsAdapter'
   spec.dependency 'AppsFlyerFramework'
-  spec.dependency 'FacebookCore'
+  spec.dependency 'FBSDKCoreKit','9.0.0'
+  spec.dependency 'FBAudienceNetwork'
   spec.source_files  = "MobFlowiOS/**/*.{h,m,swift}"
   spec.resource_bundles = {
     'MobFlowiOS' => ['MobFlowiOS/**/*.{storyboard,xib,xcassets,lproj,png}']

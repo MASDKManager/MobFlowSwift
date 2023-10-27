@@ -24,6 +24,7 @@
 		83174F2B2A5FE8E5006DAEA6 /* AppLovinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83174F2A2A5FE8E5006DAEA6 /* AppLovinManager.swift */; };
 		833128022A5EA1E400978EC8 /* RCModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833128012A5EA1E400978EC8 /* RCModels.swift */; };
 		833128052A5EA23500978EC8 /* RCFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833128042A5EA23500978EC8 /* RCFirebase.swift */; };
+		83768C2C2AEB91C20004868D /* UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83768C2B2AEB91C20004868D /* UIApplicationDelegate.swift */; };
 		837B8CF52A68290E0061F25A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837B8CF42A68290E0061F25A /* WebKit.framework */; };
 		AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DB260DD6C70084E14F /* MobFlowSwift.swift */; };
 		AC9056DF260DD6C80084E14F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9056DC260DD6C70084E14F /* WebViewController.swift */; };
@@ -60,6 +61,7 @@
 		83174F2A2A5FE8E5006DAEA6 /* AppLovinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLovinManager.swift; sourceTree = "<group>"; };
 		833128012A5EA1E400978EC8 /* RCModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCModels.swift; sourceTree = "<group>"; };
 		833128042A5EA23500978EC8 /* RCFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCFirebase.swift; sourceTree = "<group>"; };
+		83768C2B2AEB91C20004868D /* UIApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationDelegate.swift; sourceTree = "<group>"; };
 		837B8CEE2A6828E90061F25A /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
 		837B8CF02A6828F00061F25A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		837B8CF22A6829000061F25A /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
@@ -99,6 +101,7 @@
 				0DBA54652875C12E00A599FA /* MobiFlowDelegate.swift */,
 				AC9056DC260DD6C70084E14F /* WebViewController.swift */,
 				0DBA54672875C12E00A599FA /* WebViewControllerDelegate.swift */,
+				83768C2B2AEB91C20004868D /* UIApplicationDelegate.swift */,
 			);
 			path = SDK;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				0DBA546A2875C12F00A599FA /* MobiFlowDelegate.swift in Sources */,
 				AC9056DE260DD6C80084E14F /* MobFlowSwift.swift in Sources */,
 				833128022A5EA1E400978EC8 /* RCModels.swift in Sources */,
+				83768C2C2AEB91C20004868D /* UIApplicationDelegate.swift in Sources */,
 				0DBA54722875CE5A00A599FA /* Functions.swift in Sources */,
 				83174F2B2A5FE8E5006DAEA6 /* AppLovinManager.swift in Sources */,
 				833128052A5EA23500978EC8 /* RCFirebase.swift in Sources */,

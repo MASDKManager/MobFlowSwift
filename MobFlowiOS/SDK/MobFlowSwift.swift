@@ -10,7 +10,7 @@ import TikTokBusinessSDK
 import StoreKit
 import AdServices
 import AppsFlyerLib
-import FacebookCore
+import FBSDKCoreKit
 
 public class MobiFlowSwift: NSObject
 {
@@ -246,11 +246,18 @@ public class MobiFlowSwift: NSObject
             return
         }
         
-//        let sdkSettings = FBSDKCoreKit.Settings.appID //Settings.shared //FBSDKCoreKit.Settings()
-        Settings.appID = rcFacebook.appID
-        Settings.displayName = rcFacebook.displayName
-        Settings.clientToken = rcFacebook.clientToken
-        printMobLog(description: "Facebook sdk init", value: "")
+        FBSDKSettings.shared.appID = rcFacebook.appID
+        FBSDKSettings.shared.displayName = rcFacebook.displayName
+        FBSDKSettings.shared.clientToken = rcFacebook.clientToken
+        FBSDKSettings.enable(.appEvents)
+        ApplicationDelegate.shared.application(UIApplication.shared, didFinishLaunchingWithOptions: launchOptions)
+
+        if let error = FBSDKAppEvents.shared.initialize() {
+            printMobLog(description: "Facebook SDK initialization error", value: error.description)
+        } else {
+            printMobLog(description: "Facebook SDK initialized successfully", value: "")
+        }
+        
     }
     
     private func initialiseAppLovin(){
