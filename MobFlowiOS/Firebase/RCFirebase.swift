@@ -137,7 +137,7 @@ class RCValues {
             return rCFacebook
         }
         catch(_) {
-            let rCFacebook = RCFacebook(enabled: false, appID: "", displayName: "", clientToken: "")
+            let rCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
             return rCFacebook
         }
     }

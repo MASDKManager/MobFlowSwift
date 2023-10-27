@@ -240,14 +240,13 @@ public class MobiFlowSwift: NSObject
     
     private func initialiseFacebook() {
         
-        if rcFacebook.appID.isEmpty || rcFacebook.displayName.isEmpty ||  rcFacebook.clientToken.isEmpty
+        if rcFacebook.appID.isEmpty ||  rcFacebook.clientToken.isEmpty
         {
             print( "Facebook sdk keys are empty")
             return
         }
         
         Settings.appID = rcFacebook.appID
-        Settings.displayName = rcFacebook.displayName
         Settings.clientToken = rcFacebook.clientToken
         Settings.enableLoggingBehavior(.appEvents)
         ApplicationDelegate.shared.application(UIApplication.shared, didFinishLaunchingWithOptions: launchOptions)

@@ -35,6 +35,5 @@ struct RCAdjust : Codable {
 struct RCFacebook : Codable {
     let enabled: Bool
     let appID: String
-    let displayName: String
     let clientToken: String
 }
