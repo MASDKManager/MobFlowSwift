@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.4"
+    private let mob_sdk_version = "3.0.2"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -246,17 +246,13 @@ public class MobiFlowSwift: NSObject
             return
         }
         
-        FBSDKSettings.shared.appID = rcFacebook.appID
-        FBSDKSettings.shared.displayName = rcFacebook.displayName
-        FBSDKSettings.shared.clientToken = rcFacebook.clientToken
-        FBSDKSettings.enable(.appEvents)
+        Settings.appID = rcFacebook.appID
+        Settings.displayName = rcFacebook.displayName
+        Settings.clientToken = rcFacebook.clientToken
+        Settings.enableLoggingBehavior(.appEvents)
         ApplicationDelegate.shared.application(UIApplication.shared, didFinishLaunchingWithOptions: launchOptions)
 
-        if let error = FBSDKAppEvents.shared.initialize() {
-            printMobLog(description: "Facebook SDK initialization error", value: error.description)
-        } else {
-            printMobLog(description: "Facebook SDK initialized successfully", value: "")
-        }
+        AppEvents.logEvent(AppEvents.Name("MobFlowSDK"))
         
     }
     

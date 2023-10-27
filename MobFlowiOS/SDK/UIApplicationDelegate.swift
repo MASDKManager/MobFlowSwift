@@ -16,7 +16,7 @@ extension MobiFlowSwift : UIApplicationDelegate
                             options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
         
         printMobLog(description: "Facebook - application open url", value: options.description)
-        ApplicationDelegate.shared.application(
+        return ApplicationDelegate.shared.application(
             app,
             open: url,
             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
