@@ -20,7 +20,7 @@ target 'MobFlowiOS' do
   pod 'AppLovinMediationByteDanceAdapter'
   pod 'AppLovinMediationUnityAdsAdapter'
   pod 'AppsFlyerFramework'
-  pod 'FBSDKCoreKit', '~> 9.0.0'
+  pod 'FBSDKCoreKit', '~> 15.0.0'
   pod 'FBAudienceNetwork'
   
   post_install do |installer|
