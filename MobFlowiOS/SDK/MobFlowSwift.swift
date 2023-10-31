@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.3"
+    private let mob_sdk_version = "3.0.4"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -246,12 +246,12 @@ public class MobiFlowSwift: NSObject
             return
         }
         
-        Settings.appID = rcFacebook.appID
-        Settings.clientToken = rcFacebook.clientToken
-        Settings.enableLoggingBehavior(.appEvents)
+        Settings.shared.appID = rcFacebook.appID
+        Settings.shared.clientToken = rcFacebook.clientToken
+        Settings.shared.enableLoggingBehavior(.appEvents)
         ApplicationDelegate.shared.application(UIApplication.shared, didFinishLaunchingWithOptions: launchOptions)
 
-        AppEvents.logEvent(AppEvents.Name("MobFlowSDK"))
+        AppEvents.shared.logEvent(AppEvents.Name("MobFlowSDK"))
         
     }
     
