@@ -36,7 +36,13 @@ extension MobiFlowSwift: WebViewControllerDelegate
                    self.createParamsURL()
                }
                let webView = self.initWebViewURL()
-               self.present(webView: webView)
+               
+               if(isReactNative){
+                   self.delegate!.present(dic: ["url" : webView.urlToOpen!])
+               }else{
+                   self.present(webView: webView)
+               }
+               
            }
            else
            {

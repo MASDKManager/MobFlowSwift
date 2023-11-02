@@ -25,6 +25,7 @@ public class MobiFlowSwift: NSObject
     public var showAdsBeforeNative = true
     private var faid = ""
     private var run = false
+    private var isReactNative = false
     private var hasInitialized: Bool = false
     private var hasSwitchedToApp: Bool = false
     public var hideToolbar = false
@@ -92,6 +93,11 @@ public class MobiFlowSwift: NSObject
         //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
+    
+    public func isReactNative(value: Boolean) {
+        self.isReactNative = value
+    }
+
     
     @objc func appMovedToForeground() {
         debugPrint("Mobibox: Will Enter Foreground")
