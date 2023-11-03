@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.4"
+    private let mob_sdk_version = "3.0.6"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -25,7 +25,7 @@ public class MobiFlowSwift: NSObject
     public var showAdsBeforeNative = true
     private var faid = ""
     private var run = false
-    private var isReactNative = false
+    var isReactNative = false
     private var hasInitialized: Bool = false
     private var hasSwitchedToApp: Bool = false
     public var hideToolbar = false
@@ -94,7 +94,7 @@ public class MobiFlowSwift: NSObject
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public func isReactNative(value: Boolean) {
+    public func isReactNative(value: Bool) {
         self.isReactNative = value
     }
 

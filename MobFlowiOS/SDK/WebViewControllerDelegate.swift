@@ -37,7 +37,7 @@ extension MobiFlowSwift: WebViewControllerDelegate
                }
                let webView = self.initWebViewURL()
                
-               if(isReactNative){
+               if(self.isReactNative){
                    self.delegate!.present(dic: ["url" : webView.urlToOpen!])
                }else{
                    self.present(webView: webView)
