@@ -263,7 +263,7 @@ public class MobiFlowSwift: NSObject
             }
             if let url = url {
                 debugPrint("received deffered deeplink url: \(url.absoluteString)")
-                let encodedDefferedDeeplink = url.absoluteString?.utf8EncodedString() ?? ""
+                let encodedDefferedDeeplink = url.absoluteString.utf8EncodedString()
                 saveFbDefferedDeeplink(encodedDefferedDeeplink)
             }
         }
