@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.6"
+    private let mob_sdk_version = "3.0.7"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -248,7 +248,7 @@ public class MobiFlowSwift: NSObject
         
         if rcFacebook.appID.isEmpty ||  rcFacebook.clientToken.isEmpty
         {
-            print( "Facebook sdk keys are empty")
+            debugPrint("Facebook sdk keys are empty")
             return
         }
         
@@ -256,7 +256,18 @@ public class MobiFlowSwift: NSObject
         Settings.shared.clientToken = rcFacebook.clientToken
         Settings.shared.enableLoggingBehavior(.appEvents)
         ApplicationDelegate.shared.application(UIApplication.shared, didFinishLaunchingWithOptions: launchOptions)
-
+        
+        AppLinkUtility.fetchDeferredAppLink { (url, error) in
+            if let _ = error {
+                debugPrint("Received error while fetching deferred app link %@", error!)
+            }
+            if let url = url {
+                debugPrint("received deffered deeplink url: \(url.absoluteString)")
+                let encodedDefferedDeeplink = url.absoluteString?.utf8EncodedString() ?? ""
+                saveFbDefferedDeeplink(encodedDefferedDeeplink)
+            }
+        }
+        
         AppEvents.shared.logEvent(AppEvents.Name("MobFlowSDK"))
         
     }
@@ -365,6 +376,7 @@ public class MobiFlowSwift: NSObject
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
                 .replacingOccurrences(of: "$click_id", with: generateUserUUID())
                 .replacingOccurrences(of: "$deeplink", with: getDeeplink())
+                .replacingOccurrences(of: "$fb_deffered_deeplink", with: getFbDefferedDeeplink())
         } else if (rcAdjust.enabled) {
             
             paramsQuery = rcAdjust.macros
@@ -376,6 +388,7 @@ public class MobiFlowSwift: NSObject
                 .replacingOccurrences(of: "$firebase_instance_id", with: self.faid)
                 .replacingOccurrences(of: "$package_id", with: Bundle.main.bundleIdentifier ?? "")
                 .replacingOccurrences(of: "$click_id", with: generateUserUUID())
+                .replacingOccurrences(of: "$fb_deffered_deeplink", with: getFbDefferedDeeplink())
         }
         
 

@@ -14,6 +14,7 @@ import OneSignalFramework
 let USERDEFAULT_CustomUUID = "USERDEFAULT_CustomUUID"
 let USERDEFAULT_AppFlyers_CampanName = "USERDEFAULT_AppFlyers_CampanName"
 let USERDEFAULT_Deeplink = "USERDEFAULT_Deeplink"
+let USERDEFAULT_FB_Deffered_Deeplink = "USERDEFAULT_FB_Deffered_Deeplink"
 
 func currentTimeInMilliSeconds() -> String {
     let currentDate = Date()
@@ -129,6 +130,14 @@ func getDeeplink() -> String {
 
 func saveDeeplink(_ value: String) {
     return UserDefaults.standard.set(value, forKey: USERDEFAULT_Deeplink)
+}
+
+func saveFbDefferedDeeplink(_ value: String) {
+    return UserDefaults.standard.set(value, forKey: USERDEFAULT_FB_Deffered_Deeplink)
+}
+
+func getFbDefferedDeeplink() -> String {
+    return UserDefaults.standard.string(forKey: USERDEFAULT_FB_Deffered_Deeplink) ?? ""
 }
 
 func logEvent(eventName : String, log : String){
