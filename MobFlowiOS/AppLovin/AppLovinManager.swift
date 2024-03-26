@@ -52,21 +52,21 @@ extension AppLovinManager {
         //Meta Audience Network Data Processing Options, If you do not want to enable Limited Data Use (LDU) mode, pass SetDataProcessingOptions() an empty array
         FBAdSettings.setDataProcessingOptions([])
         
-        let settings = ALSdkSettings()
-        
-        
+        let config = ALSdkInitializationConfiguration(sdkKey: appLovinKey) { builder in
+            
 #if DEBUG
-        debugPrint("Not App Store build")
-        let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-        settings.testDeviceAdvertisingIdentifiers = [gpsadid]
+            debugPrint("Not App Store build")
+            let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+            builder.testDeviceAdvertisingIdentifiers = [gpsadid]
 #else
-        debugPrint("App Store build")
+            
 #endif
-        appLovin = ALSdk.shared(withKey: appLovinKey, settings: settings)
-        appLovin!.userIdentifier = Adjust.adid() ?? ""
-        appLovin!.mediationProvider = ALMediationProviderMAX
-        appLovin!.initializeSdk(completionHandler: { configuration in
-            //         AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+            
+        }
+        
+        appLovin = ALSdk.shared()
+        
+        appLovin.initialize(with: config) { configuration in
             debugPrint("AppLovin SDK is initialized, start loading ads now or later if ad gate is reached")
             
             if (AppLovinManager.shared.interestialId != "") {
@@ -80,7 +80,7 @@ extension AppLovinManager {
             if (AppLovinManager.shared.appOpenAdId != "") {
                 AppLovinManager.shared.loadAppOpenAds()
             }
-        })
+        }
     }
     
     func loadBannerAd(vc : UIViewController) {

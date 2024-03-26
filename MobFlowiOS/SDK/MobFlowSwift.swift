@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.8"
+    private let mob_sdk_version = "3.0.9"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -338,7 +338,7 @@ public class MobiFlowSwift: NSObject
                     debugPrint("callbacktimer count: \(count)")
                     self.adid = Adjust.adid() ?? ""
                     
-                    if count >= 6 || self.adid != "" {
+                    if count >= 5 || self.adid != "" {
                         debugPrint("fetching Adjust adid in timer, recived adid: \(self.adid)")
                         self.timer.invalidate()
                         DispatchQueue.main.async {
