@@ -15,7 +15,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.7"
+    private let mob_sdk_version = "3.0.8"
     private var endpoint = ""
     private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -34,14 +34,16 @@ public class MobiFlowSwift: NSObject
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
     private var showAds = true
+    
     //Adjust
-    var rcAdjust : RCAdjust!
+    var rcAdjust : RCAdjust = RCAdjust(enabled: false, appToken: "", macros: "")
     private var adid = ""
+    
     //TikTok
-    var rcTikTok : RCTikTok!
+    var rcTikTok : RCTikTok = RCTikTok(enabled: false, accessToken: "", appStoreId: "", tiktokAppId: "", eventName: "")
     
     //AppFlyers
-    var rcAppsFlyers : RCAppsFlyers!
+    var rcAppsFlyers : RCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
     
     //AppLovin
     var appLovinManager = AppLovinManager.shared
@@ -52,7 +54,7 @@ public class MobiFlowSwift: NSObject
     private var appOpenAdId = ""
     
     //Facebook
-    var rcFacebook : RCFacebook!
+    var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
     
     let nc = NotificationCenter.default
     
@@ -136,6 +138,7 @@ public class MobiFlowSwift: NSObject
             } else {
                 print("Config not fetched")
                 print("Error: \(error?.localizedDescription ?? "No error available.")")
+                self.initialiseSDK()
             }
         }
         
@@ -209,7 +212,7 @@ public class MobiFlowSwift: NSObject
             //  Set isDebug to true to see AppsFlyer debug logs
             AppsFlyerLib.shared().isDebug = true
 #else
-            debugPrint("App Store build")
+            print("App Store build")
 #endif
             
             AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
