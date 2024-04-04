@@ -5,7 +5,6 @@ import AdSupport
 import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
-import OneSignalFramework
 import TikTokBusinessSDK
 import StoreKit
 import AdServices
@@ -15,9 +14,8 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.0.9"
+    private let mob_sdk_version = "3.1.0"
     private var endpoint = ""
-    private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
@@ -58,11 +56,10 @@ public class MobiFlowSwift: NSObject
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate , appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
-        self.oneSignalToken = oneSignalToken
         self.launchOptions = launchOptions
         self.bannerId = bannerId
         self.interestialId = interestialId
@@ -77,11 +74,10 @@ public class MobiFlowSwift: NSObject
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public init(initDelegate: MobiFlowDelegate , oneSignalToken : String, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate , appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
         super.init()
         
         self.delegate = initDelegate
-        self.oneSignalToken = oneSignalToken
         self.launchOptions = launchOptions
         self.bannerId = bannerId
         self.interestialId = interestialId
@@ -125,7 +121,8 @@ public class MobiFlowSwift: NSObject
                 RemoteConfig.remoteConfig().activate { _, error in
                     DispatchQueue.main.async {
                         
-                        self.endpoint = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        let endp = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
+                        self.endpoint = endp.trimmingCharacters(in: .whitespaces)
                         self.showAds = RCValues.sharedInstance.showAds()
                         self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
@@ -152,14 +149,6 @@ public class MobiFlowSwift: NSObject
         }
         
         self.hasInitialized = true
-        
-        // Remove this method to stop OneSignal Debugging
-        OneSignal.Debug.setLogLevel(.LL_VERBOSE)
-        
-//        OneSignal.setLaunchURLsInApp(false); // before Initialize
-        
-        // OneSignal initialization
-        OneSignal.initialize(oneSignalToken,withLaunchOptions: launchOptions)
         
         self.faid = Analytics.appInstanceID() ?? ""
         

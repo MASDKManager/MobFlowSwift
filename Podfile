@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '14.0'
+platform :ios, '14.0'
 
 target 'MobFlowiOS' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -12,7 +12,7 @@ target 'MobFlowiOS' do
   pod 'FirebaseAnalytics'
   pod 'FirebaseCrashlytics'
   pod 'FirebaseRemoteConfig' 
-  pod 'OneSignalXCFramework' 
+#  pod 'OneSignalXCFramework' 
   pod 'TikTokBusinessSDK'
   pod 'AppLovinSDK'
   pod 'AppLovinMediationVungleAdapter'
