@@ -59,6 +59,7 @@ extension AppLovinManager {
         
         let config = ALSdkInitializationConfiguration(sdkKey: rcAppLovin.sdk_key) { builder in
             
+            builder.mediationProvider = "max"
 #if DEBUG
             debugPrint("Not App Store build")
             let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
