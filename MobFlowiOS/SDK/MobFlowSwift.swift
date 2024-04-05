@@ -14,7 +14,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.1"
+    private let mob_sdk_version = "3.1.2"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
