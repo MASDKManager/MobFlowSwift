@@ -37,3 +37,13 @@ struct RCFacebook : Codable {
     let appID: String
     let clientToken: String
 }
+
+// MARK: - RCAppLovin
+struct RCAppLovin : Codable {
+    let enabled: Bool
+    let sdk_key: String
+    let banner_id: String
+    let interstitial_id: String
+    let rewarded_id: String
+    let app_open_id: String
+}

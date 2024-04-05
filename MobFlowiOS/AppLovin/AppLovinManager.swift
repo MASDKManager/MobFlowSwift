@@ -43,16 +43,21 @@ class AppLovinManager : NSObject {
 
 extension AppLovinManager {
     
-    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String, rewardedId: String, appOpenAdId: String) {
-        AppLovinManager.shared.interestialId = interestialId
-        AppLovinManager.shared.bannerId = bannerId
-        AppLovinManager.shared.rewardedId = rewardedId
-        AppLovinManager.shared.appOpenAdId = appOpenAdId
+    func initializeAppLovin(rcAppLovin: RCAppLovin) {
+        AppLovinManager.shared.interestialId = rcAppLovin.interstitial_id
+        AppLovinManager.shared.bannerId = rcAppLovin.banner_id
+        AppLovinManager.shared.rewardedId = rcAppLovin.rewarded_id
+        AppLovinManager.shared.appOpenAdId = rcAppLovin.app_open_id
         
         //Meta Audience Network Data Processing Options, If you do not want to enable Limited Data Use (LDU) mode, pass SetDataProcessingOptions() an empty array
         FBAdSettings.setDataProcessingOptions([])
         
-        let config = ALSdkInitializationConfiguration(sdkKey: appLovinKey) { builder in
+        //do not initialise if AppLovin key is empty
+        if rcAppLovin.sdk_key == "" {
+            return
+        }
+        
+        let config = ALSdkInitializationConfiguration(sdkKey: rcAppLovin.sdk_key) { builder in
             
 #if DEBUG
             debugPrint("Not App Store build")

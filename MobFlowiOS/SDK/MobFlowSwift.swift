@@ -14,7 +14,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.0"
+    private let mob_sdk_version = "3.1.1"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -45,48 +45,34 @@ public class MobiFlowSwift: NSObject
     
     //AppLovin
     var appLovinManager = AppLovinManager.shared
-    private var appLovinKey = ""
-    private var interestialId = ""
-    private var bannerId = ""
-    private var rewardedId = ""
-    private var appOpenAdId = ""
     
     //Facebook
     var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
     
+    //AppLovin
+    var rcAppLovin : RCAppLovin = RCAppLovin(enabled: false, sdk_key: "", banner_id: "", interstitial_id: "", rewarded_id: "", app_open_id: "")
+    
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate , appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
-        self.bannerId = bannerId
-        self.interestialId = interestialId
-        self.rewardedId = rewardedId
-        self.appLovinKey = appLovinKey
-        self.appOpenAdId = appOpenAdId
         
         self.getFirebase()
-        self.initialiseAppLovin()
         
         //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    public init(initDelegate: MobiFlowDelegate , appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, launchOptions: [UIApplication.LaunchOptionsKey: Any]?  ) {
+    public init(initDelegate: MobiFlowDelegate, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         super.init()
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
-        self.bannerId = bannerId
-        self.interestialId = interestialId
-        self.rewardedId = rewardedId
-        self.appLovinKey = appLovinKey
-        self.appOpenAdId = appOpenAdId
         
         self.getFirebase()
-        self.initialiseAppLovin()
         
         //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -128,6 +114,7 @@ public class MobiFlowSwift: NSObject
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
                         self.rcFacebook = RCValues.sharedInstance.getFacebook()
+                        self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -151,6 +138,10 @@ public class MobiFlowSwift: NSObject
         self.hasInitialized = true
         
         self.faid = Analytics.appInstanceID() ?? ""
+        
+        if self.showAds && self.rcAppLovin.enabled {
+            self.initialiseAppLovin()
+        }
         
         if self.rcTikTok.enabled {
             
@@ -265,17 +256,17 @@ public class MobiFlowSwift: NSObject
     }
     
     private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: appOpenAdId)
+        self.appLovinManager.initializeAppLovin(rcAppLovin: rcAppLovin)
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.bannerId != "" && self.showAds){
+        if (self.rcAppLovin.banner_id != "" && self.showAds){
             self.appLovinManager.loadBannerAd(vc: vc)
         }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.interestialId != "" && self.showAds) {
+        if (self.rcAppLovin.interstitial_id != "" && self.showAds) {
             self.appLovinManager.showInterestialAd(onClose: onClose)
         } else {
             onClose(false)
@@ -283,7 +274,7 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rewardedId != "" && self.showAds) {
+        if (self.rcAppLovin.rewarded_id != "" && self.showAds) {
             self.appLovinManager.showRewardedAd(onClose: onClose)
         } else {
             onClose(false)

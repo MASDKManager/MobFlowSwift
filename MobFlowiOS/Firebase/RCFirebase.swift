@@ -22,6 +22,7 @@ enum ValueKey: String {
     case appsflyers
     case show_ads
     case facebook
+    case applovin
 }
 
 class RCValues {
@@ -139,6 +140,19 @@ class RCValues {
         catch(_) {
             let rCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
             return rCFacebook
+        }
+    }
+    
+    func getAppLovin() -> RCAppLovin {
+        let rCAppLovinJson = RCValues.sharedInstance.string(forKey: .applovin)
+        let rCAppLovinData = Data(rCAppLovinJson.utf8)
+        do{
+            let rCAppLovin = try JSONDecoder().decode(RCAppLovin.self, from: rCAppLovinData)
+            return rCAppLovin
+        }
+        catch(_) {
+            let rCAppLovin = RCAppLovin(enabled: false, sdk_key: "", banner_id: "", interstitial_id: "", rewarded_id: "", app_open_id: "")
+            return rCAppLovin
         }
     }
     
