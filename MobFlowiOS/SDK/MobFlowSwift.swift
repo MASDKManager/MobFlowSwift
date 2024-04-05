@@ -260,13 +260,13 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.rcAppLovin.banner_id != "" && self.showAds){
+        if (self.rcAppLovin.banner_id != "" && self.rcAppLovin.enabled && self.showAds){
             self.appLovinManager.loadBannerAd(vc: vc)
         }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rcAppLovin.interstitial_id != "" && self.showAds) {
+        if (self.rcAppLovin.interstitial_id != "" && self.rcAppLovin.enabled && self.showAds) {
             self.appLovinManager.showInterestialAd(onClose: onClose)
         } else {
             onClose(false)
@@ -274,7 +274,7 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rcAppLovin.rewarded_id != "" && self.showAds) {
+        if (self.rcAppLovin.rewarded_id != "" && self.rcAppLovin.enabled && self.showAds) {
             self.appLovinManager.showRewardedAd(onClose: onClose)
         } else {
             onClose(false)
