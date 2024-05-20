@@ -13,7 +13,7 @@ target 'MobFlowiOS' do
   pod 'FirebaseCrashlytics'
   pod 'FirebaseRemoteConfig' 
 #  pod 'OneSignalXCFramework' 
-  pod 'TikTokBusinessSDK'
+  pod 'TikTokBusinessSDK', '~> 1.3.2'
   pod 'AppLovinSDK'
   pod 'AppLovinMediationVungleAdapter'
   pod 'AppLovinMediationFacebookAdapter'

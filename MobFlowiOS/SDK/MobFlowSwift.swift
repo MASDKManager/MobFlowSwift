@@ -14,7 +14,7 @@ import FBSDKCoreKit
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.3"
+    private let mob_sdk_version = "3.1.4"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -145,8 +145,7 @@ public class MobiFlowSwift: NSObject
         
         if self.rcTikTok.enabled {
             
-            let tiktokID = NSNumber(value:Int(rcTikTok.tiktokAppId) ?? 0)
-            let config = TikTokConfig.init(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: tiktokID)
+            let config = TikTokConfig.init(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: rcTikTok.tiktokAppId)
             config?.appTrackingDialogSuppressed = true
             TikTokBusiness.initializeSdk(config)
             
