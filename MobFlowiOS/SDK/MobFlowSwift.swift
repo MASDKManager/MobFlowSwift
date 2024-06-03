@@ -15,7 +15,7 @@ import OneSignalFramework
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.5"
+    private let mob_sdk_version = "3.1.6"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
