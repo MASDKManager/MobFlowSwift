@@ -17,7 +17,6 @@ public class MobiFlowSwift: NSObject
     
     private let mob_sdk_version = "3.1.5"
     private var endpoint = ""
-    private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
@@ -271,7 +270,7 @@ public class MobiFlowSwift: NSObject
 //        OneSignal.setLaunchURLsInApp(false); // before Initialize
 
         // OneSignal initialization
-        OneSignal.initialize(oneSignalToken,withLaunchOptions: launchOptions)
+        OneSignal.initialize(rcOneSignal.one_signal_key,withLaunchOptions: launchOptions)
     }
     
     private func initialiseAppLovin(){
