@@ -6,13 +6,13 @@ target 'MobFlowiOS' do
   use_frameworks!
 
   # Pods for Test
-  pod 'Adjust'
+#  pod 'Adjust'
   pod 'ReachabilitySwift'
   pod 'Firebase'
   pod 'FirebaseAnalytics'
   pod 'FirebaseCrashlytics'
   pod 'FirebaseRemoteConfig' 
-#  pod 'OneSignalXCFramework' 
+  pod 'OneSignalXCFramework' 
   pod 'TikTokBusinessSDK', '~> 1.3.2'
   pod 'AppLovinSDK'
   pod 'AppLovinMediationVungleAdapter'
@@ -22,6 +22,7 @@ target 'MobFlowiOS' do
   pod 'AppsFlyerFramework'
   pod 'FBSDKCoreKit', '~> 16.0.0'
   pod 'FBAudienceNetwork'
+  pod 'Adjust'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

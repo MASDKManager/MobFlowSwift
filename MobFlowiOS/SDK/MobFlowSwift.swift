@@ -10,12 +10,14 @@ import StoreKit
 import AdServices
 import AppsFlyerLib
 import FBSDKCoreKit
+import OneSignalFramework
 
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.4"
+    private let mob_sdk_version = "3.1.5"
     private var endpoint = ""
+    private var oneSignalToken = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
     public var schemeURL = ""
@@ -36,6 +38,9 @@ public class MobiFlowSwift: NSObject
     //Adjust
     var rcAdjust : RCAdjust = RCAdjust(enabled: false, appToken: "", macros: "")
     private var adid = ""
+    
+    //OneSignal
+    var rcOneSignal : RCOneSignal = RCOneSignal(enabled: false, one_signal_key: "")
     
     //TikTok
     var rcTikTok : RCTikTok = RCTikTok(enabled: false, accessToken: "", appStoreId: "", tiktokAppId: "", eventName: "")
@@ -115,6 +120,7 @@ public class MobiFlowSwift: NSObject
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
                         self.rcFacebook = RCValues.sharedInstance.getFacebook()
                         self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
+                        self.rcOneSignal = RCValues.sharedInstance.getOneSignal()
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -138,6 +144,10 @@ public class MobiFlowSwift: NSObject
         self.hasInitialized = true
         
         self.faid = Analytics.appInstanceID() ?? ""
+        
+        if self.rcOneSignal.enabled {
+            self.initialiseOneSignal()
+        }
         
         if self.showAds && self.rcAppLovin.enabled {
             self.initialiseAppLovin()
@@ -252,6 +262,16 @@ public class MobiFlowSwift: NSObject
         
         AppEvents.shared.logEvent(AppEvents.Name("MobFlowSDK"))
         
+    }
+    
+    private func initialiseOneSignal(){
+        // Remove this method to stop OneSignal Debugging
+        OneSignal.Debug.setLogLevel(.LL_VERBOSE)
+
+//        OneSignal.setLaunchURLsInApp(false); // before Initialize
+
+        // OneSignal initialization
+        OneSignal.initialize(oneSignalToken,withLaunchOptions: launchOptions)
     }
     
     private func initialiseAppLovin(){

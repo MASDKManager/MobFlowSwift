@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.38.2):
-    - Adjust/Core (= 4.38.2)
-  - Adjust/Core (4.38.2)
+  - Adjust (4.38.0):
+    - Adjust/Core (= 4.38.0)
+  - Adjust/Core (4.38.0)
   - Ads-Global/BUAdSDK_Compatible (5.9.0.8):
     - Ads-Global/BURelyAdSDK
     - Ads-Global/Dep_Compatible
@@ -184,6 +184,52 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
+  - OneSignalXCFramework (5.2.0):
+    - OneSignalXCFramework/OneSignalComplete (= 5.2.0)
+  - OneSignalXCFramework/OneSignal (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalLiveActivities
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalComplete (5.2.0):
+    - OneSignalXCFramework/OneSignal
+    - OneSignalXCFramework/OneSignalInAppMessages
+    - OneSignalXCFramework/OneSignalLocation
+  - OneSignalXCFramework/OneSignalCore (5.2.0)
+  - OneSignalXCFramework/OneSignalExtension (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalInAppMessages (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalLiveActivities (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalLocation (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalNotifications (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOSCore (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+  - OneSignalXCFramework/OneSignalOutcomes (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+  - OneSignalXCFramework/OneSignalUser (5.2.0):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
@@ -206,8 +252,9 @@ DEPENDENCIES:
   - FirebaseAnalytics
   - FirebaseCrashlytics
   - FirebaseRemoteConfig
+  - OneSignalXCFramework
   - ReachabilitySwift
-  - TikTokBusinessSDK
+  - TikTokBusinessSDK (~> 1.3.2)
 
 SPEC REPOS:
   trunk:
@@ -240,6 +287,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
+    - OneSignalXCFramework
     - PromisesObjC
     - PromisesSwift
     - ReachabilitySwift
@@ -248,7 +296,7 @@ SPEC REPOS:
     - VungleAds
 
 SPEC CHECKSUMS:
-  Adjust: 5a0f813fe079212bed61404d1f635cc330068b4a
+  Adjust: c98d85594a746ff9f2bafe424c5beb6db66cd6a8
   Ads-Global: c9c8bf2d053e153f754cd6e25a48b3269b297948
   AppLovinMediationByteDanceAdapter: 76eef9c6e6a0003d21fd43e112df23e02acb4971
   AppLovinMediationFacebookAdapter: 30ddfcb09c1c9ff6778ba974f58e8f3204e6eebc
@@ -277,6 +325,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
+  OneSignalXCFramework: bdf74fdc06888f9466dc21e826fe1549ed143095
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   ReachabilitySwift: 2128f3a8c9107e1ad33574c6e58e8285d460b149
@@ -284,6 +333,6 @@ SPEC CHECKSUMS:
   UnityAds: 4c2dbd3e82778b536b0bad23b640c16aae91dbb1
   VungleAds: 0d696ed96dd7d715a9432997356d59b2e3b58882
 
-PODFILE CHECKSUM: b54a206b1d56db10a678b74851c91e6c8c318622
+PODFILE CHECKSUM: 145fd58939100d29c47643bb89dc29104c6dfaa5
 
 COCOAPODS: 1.15.2

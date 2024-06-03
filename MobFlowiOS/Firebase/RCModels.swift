@@ -31,6 +31,12 @@ struct RCAdjust : Codable {
     let macros : String
 }
 
+// MARK: - RCOneSignal
+struct RCOneSignal : Codable {
+    let enabled: Bool
+    let one_signal_key: String
+}
+
 // MARK: - RCFacebook
 struct RCFacebook : Codable {
     let enabled: Bool

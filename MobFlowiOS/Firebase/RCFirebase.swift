@@ -23,6 +23,7 @@ enum ValueKey: String {
     case show_ads
     case facebook
     case applovin
+    case onesignal
 }
 
 class RCValues {
@@ -101,6 +102,19 @@ class RCValues {
         catch(_) {
             let rCAdjust = RCAdjust(enabled: false, appToken: "", macros: "")
             return rCAdjust
+        }
+    }
+    
+    func getOneSignal() -> RCOneSignal {
+        let rCOneSignalJson = RCValues.sharedInstance.string(forKey: .onesignal)
+        let rCOneSignalData = Data(rCOneSignalJson.utf8)
+        do{
+            let rCOneSignal = try JSONDecoder().decode(RCOneSignal.self, from: rCOneSignalData)
+            return rCOneSignal
+        }
+        catch(_) {
+            let rCOneSignal = RCOneSignal(enabled: false, one_signal_key: "")
+            return rCOneSignal
         }
     }
     
