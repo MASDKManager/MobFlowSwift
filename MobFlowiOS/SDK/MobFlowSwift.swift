@@ -15,7 +15,7 @@ import OneSignalFramework
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.6"
+    private let mob_sdk_version = "3.1.7"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -40,6 +40,7 @@ public class MobiFlowSwift: NSObject
     
     //OneSignal
     var rcOneSignal : RCOneSignal = RCOneSignal(enabled: false, one_signal_key: "")
+    var isOneSignalInitialised = false
     
     //TikTok
     var rcTikTok : RCTikTok = RCTikTok(enabled: false, accessToken: "", appStoreId: "", tiktokAppId: "", eventName: "")
@@ -64,10 +65,7 @@ public class MobiFlowSwift: NSObject
         self.delegate = initDelegate
         self.launchOptions = launchOptions
         
-        self.getFirebase()
-        
-        //app enter foreground
-        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        self.basicSdkSetup()
     }
     
     public init(initDelegate: MobiFlowDelegate, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
@@ -76,7 +74,19 @@ public class MobiFlowSwift: NSObject
         self.delegate = initDelegate
         self.launchOptions = launchOptions
         
+        self.basicSdkSetup()
+    }
+    
+    private func basicSdkSetup() {
+        
         self.getFirebase()
+        
+        let oneSignalKey = getOneSignalKey()
+        
+        if oneSignalKey != "" {
+            debugPrint("OneSignal Key from default: \(oneSignalKey)")
+            self.initialiseOneSignal(oneSignalKey: oneSignalKey)
+        }
         
         //app enter foreground
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -120,6 +130,11 @@ public class MobiFlowSwift: NSObject
                         self.rcFacebook = RCValues.sharedInstance.getFacebook()
                         self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
                         self.rcOneSignal = RCValues.sharedInstance.getOneSignal()
+                        
+                        if self.rcOneSignal.one_signal_key != "" {
+                            saveOneSignalKey(value: self.rcOneSignal.one_signal_key)
+                        }
+                        
                         self.run = self.endpoint != ""
                         self.initialiseSDK()
                     }
@@ -144,8 +159,8 @@ public class MobiFlowSwift: NSObject
         
         self.faid = Analytics.appInstanceID() ?? ""
         
-        if self.rcOneSignal.enabled {
-            self.initialiseOneSignal()
+        if self.rcOneSignal.enabled && self.rcOneSignal.one_signal_key != "" && !isOneSignalInitialised {
+            self.initialiseOneSignal(oneSignalKey: self.rcOneSignal.one_signal_key)
         }
         
         if self.showAds && self.rcAppLovin.enabled {
@@ -263,14 +278,16 @@ public class MobiFlowSwift: NSObject
         
     }
     
-    private func initialiseOneSignal(){
+    private func initialiseOneSignal(oneSignalKey key: String){
         // Remove this method to stop OneSignal Debugging
         OneSignal.Debug.setLogLevel(.LL_VERBOSE)
 
 //        OneSignal.setLaunchURLsInApp(false); // before Initialize
 
         // OneSignal initialization
-        OneSignal.initialize(rcOneSignal.one_signal_key,withLaunchOptions: launchOptions)
+        OneSignal.initialize(key,withLaunchOptions: launchOptions)
+        
+        self.isOneSignalInitialised = true
     }
     
     private func initialiseAppLovin(){

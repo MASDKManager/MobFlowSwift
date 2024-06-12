@@ -15,6 +15,7 @@ let USERDEFAULT_CustomUUID = "USERDEFAULT_CustomUUID"
 let USERDEFAULT_AppFlyers_CampanName = "USERDEFAULT_AppFlyers_CampanName"
 let USERDEFAULT_Deeplink = "USERDEFAULT_Deeplink"
 let USERDEFAULT_FB_Deffered_Deeplink = "USERDEFAULT_FB_Deffered_Deeplink"
+let USERDEFAULT_OneSignal_Key = "USERDEFAULT_OneSignal_Key"
 
 func currentTimeInMilliSeconds() -> String {
     let currentDate = Date()
@@ -114,6 +115,14 @@ func getUserUUID() -> String {
 
 func saveUserUUID(value:String) {
     return UserDefaults.standard.set(value, forKey: USERDEFAULT_CustomUUID)
+}
+
+func getOneSignalKey() -> String {
+    return UserDefaults.standard.string(forKey: USERDEFAULT_OneSignal_Key) ?? ""
+}
+
+func saveOneSignalKey(value:String) {
+    return UserDefaults.standard.set(value, forKey: USERDEFAULT_OneSignal_Key)
 }
 
 func getAppFlyersCampanName() -> String {
