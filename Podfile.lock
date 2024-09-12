@@ -52,6 +52,7 @@ PODS:
     - BURelyFoundation_Global/Zip
   - BURelyFoundation_Global/Zip (0.2.1.4):
     - BURelyFoundation_Global/Foundation
+  - Clarity (2.1.0)
   - FBAEMKit (16.0.1):
     - FBSDKCoreKit_Basics (= 16.0.1)
   - FBAudienceNetwork (6.15.0)
@@ -246,6 +247,7 @@ DEPENDENCIES:
   - AppLovinMediationVungleAdapter
   - AppLovinSDK
   - AppsFlyerFramework
+  - Clarity
   - FBAudienceNetwork
   - FBSDKCoreKit (~> 16.0.0)
   - Firebase
@@ -267,6 +269,7 @@ SPEC REPOS:
     - AppLovinSDK
     - AppsFlyerFramework
     - BURelyFoundation_Global
+    - Clarity
     - FBAEMKit
     - FBAudienceNetwork
     - FBSDKCoreKit
@@ -305,6 +308,7 @@ SPEC CHECKSUMS:
   AppLovinSDK: 626d2aea57ae1bf9280d2012e8e20c521c58ce28
   AppsFlyerFramework: 0a68f5b72bbbadfa71d4ae3eaf040e82d62e8518
   BURelyFoundation_Global: 17ed9cd58d138feefd8c0711dd3294766adcb28e
+  Clarity: 763f81546834f113798b599a022f53725d57ed17
   FBAEMKit: daac7466b918752f020345be5c7d9787f98cfc07
   FBAudienceNetwork: 80a035aa69cc3a71c99e44cb5c2874e4cef9909f
   FBSDKCoreKit: 2cb033464b2134af0138f87d20b859eb3f9be359
@@ -333,6 +337,6 @@ SPEC CHECKSUMS:
   UnityAds: 4c2dbd3e82778b536b0bad23b640c16aae91dbb1
   VungleAds: 0d696ed96dd7d715a9432997356d59b2e3b58882
 
-PODFILE CHECKSUM: 145fd58939100d29c47643bb89dc29104c6dfaa5
+PODFILE CHECKSUM: 70444d7b402abd97f245ca74e626534e957d201a
 
 COCOAPODS: 1.15.2

@@ -43,23 +43,17 @@ class AppLovinManager : NSObject {
 
 extension AppLovinManager {
     
-    func initializeAppLovin(rcAppLovin: RCAppLovin) {
-        AppLovinManager.shared.interestialId = rcAppLovin.interstitial_id
-        AppLovinManager.shared.bannerId = rcAppLovin.banner_id
-        AppLovinManager.shared.rewardedId = rcAppLovin.rewarded_id
-        AppLovinManager.shared.appOpenAdId = rcAppLovin.app_open_id
+    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String, rewardedId: String, appOpenAdId: String) {
+        AppLovinManager.shared.interestialId = interestialId
+        AppLovinManager.shared.bannerId = bannerId
+        AppLovinManager.shared.rewardedId = rewardedId
+        AppLovinManager.shared.appOpenAdId = appOpenAdId
         
         //Meta Audience Network Data Processing Options, If you do not want to enable Limited Data Use (LDU) mode, pass SetDataProcessingOptions() an empty array
         FBAdSettings.setDataProcessingOptions([])
         
-        //do not initialise if AppLovin key is empty
-        if rcAppLovin.sdk_key == "" {
-            return
-        }
-        
-        let config = ALSdkInitializationConfiguration(sdkKey: rcAppLovin.sdk_key) { builder in
+        let config = ALSdkInitializationConfiguration(sdkKey: appLovinKey) { builder in
             
-            builder.mediationProvider = "max"
 #if DEBUG
             debugPrint("Not App Store build")
             let gpsadid = ASIdentifierManager.shared().advertisingIdentifier.uuidString
@@ -90,34 +84,31 @@ extension AppLovinManager {
     }
     
     func loadBannerAd(vc : UIViewController) {
-        if (appLovin != nil && AppLovinManager.shared.bannerId != "") {
-            AppLovinManager.shared.adView = MAAdView(adUnitIdentifier: AppLovinManager.shared.bannerId,sdk: appLovin)
-            AppLovinManager.shared.adView.delegate = self
-            
-            // Banner height on iPhone and iPad is 50 and 90, respectively
-            let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
-            
-            // Stretch to the width of the screen for banners to be fully functional
-            let width: CGFloat = UIScreen.main.bounds.width
-            
-            AppLovinManager.shared.adView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - height - 15, width: width, height: height)
-            
-            // Set background or background color for banners to be fully functional
-            AppLovinManager.shared.adView.backgroundColor = .clear
-            
-            vc.view.addSubview(AppLovinManager.shared.adView)
-            
-            // Load the first ad
-            AppLovinManager.shared.adView.loadAd()
-        }
+        
+        AppLovinManager.shared.adView = MAAdView(adUnitIdentifier: AppLovinManager.shared.bannerId,sdk: appLovin)
+        AppLovinManager.shared.adView.delegate = self
+        
+        // Banner height on iPhone and iPad is 50 and 90, respectively
+        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
+        
+        // Stretch to the width of the screen for banners to be fully functional
+        let width: CGFloat = UIScreen.main.bounds.width
+        
+        AppLovinManager.shared.adView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - height - 15, width: width, height: height)
+        
+        // Set background or background color for banners to be fully functional
+        AppLovinManager.shared.adView.backgroundColor = .clear
+        
+        vc.view.addSubview(AppLovinManager.shared.adView)
+        
+        // Load the first ad
+        AppLovinManager.shared.adView.loadAd()
     }
     
     private func loadInterestialAd() {
-        if (appLovin != nil && AppLovinManager.shared.interestialId != "") {
-            AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: AppLovinManager.shared.interestialId,sdk: appLovin)
-            AppLovinManager.shared.interestialAdView?.delegate = self
-            AppLovinManager.shared.interestialAdView?.load()
-        }
+        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: AppLovinManager.shared.interestialId,sdk: appLovin)
+        AppLovinManager.shared.interestialAdView?.delegate = self
+        AppLovinManager.shared.interestialAdView?.load()
     }
     
     func showInterestialAd(onClose : @escaping (Bool) -> ()) {
@@ -132,11 +123,9 @@ extension AppLovinManager {
     }
     
     private func loadRewardedAd() {
-        if (appLovin != nil && AppLovinManager.shared.rewardedId != "") {
-            AppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: AppLovinManager.shared.rewardedId,sdk: appLovin)
-            AppLovinManager.shared.rewardedAdView?.delegate = self
-            AppLovinManager.shared.rewardedAdView?.load()
-        }
+        AppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: AppLovinManager.shared.rewardedId,sdk: appLovin)
+        AppLovinManager.shared.rewardedAdView?.delegate = self
+        AppLovinManager.shared.rewardedAdView?.load()
     }
     
     func showRewardedAd(onClose : @escaping (Bool) -> ()) {
@@ -150,11 +139,9 @@ extension AppLovinManager {
     }
     
     private func loadAppOpenAds() {
-        if appLovin != nil && AppLovinManager.shared.appOpenAdId != "" {
-            AppLovinManager.shared.appOpenAdView = MAAppOpenAd(adUnitIdentifier: AppLovinManager.shared.appOpenAdId, sdk: appLovin)
-            AppLovinManager.shared.appOpenAdView?.delegate = self
-            AppLovinManager.shared.appOpenAdView?.load()
-        }
+        AppLovinManager.shared.appOpenAdView = MAAppOpenAd(adUnitIdentifier: AppLovinManager.shared.appOpenAdId, sdk: appLovin)
+        AppLovinManager.shared.appOpenAdView?.delegate = self
+        AppLovinManager.shared.appOpenAdView?.load()
     }
     
     func showAppOpenAds(onClose : @escaping (Bool) -> ()) {
@@ -166,7 +153,6 @@ extension AppLovinManager {
         }
         else
         {
-            print("app open ads failed to show")
             AppLovinManager.shared.loadAppOpenAds()
             onClose(false)
         }

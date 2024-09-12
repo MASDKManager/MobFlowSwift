@@ -11,11 +11,12 @@ import AdServices
 import AppsFlyerLib
 import FBSDKCoreKit
 import OneSignalFramework
+import Clarity
 
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.7"
+    private let mob_sdk_version = "3.1.8"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -50,6 +51,11 @@ public class MobiFlowSwift: NSObject
     
     //AppLovin
     var appLovinManager = AppLovinManager.shared
+    private var appLovinKey = ""
+    private var interestialId = ""
+    private var bannerId = ""
+    private var rewardedId = ""
+    private var appOpenAdId = ""
     
     //Facebook
     var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
@@ -57,22 +63,37 @@ public class MobiFlowSwift: NSObject
     //AppLovin
     var rcAppLovin : RCAppLovin = RCAppLovin(enabled: false, sdk_key: "", banner_id: "", interstitial_id: "", rewarded_id: "", app_open_id: "")
     
+    //Clarity SDK Project ID
+    var clarityProjectID : String = ""
+    
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate, launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    @objc public init(initDelegate: MobiFlowDelegate, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
         super.init()
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
+        self.bannerId = bannerId
+        self.interestialId = interestialId
+        self.rewardedId = rewardedId
+        self.appLovinKey = appLovinKey
+        self.appOpenAdId = appOpenAdId
+        self.clarityProjectID = clarityProjectId
         
         self.basicSdkSetup()
     }
     
-    public init(initDelegate: MobiFlowDelegate, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    public init(initDelegate: MobiFlowDelegate, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         super.init()
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
+        self.bannerId = bannerId
+        self.interestialId = interestialId
+        self.rewardedId = rewardedId
+        self.appLovinKey = appLovinKey
+        self.appOpenAdId = appOpenAdId
+        self.clarityProjectID = clarityProjectId
         
         self.basicSdkSetup()
     }
@@ -80,6 +101,12 @@ public class MobiFlowSwift: NSObject
     private func basicSdkSetup() {
         
         self.getFirebase()
+        
+        //AppLovin Ads initialisation
+        self.initialiseAppLovin()
+        
+        //Clarity by Microsoft for tracking user activity in App
+        self.initialiseClarity()
         
         let oneSignalKey = getOneSignalKey()
         
@@ -128,7 +155,9 @@ public class MobiFlowSwift: NSObject
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
                         self.rcFacebook = RCValues.sharedInstance.getFacebook()
-                        self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
+                        
+                        //remote config removed as by this way ads take longer loading time
+                        //self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
                         self.rcOneSignal = RCValues.sharedInstance.getOneSignal()
                         
                         if self.rcOneSignal.one_signal_key != "" {
@@ -163,9 +192,10 @@ public class MobiFlowSwift: NSObject
             self.initialiseOneSignal(oneSignalKey: self.rcOneSignal.one_signal_key)
         }
         
-        if self.showAds && self.rcAppLovin.enabled {
-            self.initialiseAppLovin()
-        }
+        //used for initialising AppLovin when values were fetched from remote config
+//        if self.showAds && self.rcAppLovin.enabled {
+//            self.initialiseAppLovin()
+//        }
         
         if self.rcTikTok.enabled {
             
@@ -290,18 +320,39 @@ public class MobiFlowSwift: NSObject
         self.isOneSignalInitialised = true
     }
     
+    private func initialiseClarity(){
+        
+        if !clarityProjectID.isEmpty {
+            
+#if DEBUG
+            let clarityConfig = ClarityConfig(projectId: clarityProjectID,
+                                              logLevel: .verbose,
+                                              enableWebViewCapture: true)
+            ClaritySDK.setCustomUserId(generateUserUUID())
+            ClaritySDK.initialize(config: clarityConfig) {
+                debugPrint("Clarity SDK has been initialised.")
+            }
+#else
+            let clarityConfig = ClarityConfig(projectId: clarityProjectID,
+                                              enableWebViewCapture: true)
+            ClaritySDK.setCustomUserId(generateUserUUID())
+            ClaritySDK.initialize(config: clarityConfig)
+#endif
+        }
+    }
+    
     private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(rcAppLovin: rcAppLovin)
+        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: appOpenAdId)
     }
     
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.rcAppLovin.banner_id != "" && self.rcAppLovin.enabled && self.showAds){
+        if (self.bannerId != "" && self.showAds){
             self.appLovinManager.loadBannerAd(vc: vc)
         }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rcAppLovin.interstitial_id != "" && self.rcAppLovin.enabled && self.showAds) {
+        if (self.interestialId != "" && self.showAds) {
             self.appLovinManager.showInterestialAd(onClose: onClose)
         } else {
             onClose(false)
@@ -309,7 +360,7 @@ public class MobiFlowSwift: NSObject
     }
     
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rcAppLovin.rewarded_id != "" && self.rcAppLovin.enabled && self.showAds) {
+        if (self.rewardedId != "" && self.showAds) {
             self.appLovinManager.showRewardedAd(onClose: onClose)
         } else {
             onClose(false)

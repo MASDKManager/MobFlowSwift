@@ -23,6 +23,7 @@ target 'MobFlowiOS' do
   pod 'FBSDKCoreKit', '~> 16.0.0'
   pod 'FBAudienceNetwork'
   pod 'Adjust'
+  pod 'Clarity'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
