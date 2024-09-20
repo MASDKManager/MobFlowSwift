@@ -16,7 +16,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.8"
+    private let mob_sdk_version = "3.1.9"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -135,7 +135,13 @@ public class MobiFlowSwift: NSObject
     
     func getFirebase() {
         
-        FirebaseApp.configure()
+        // Check if Firebase is already configured
+        if FirebaseApp.app() == nil {
+            // If not configured, configure Firebase
+            FirebaseApp.configure()
+        } else {
+            debugPrint("Firebase is already configured.")
+        }
         
         let appDefaults: [String: Any?] = [
             "run": true,
