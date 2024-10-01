@@ -47,7 +47,7 @@ extension MobiFlowSwift: WebViewControllerDelegate
            else
            {
                if self.showAdsBeforeNative {
-                   self.appLovinManager.showRewardedAd { _ in
+                   self.showRewardedAd { _ in
                        self.showNativeWithPermission(dic: [String : Any]())
                        let url = URL(string: self.schemeURL)
                        if UIApplication.shared.canOpenURL(url!)

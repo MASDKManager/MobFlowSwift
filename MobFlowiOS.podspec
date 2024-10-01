@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
 
   spec.platform = :ios
   spec.name         = "MobFlowiOS"
-  spec.version      = "3.1.9"
+  spec.version      = "3.2.0"
   spec.requires_arc =  true
   spec.summary      = "An sdk that inialize multiple library in order to run custom ad screen of MobFlowiOS."
   spec.description  = <<-DESC
@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
     :tag => spec.version.to_s
   }
   spec.framework = 'UIKit'
-  spec.dependency 'Adjust'
+  spec.dependency 'Adjust','>= 4.38.4'
   spec.dependency 'ReachabilitySwift'
   spec.dependency 'Firebase'
   spec.dependency 'FirebaseAnalytics'
@@ -39,7 +39,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'Clarity'
   spec.source_files  = "MobFlowiOS/**/*.{h,m,swift}"
   spec.resource_bundles = {
-    'MobFlowiOS' => ['MobFlowiOS/**/*.{storyboard,xib,xcassets,lproj,png}']
+    'MobFlowiOS' => ['MobFlowiOS/**/*.{storyboard,xib,xcassets,lproj,png,xcprivacy}']
   }
   spec.swift_version = '5'
   spec.ios.deployment_target = '14.0'

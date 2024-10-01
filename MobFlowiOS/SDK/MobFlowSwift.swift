@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseCrashlytics
 import Adjust
 import AppTrackingTransparency
 import AdSupport
@@ -16,7 +17,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.1.9"
+    private let mob_sdk_version = "3.2.0"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -127,7 +128,7 @@ public class MobiFlowSwift: NSObject
     @objc func appMovedToForeground() {
         debugPrint("Mobibox: Will Enter Foreground")
         if self.hasSwitchedToApp && (self.endpoint == "") && self.showAds {
-            self.appLovinManager.showAppOpenAds { _ in
+            self.showAppOpenAd { _ in
                 debugPrint("successfully shown AppOpen Ads.")
             }
         }
@@ -139,6 +140,9 @@ public class MobiFlowSwift: NSObject
         if FirebaseApp.app() == nil {
             // If not configured, configure Firebase
             FirebaseApp.configure()
+            
+            // set custom User ID in Crashlytics to identify user
+            Crashlytics.crashlytics().setUserID(generateUserUUID())
         } else {
             debugPrint("Firebase is already configured.")
         }
@@ -228,7 +232,7 @@ public class MobiFlowSwift: NSObject
         if (!run) {
             if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    self.appLovinManager.showRewardedAd { _ in
+                    self.showRewardedAd { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
@@ -373,6 +377,14 @@ public class MobiFlowSwift: NSObject
         }
     }
     
+    @objc public func showAppOpenAd(onClose : @escaping (Bool) -> ()) {
+        if (self.appOpenAdId != "" && self.showAds) {
+            self.appLovinManager.showAppOpenAds(onClose: onClose)
+        } else {
+            onClose(false)
+        }
+    }
+    
     @objc private func onDataReceived(){
         if (endpoint != "") {
             let packageName = Bundle.main.bundleIdentifier ?? ""
@@ -383,7 +395,7 @@ public class MobiFlowSwift: NSObject
         } else {
             if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    self.appLovinManager.showRewardedAd { _ in
+                    self.showRewardedAd { _ in
                         self.showNativeWithPermission(dic: [String : Any]())
                     }
                 })
