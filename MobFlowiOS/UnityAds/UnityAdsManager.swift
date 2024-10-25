@@ -136,3 +136,26 @@ extension UnityAdsManager : UnityAdsInitializationDelegate {
     }
     
 }
+
+struct UnityBannerAdView: UIViewRepresentable {
+    
+    func makeUIView(context: Context) -> UIView {
+        let bannerView = UnityAdsManager.shared.createBannerView()
+        return bannerView
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // Update the view when needed
+    }
+    
+}
+
+struct EmptyBannerView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return UIView() // Return an empty UIView when ads are disabled
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // No update needed
+    }
+}

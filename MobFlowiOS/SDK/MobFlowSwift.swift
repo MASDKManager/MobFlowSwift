@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import FirebaseCrashlytics
 import Adjust
 import AppTrackingTransparency
@@ -354,13 +355,23 @@ public class MobiFlowSwift: NSObject
         self.unityAdsManager.initializeUnityAds(gameID: self.unityGameId, bannerPlacementID: self.unityBannerId, interstitialPlacementID: self.unityInterestialId, rewardedVideoPlacementID: self.unityRewardedId)
     }
     
-    
+    //Banner for UIKit
     @objc public func showBannerAd(vc : UIViewController) {
         if (self.showAds){
             self.unityAdsManager.showBannerAd(viewController: vc)
         }
     }
     
+    //Banner for SwiftUI
+    public func createBannerView() -> AnyView {
+        if self.showAds {
+            return AnyView(UnityBannerAdView())
+        } else {
+            return AnyView(EmptyBannerView())
+        }
+    }
+    
+    //based on showAds value, Interestial Ads are shown
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
         if (self.showAds) {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -372,6 +383,7 @@ public class MobiFlowSwift: NSObject
         }
     }
     
+    //based on showAds value, Rewarded Ads are shown
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
         if (self.showAds) {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
