@@ -1,57 +1,10 @@
 PODS:
-  - Adjust (4.38.0):
-    - Adjust/Core (= 4.38.0)
-  - Adjust/Core (4.38.0)
-  - Ads-Global/BUAdSDK_Compatible (5.9.0.8):
-    - Ads-Global/BURelyAdSDK
-    - Ads-Global/Dep_Compatible
-  - Ads-Global/BURelyAdSDK (5.9.0.8)
-  - Ads-Global/Dep_Compatible (5.9.0.8):
-    - BURelyFoundation_Global/Pangle (~> 0.2.1.4)
-  - AppLovinMediationByteDanceAdapter (5.9.0.8.0):
-    - Ads-Global/BUAdSDK_Compatible (= 5.9.0.8)
-    - AppLovinSDK
-  - AppLovinMediationFacebookAdapter (6.15.0.0):
-    - AppLovinSDK
-    - FBAudienceNetwork (= 6.15.0)
-  - AppLovinMediationUnityAdsAdapter (4.11.3.0):
-    - AppLovinSDK
-    - UnityAds (= 4.11.3)
-  - AppLovinMediationVungleAdapter (7.3.2.0):
-    - AppLovinSDK
-    - VungleAds (= 7.3.2)
-  - AppLovinSDK (12.5.0)
+  - Adjust (4.38.4):
+    - Adjust/Core (= 4.38.4)
+  - Adjust/Core (4.38.4)
   - AppsFlyerFramework (6.14.3):
     - AppsFlyerFramework/Main (= 6.14.3)
   - AppsFlyerFramework/Main (6.14.3)
-  - BURelyFoundation_Global/AFNetworking (0.2.1.4)
-  - BURelyFoundation_Global/APM (0.2.1.4)
-  - BURelyFoundation_Global/Foundation (0.2.1.4):
-    - BURelyFoundation_Global/NETWork
-  - BURelyFoundation_Global/Gecko (0.2.1.4):
-    - BURelyFoundation_Global/Foundation
-  - BURelyFoundation_Global/Header (0.2.1.4)
-  - BURelyFoundation_Global/NETWork (0.2.1.4):
-    - BURelyFoundation_Global/AFNetworking
-  - BURelyFoundation_Global/Pangle (0.2.1.4):
-    - BURelyFoundation_Global/AFNetworking
-    - BURelyFoundation_Global/APM
-    - BURelyFoundation_Global/Foundation
-    - BURelyFoundation_Global/Gecko
-    - BURelyFoundation_Global/Header
-    - BURelyFoundation_Global/NETWork
-    - BURelyFoundation_Global/SDWebImage
-    - BURelyFoundation_Global/YYModel
-    - BURelyFoundation_Global/ZFPlayer
-    - BURelyFoundation_Global/Zip
-  - BURelyFoundation_Global/SDWebImage (0.2.1.4):
-    - BURelyFoundation_Global/Foundation
-  - BURelyFoundation_Global/YYModel (0.2.1.4)
-  - BURelyFoundation_Global/ZFPlayer (0.2.1.4):
-    - BURelyFoundation_Global/Foundation
-    - BURelyFoundation_Global/Zip
-  - BURelyFoundation_Global/Zip (0.2.1.4):
-    - BURelyFoundation_Global/Foundation
   - Clarity (2.1.0)
   - FBAEMKit (16.0.1):
     - FBSDKCoreKit_Basics (= 16.0.1)
@@ -237,15 +190,9 @@ PODS:
   - ReachabilitySwift (5.2.2)
   - TikTokBusinessSDK (1.3.2)
   - UnityAds (4.11.3)
-  - VungleAds (7.3.2)
 
 DEPENDENCIES:
-  - Adjust
-  - AppLovinMediationByteDanceAdapter
-  - AppLovinMediationFacebookAdapter
-  - AppLovinMediationUnityAdsAdapter
-  - AppLovinMediationVungleAdapter
-  - AppLovinSDK
+  - Adjust (~> 4.38.4)
   - AppsFlyerFramework
   - Clarity
   - FBAudienceNetwork
@@ -257,6 +204,7 @@ DEPENDENCIES:
   - OneSignalXCFramework
   - ReachabilitySwift
   - TikTokBusinessSDK (~> 1.3.2)
+  - UnityAds
 
 SPEC REPOS:
   trunk:

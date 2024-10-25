@@ -1,0 +1,151 @@
+//
+//  UnityManager.swift
+//  MobFlowiOS
+//
+//  Created by Vishnu's Mac    on 24/10/24.
+//
+
+
+import Foundation
+import UnityAds
+import UIKit
+import SwiftUI
+
+class UnityManager: NSObject {
+    
+    static let shared = UnityManager()
+    
+    private var gameID: String = ""
+    private var bannerPlacementID: String = "Banner_iOS"
+    private var interstitialPlacementID: String = "Interstitial_iOS"
+    private var rewardedVideoPlacementID: String = "Rewarded_iOS"
+    
+    private var onClose: ((Bool) -> Void)?
+    
+    // Initialize Unity Ads
+    func initializeUnityAds(gameID: String, bannerPlacementID: String = "", interstitialPlacementID: String = "", rewardedVideoPlacementID: String = "") {
+        
+        self.gameID = gameID
+        
+        self.bannerPlacementID = bannerPlacementID != "" ? bannerPlacementID : self.bannerPlacementID
+        
+        self.interstitialPlacementID = interstitialPlacementID != "" ? interstitialPlacementID : self.interstitialPlacementID
+        
+        self.rewardedVideoPlacementID = rewardedVideoPlacementID != "" ? rewardedVideoPlacementID : self.rewardedVideoPlacementID
+        
+#if DEBUG
+        debugPrint("Not App Store build")
+        UnityAds.initialize(self.gameID, testMode: true, initializationDelegate: self)
+#else
+        UnityAds.initialize(self.gameID, initializationDelegate: self)
+#endif
+        
+        //Load interestitial and rewarded ads
+        loadInterstitialAd()
+        loadRewardedAd()
+        
+    }
+    
+    // Load and show Interstitial Ad
+    private func loadInterstitialAd() {
+        UnityAds.load(self.interstitialPlacementID, loadDelegate: self)
+    }
+    
+    // Load and show Rewarded Ad
+    private func loadRewardedAd() {
+        UnityAds.load(self.rewardedVideoPlacementID, loadDelegate: self)
+    }
+    
+    // Load and show Banner Ad
+    func showBannerAd(viewController: UIViewController) {
+        let banner = UADSBannerView(placementId: self.bannerPlacementID, size: CGSize(width: 320, height: 50))
+        banner.delegate = self
+        viewController.view.addSubview(banner)
+        banner.load()
+    }
+    
+    // Show Banner Ad (for SwiftUI usage)
+    func createBannerView() -> UADSBannerView {
+        let banner = UADSBannerView(placementId: self.bannerPlacementID, size: CGSize(width: 320, height: 50))
+        banner.load()
+        return banner
+    }
+    
+    func showInterstitialAds(viewController: UIViewController, onClose : @escaping (Bool) -> ()) {
+        UnityManager.shared.onClose = onClose
+        UnityAds.show(viewController, placementId: self.interstitialPlacementID, showDelegate: self)
+    }
+    
+    func showRewardedAds(viewController: UIViewController, onClose : @escaping (Bool) -> ()) {
+        UnityManager.shared.onClose = onClose
+        UnityAds.show(viewController, placementId: self.rewardedVideoPlacementID, showDelegate: self)
+    }
+}
+
+// UADSBannerViewDelegate Methods
+extension UnityManager : UADSBannerViewDelegate {
+    func bannerViewDidLoad(_ bannerView: UADSBannerView!) {
+        debugPrint("Banner loaded successfully")
+    }
+    
+    func bannerViewDidError(_ bannerView: UADSBannerView!, error: UADSBannerError!) {
+        debugPrint("Failed to load banner")
+    }
+}
+
+extension UnityManager : UnityAdsShowDelegate {
+    func unityAdsShowComplete(_ placementId: String, withFinish state: UnityAdsShowCompletionState) {
+        debugPrint("Unity Ads show complete for placementId: \(placementId) and with state: \(state.rawValue)")
+        UnityAds.load(placementId, loadDelegate: self)
+        UnityManager.shared.onClose?(true)
+    }
+    
+    func unityAdsShowFailed(_ placementId: String, withError error: UnityAdsShowError, withMessage message: String) {
+        debugPrint("Unity Ads show failed for placementId: \(placementId) and with error: \(error.rawValue) and message: \(message)")
+        UnityManager.shared.onClose?(false)
+    }
+    
+    func unityAdsShowStart(_ placementId: String) {
+        debugPrint("Unity Ads show started for placementId: \(placementId)")
+    }
+    
+    func unityAdsShowClick(_ placementId: String) {
+        debugPrint("Unity Ads show clicked for placementId: \(placementId)")
+    }
+    
+}
+
+extension UnityManager : UnityAdsLoadDelegate {
+    func unityAdsAdLoaded(_ placementId: String) {
+        debugPrint("Unity Ads ad loaded for placementId: \(placementId)")
+    }
+    
+    func unityAdsAdFailed(toLoad placementId: String, withError error: UnityAdsLoadError, withMessage message: String) {
+        debugPrint("Unity Ads ad failed to load for placementId: \(placementId) with error: \(error.rawValue) and message: \(message)")
+    }
+}
+
+extension UnityManager : UnityAdsInitializationDelegate {
+    
+    func initializationComplete() {
+        debugPrint("Unity Ads initialization completed")
+    }
+    
+    func initializationFailed(_ error: UnityAdsInitializationError, withMessage message: String) {
+        debugPrint("Unity Ads initialization failed with error: \(message)")
+    }
+    
+}
+
+struct UnityBannerAdView: UIViewRepresentable {
+    
+    func makeUIView(context: Context) -> UIView {
+        let bannerView = UnityManager.shared.createBannerView()
+        return bannerView
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // Update the view when needed
+    }
+    
+}
