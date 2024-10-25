@@ -17,7 +17,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.0"
+    private let mob_sdk_version = "3.2.1"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -50,13 +50,21 @@ public class MobiFlowSwift: NSObject
     //AppFlyers
     var rcAppsFlyers : RCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
     
-    //AppLovin
-    var appLovinManager = AppLovinManager.shared
-    private var appLovinKey = ""
-    private var interestialId = ""
-    private var bannerId = ""
-    private var rewardedId = ""
-    private var appOpenAdId = ""
+    //    //AppLovin
+    //    var appLovinManager = AppLovinManager.shared
+    //
+    //    private var appLovinKey = ""
+    //    private var appLovinInterestialId = ""
+    //    private var appLovinBannerId = ""
+    //    private var appLovinRewardedId = ""
+    //    private var appLovinAppOpenAdId = ""
+    
+    //Unity Ads
+    var unityAdsManager = UnityAdsManager.shared
+    private var unityGameId = ""
+    private var unityInterestialId = "Interstitial_iOS"
+    private var unityBannerId = "Banner_iOS"
+    private var unityRewardedId = "Rewarded_iOS"
     
     //Facebook
     var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
@@ -69,31 +77,15 @@ public class MobiFlowSwift: NSObject
     
     let nc = NotificationCenter.default
     
-    @objc public init(initDelegate: MobiFlowDelegate, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?, isUnityApp: Bool) {
+    public init(initDelegate: MobiFlowDelegate, unityGameId: String, bannerId: String = "", interstitialId: String = "", rewardedId: String = "", clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         super.init()
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
-        self.bannerId = bannerId
-        self.interestialId = interestialId
-        self.rewardedId = rewardedId
-        self.appLovinKey = appLovinKey
-        self.appOpenAdId = appOpenAdId
-        self.clarityProjectID = clarityProjectId
-        
-        self.basicSdkSetup()
-    }
-    
-    public init(initDelegate: MobiFlowDelegate, appLovinKey: String, bannerId: String, interestialId: String, rewardedId: String, appOpenAdId: String, clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        super.init()
-        
-        self.delegate = initDelegate
-        self.launchOptions = launchOptions
-        self.bannerId = bannerId
-        self.interestialId = interestialId
-        self.rewardedId = rewardedId
-        self.appLovinKey = appLovinKey
-        self.appOpenAdId = appOpenAdId
+        self.unityGameId = unityGameId
+        self.unityBannerId = bannerId != "" ? bannerId : self.unityBannerId
+        self.unityInterestialId = interstitialId != "" ? interstitialId : self.unityInterestialId
+        self.unityRewardedId = rewardedId != "" ? rewardedId : self.unityRewardedId
         self.clarityProjectID = clarityProjectId
         
         self.basicSdkSetup()
@@ -103,8 +95,11 @@ public class MobiFlowSwift: NSObject
         
         self.getFirebase()
         
-        //AppLovin Ads initialisation
-        self.initialiseAppLovin()
+        //        //AppLovin Ads initialisation
+        //        self.initialiseAppLovin()
+        
+        //Unity Ads initialisation
+        self.initialiseUnityAds()
         
         //Clarity by Microsoft for tracking user activity in App
         self.initialiseClarity()
@@ -123,12 +118,12 @@ public class MobiFlowSwift: NSObject
     public func isReactNative(value: Bool) {
         self.isReactNative = value
     }
-
+    
     
     @objc func appMovedToForeground() {
         debugPrint("Mobibox: Will Enter Foreground")
         if self.hasSwitchedToApp && (self.endpoint == "") && self.showAds {
-            self.showAppOpenAd { _ in
+            self.showRewardedAd() { _ in
                 debugPrint("successfully shown AppOpen Ads.")
             }
         }
@@ -203,9 +198,9 @@ public class MobiFlowSwift: NSObject
         }
         
         //used for initialising AppLovin when values were fetched from remote config
-//        if self.showAds && self.rcAppLovin.enabled {
-//            self.initialiseAppLovin()
-//        }
+        //        if self.showAds && self.rcAppLovin.enabled {
+        //            self.initialiseAppLovin()
+        //        }
         
         if self.rcTikTok.enabled {
             
@@ -321,9 +316,9 @@ public class MobiFlowSwift: NSObject
     private func initialiseOneSignal(oneSignalKey key: String){
         // Remove this method to stop OneSignal Debugging
         OneSignal.Debug.setLogLevel(.LL_VERBOSE)
-
-//        OneSignal.setLaunchURLsInApp(false); // before Initialize
-
+        
+        //        OneSignal.setLaunchURLsInApp(false); // before Initialize
+        
         // OneSignal initialization
         OneSignal.initialize(key,withLaunchOptions: launchOptions)
         
@@ -351,39 +346,78 @@ public class MobiFlowSwift: NSObject
         }
     }
     
-    private func initialiseAppLovin(){
-        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.interestialId, bannerId: self.bannerId, rewardedId: self.rewardedId, appOpenAdId: appOpenAdId)
+    public var isAdsEnabled: Bool {
+        return showAds
     }
     
+    private func initialiseUnityAds() {
+        self.unityAdsManager.initializeUnityAds(gameID: self.unityGameId, bannerPlacementID: self.unityBannerId, interstitialPlacementID: self.unityInterestialId, rewardedVideoPlacementID: self.unityRewardedId)
+    }
+    
+    
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.bannerId != "" && self.showAds){
-            self.appLovinManager.loadBannerAd(vc: vc)
+        if (self.showAds){
+            self.unityAdsManager.showBannerAd(viewController: vc)
         }
     }
     
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.interestialId != "" && self.showAds) {
-            self.appLovinManager.showInterestialAd(onClose: onClose)
+        if (self.showAds) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootVC = windowScene.windows.first?.rootViewController {
+                self.unityAdsManager.showInterstitialAds(viewController: rootVC, onClose: onClose)
+            }
         } else {
             onClose(false)
         }
     }
     
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.rewardedId != "" && self.showAds) {
-            self.appLovinManager.showRewardedAd(onClose: onClose)
+        if (self.showAds) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootVC = windowScene.windows.first?.rootViewController {
+                self.unityAdsManager.showRewardedAds(viewController: rootVC, onClose: onClose)
+            }
+            
         } else {
             onClose(false)
         }
     }
     
-    @objc public func showAppOpenAd(onClose : @escaping (Bool) -> ()) {
-        if (self.appOpenAdId != "" && self.showAds) {
-            self.appLovinManager.showAppOpenAds(onClose: onClose)
-        } else {
-            onClose(false)
-        }
-    }
+    //AppLovin Ads
+    //    private func initialiseAppLovin(){
+    //        self.appLovinManager.initializeAppLovin(appLovinKey: self.appLovinKey, interestialId: self.appLovinInterestialId, bannerId: self.appLovinBannerId, rewardedId: self.appLovinRewardedId, appOpenAdId: appLovinAppOpenAdId)
+    //    }
+    //
+    //    @objc public func showBannerAd(vc : UIViewController) {
+    //        if (self.appLovinBannerId != "" && self.showAds){
+    //            self.appLovinManager.loadBannerAd(vc: vc)
+    //        }
+    //    }
+    //
+    //    @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
+    //        if (self.appLovinInterestialId != "" && self.showAds) {
+    //            self.appLovinManager.showInterestialAd(onClose: onClose)
+    //        } else {
+    //            onClose(false)
+    //        }
+    //    }
+    //
+    //    @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
+    //        if (self.appLovinRewardedId != "" && self.showAds) {
+    //            self.appLovinManager.showRewardedAd(onClose: onClose)
+    //        } else {
+    //            onClose(false)
+    //        }
+    //    }
+    //
+    //    @objc public func showAppOpenAd(onClose : @escaping (Bool) -> ()) {
+    //        if (self.appLovinAppOpenAdId != "" && self.showAds) {
+    //            self.appLovinManager.showAppOpenAds(onClose: onClose)
+    //        } else {
+    //            onClose(false)
+    //        }
+    //    }
     
     @objc private func onDataReceived(){
         if (endpoint != "") {
@@ -441,7 +475,7 @@ public class MobiFlowSwift: NSObject
     
     func createParamsURL()
     {
-
+        
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         printMobLog(description:  "GPS_ADID", value: idfa)
         
@@ -478,7 +512,7 @@ public class MobiFlowSwift: NSObject
                 .replacingOccurrences(of: "$fb_deffered_deeplink", with: getFbDefferedDeeplink())
         }
         
-
+        
         
         printMobLog(description: "self.adjustParams after changing macro", value: rcAdjust.macros.description)
         printMobLog(description: "self.AppsFlyersParams after changing macro", value: rcAppsFlyers.macros.description)

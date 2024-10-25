@@ -209,14 +209,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
-    - Ads-Global
-    - AppLovinMediationByteDanceAdapter
-    - AppLovinMediationFacebookAdapter
-    - AppLovinMediationUnityAdsAdapter
-    - AppLovinMediationVungleAdapter
-    - AppLovinSDK
     - AppsFlyerFramework
-    - BURelyFoundation_Global
     - Clarity
     - FBAEMKit
     - FBAudienceNetwork
@@ -244,18 +237,10 @@ SPEC REPOS:
     - ReachabilitySwift
     - TikTokBusinessSDK
     - UnityAds
-    - VungleAds
 
 SPEC CHECKSUMS:
-  Adjust: c98d85594a746ff9f2bafe424c5beb6db66cd6a8
-  Ads-Global: c9c8bf2d053e153f754cd6e25a48b3269b297948
-  AppLovinMediationByteDanceAdapter: 76eef9c6e6a0003d21fd43e112df23e02acb4971
-  AppLovinMediationFacebookAdapter: 30ddfcb09c1c9ff6778ba974f58e8f3204e6eebc
-  AppLovinMediationUnityAdsAdapter: ed0d5660f47dda6fb1293244c1371b52a2a7389d
-  AppLovinMediationVungleAdapter: bcf8233eae6ca3668a1b7ed47bcc0039583d60d3
-  AppLovinSDK: 626d2aea57ae1bf9280d2012e8e20c521c58ce28
+  Adjust: afda46df69f035fd216310fb85f399c40c61830a
   AppsFlyerFramework: 0a68f5b72bbbadfa71d4ae3eaf040e82d62e8518
-  BURelyFoundation_Global: 17ed9cd58d138feefd8c0711dd3294766adcb28e
   Clarity: 763f81546834f113798b599a022f53725d57ed17
   FBAEMKit: daac7466b918752f020345be5c7d9787f98cfc07
   FBAudienceNetwork: 80a035aa69cc3a71c99e44cb5c2874e4cef9909f
@@ -283,8 +268,7 @@ SPEC CHECKSUMS:
   ReachabilitySwift: 2128f3a8c9107e1ad33574c6e58e8285d460b149
   TikTokBusinessSDK: 5b4ae7130afbe5a2f673f62fad83c8eaa0cb01b3
   UnityAds: 4c2dbd3e82778b536b0bad23b640c16aae91dbb1
-  VungleAds: 0d696ed96dd7d715a9432997356d59b2e3b58882
 
-PODFILE CHECKSUM: 70444d7b402abd97f245ca74e626534e957d201a
+PODFILE CHECKSUM: a2d68923d2d42d976b0bda8176788d5030582b31
 
 COCOAPODS: 1.15.2

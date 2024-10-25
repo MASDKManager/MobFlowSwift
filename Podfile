@@ -14,16 +14,17 @@ target 'MobFlowiOS' do
   pod 'FirebaseRemoteConfig' 
   pod 'OneSignalXCFramework' 
   pod 'TikTokBusinessSDK', '~> 1.3.2'
-  pod 'AppLovinSDK'
-  pod 'AppLovinMediationVungleAdapter'
-  pod 'AppLovinMediationFacebookAdapter'
-  pod 'AppLovinMediationByteDanceAdapter'
-  pod 'AppLovinMediationUnityAdsAdapter'
+#  pod 'AppLovinSDK'
+#  pod 'AppLovinMediationVungleAdapter'
+#  pod 'AppLovinMediationFacebookAdapter'
+#  pod 'AppLovinMediationByteDanceAdapter'
+#  pod 'AppLovinMediationUnityAdsAdapter'
   pod 'AppsFlyerFramework'
   pod 'FBSDKCoreKit', '~> 16.0.0'
   pod 'FBAudienceNetwork'
   pod 'Adjust', '~> 4.38.4'
   pod 'Clarity'
+  pod 'UnityAds'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
