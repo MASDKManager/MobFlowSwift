@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
 
   spec.platform = :ios
   spec.name         = "MobFlowiOS"
-  spec.version      = "3.2.1"
+  spec.version      = "3.2.2"
   spec.requires_arc =  true
   spec.summary      = "An sdk that inialize multiple library in order to run custom ad screen of MobFlowiOS."
   spec.description  = <<-DESC
@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
     :tag => spec.version.to_s
   }
   spec.framework = 'UIKit'
-  spec.dependency 'Adjust','>= 4.38.4'
+  spec.dependency 'Adjust','>= 5.0.0'
   spec.dependency 'ReachabilitySwift'
   spec.dependency 'Firebase'
   spec.dependency 'FirebaseAnalytics'
@@ -29,7 +29,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'OneSignalXCFramework'
   spec.dependency 'TikTokBusinessSDK', '>= 1.3.2'
   spec.dependency 'AppsFlyerFramework'
-  spec.dependency 'FBSDKCoreKit','>= 16.0.0'
+  spec.dependency 'FBSDKCoreKit','>= 17.0.0'
   spec.dependency 'FBAudienceNetwork'
   spec.dependency 'Clarity'
   spec.dependency 'UnityAds'

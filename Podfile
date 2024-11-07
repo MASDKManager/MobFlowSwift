@@ -6,7 +6,7 @@ target 'MobFlowiOS' do
   use_frameworks!
 
   # Pods for Test
-#  pod 'Adjust'
+  pod 'Adjust', '~> 5.0.0'
   pod 'ReachabilitySwift'
   pod 'Firebase'
   pod 'FirebaseAnalytics'
@@ -20,9 +20,8 @@ target 'MobFlowiOS' do
 #  pod 'AppLovinMediationByteDanceAdapter'
 #  pod 'AppLovinMediationUnityAdsAdapter'
   pod 'AppsFlyerFramework'
-  pod 'FBSDKCoreKit', '~> 16.0.0'
+  pod 'FBSDKCoreKit', '~> 17.0.0'
   pod 'FBAudienceNetwork'
-  pod 'Adjust', '~> 4.38.4'
   pod 'Clarity'
   pod 'UnityAds'
   

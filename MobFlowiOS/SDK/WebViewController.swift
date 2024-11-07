@@ -101,8 +101,6 @@ public class WebViewController: UIViewController
       case .unavailable:
         self.presentNoInternetViewController()
         break
-      case .none:
-        break
       }
     }
     

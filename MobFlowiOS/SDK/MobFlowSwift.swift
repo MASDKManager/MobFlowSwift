@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 import FirebaseCrashlytics
-import Adjust
+import AdjustSdk
 import AppTrackingTransparency
 import AdSupport
 import FirebaseCore
@@ -18,7 +18,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.1"
+    private let mob_sdk_version = "3.2.2"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -171,19 +171,25 @@ public class MobiFlowSwift: NSObject
                         }
                         
                         self.run = self.endpoint != ""
-                        self.initialiseSDK()
+                        
+                        Task {
+                            await self.initialiseSDK()
+                        }
                     }
                 }
             } else {
                 print("Config not fetched")
                 print("Error: \(error?.localizedDescription ?? "No error available.")")
-                self.initialiseSDK()
+                
+                Task {
+                    await self.initialiseSDK()
+                }
             }
         }
         
     }
     
-    func initialiseSDK() {
+    func initialiseSDK() async {
         
         
         if hasInitialized {
@@ -264,7 +270,7 @@ public class MobiFlowSwift: NSObject
                 }
             })
             
-            self.onDataReceived()
+            await self.onDataReceived()
             
         } else if (rcAdjust.enabled){
             
@@ -272,16 +278,16 @@ public class MobiFlowSwift: NSObject
             
             let adjustConfig = ADJConfig(appToken: rcAdjust.appToken, environment: ADJEnvironmentProduction)
             
-            adjustConfig?.sendInBackground = true
-            adjustConfig?.linkMeEnabled = true
+            adjustConfig?.enableSendingInBackground()
+            adjustConfig?.enableLinkMe()
             adjustConfig?.delegate = self
             
-            Adjust.appDidLaunch(adjustConfig)
+            Adjust.initSdk(adjustConfig)
             
-            Adjust.addSessionCallbackParameter("m_sdk_ver", value: mob_sdk_version)
-            Adjust.addSessionCallbackParameter("user_uuid", value: generateUserUUID())
+            Adjust.addGlobalCallbackParameter("m_sdk_ver", forKey: mob_sdk_version)
+            Adjust.addGlobalCallbackParameter("user_uuid", forKey: generateUserUUID())
             
-            self.onDataReceived()
+            await self.onDataReceived()
             
         }
     }
@@ -431,13 +437,13 @@ public class MobiFlowSwift: NSObject
     //        }
     //    }
     
-    @objc private func onDataReceived(){
+    @objc private func onDataReceived() async {
         if (endpoint != "") {
             let packageName = Bundle.main.bundleIdentifier ?? ""
             let apiString = "\(endpoint.hasPrefix("http") ? endpoint : "https://" + endpoint)?package=\(packageName)"
             
             printMobLog(description: "fetch endpoint url", value: apiString)
-            self.checkIfEndPointAvailable(endPoint: apiString)
+            await self.checkIfEndPointAvailable(endPoint: apiString)
         } else {
             if (self.showAds) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
@@ -451,7 +457,7 @@ public class MobiFlowSwift: NSObject
         }
     }
     
-    private func checkIfEndPointAvailable(endPoint: String) {
+    private func checkIfEndPointAvailable(endPoint: String) async {
         
         if (endpoint == "") {
             printMobLog(description: "check If EndPoint Available", value: "")
@@ -461,21 +467,12 @@ public class MobiFlowSwift: NSObject
             printMobLog(description: "check If EndPoint Available", value: self.endpoint)
             
             if (rcAdjust.enabled) {
-                var count = 0
-                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { callbacktimer in
-                    count += 1
-                    
-                    debugPrint("callbacktimer count: \(count)")
-                    self.adid = Adjust.adid() ?? ""
-                    
-                    if count >= 5 || self.adid != "" {
-                        debugPrint("fetching Adjust adid in timer, recived adid: \(self.adid)")
-                        self.timer.invalidate()
-                        DispatchQueue.main.async {
-                            self.startApp()
-                        }
-                    }
-                })
+                
+                self.adid = await Adjust.adid() ?? ""
+                
+                DispatchQueue.main.async {
+                    self.startApp()
+                }
             } else {
                 DispatchQueue.main.async {
                     self.startApp()
@@ -485,14 +482,14 @@ public class MobiFlowSwift: NSObject
         
     }
     
-    func createParamsURL()
+    func createParamsURL() async
     {
         
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         printMobLog(description:  "GPS_ADID", value: idfa)
         
         
-        let idfv = UIDevice.current.identifierForVendor!.uuidString
+        let idfv = await UIDevice.current.identifierForVendor!.uuidString
         printMobLog(description: "Device ID", value: idfv)
         
         printMobLog(description: "self.AdjustParams before changing macro", value: rcAdjust.macros.description)
@@ -513,7 +510,7 @@ public class MobiFlowSwift: NSObject
         } else if (rcAdjust.enabled) {
             
             paramsQuery = rcAdjust.macros
-                .replacingOccurrences(of: "$campaign_name", with: Adjust.attribution()?.campaign ?? "")
+                .replacingOccurrences(of: "$campaign_name", with: await Adjust.attribution()?.campaign ?? "")
                 .replacingOccurrences(of: "$idfa", with: idfa)
                 .replacingOccurrences(of: "$idfv", with: idfv)
                 .replacingOccurrences(of: "$adjust_id", with: self.adid)
@@ -573,7 +570,7 @@ public class MobiFlowSwift: NSObject
 
 extension MobiFlowSwift : AdjustDelegate {
     
-    public func adjustDeeplinkResponse(_ deeplink: URL?) -> Bool {
+    public func adjustDeferredDeeplinkReceived(_ deeplink: URL?) -> Bool {
         if let url = deeplink{
             let deeplinkStr = url.absoluteString
             let encodedDeeplink = deeplinkStr.utf8EncodedString()

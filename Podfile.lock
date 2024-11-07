@@ -1,18 +1,20 @@
 PODS:
-  - Adjust (4.38.4):
-    - Adjust/Core (= 4.38.4)
-  - Adjust/Core (4.38.4)
+  - Adjust (5.0.1):
+    - Adjust/Adjust (= 5.0.1)
+  - Adjust/Adjust (5.0.1):
+    - AdjustSignature (~> 3.18)
+  - AdjustSignature (3.20.2)
   - AppsFlyerFramework (6.14.3):
     - AppsFlyerFramework/Main (= 6.14.3)
   - AppsFlyerFramework/Main (6.14.3)
   - Clarity (2.1.0)
-  - FBAEMKit (16.0.1):
-    - FBSDKCoreKit_Basics (= 16.0.1)
+  - FBAEMKit (17.0.3):
+    - FBSDKCoreKit_Basics (= 17.0.3)
   - FBAudienceNetwork (6.15.0)
-  - FBSDKCoreKit (16.0.1):
-    - FBAEMKit (= 16.0.1)
-    - FBSDKCoreKit_Basics (= 16.0.1)
-  - FBSDKCoreKit_Basics (16.0.1)
+  - FBSDKCoreKit (17.0.3):
+    - FBAEMKit (= 17.0.3)
+    - FBSDKCoreKit_Basics (= 17.0.3)
+  - FBSDKCoreKit_Basics (17.0.3)
   - Firebase (10.25.0):
     - Firebase/Core (= 10.25.0)
   - Firebase/Core (10.25.0):
@@ -192,11 +194,11 @@ PODS:
   - UnityAds (4.11.3)
 
 DEPENDENCIES:
-  - Adjust (~> 4.38.4)
+  - Adjust (~> 5.0.0)
   - AppsFlyerFramework
   - Clarity
   - FBAudienceNetwork
-  - FBSDKCoreKit (~> 16.0.0)
+  - FBSDKCoreKit (~> 17.0.0)
   - Firebase
   - FirebaseAnalytics
   - FirebaseCrashlytics
@@ -209,6 +211,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
+    - AdjustSignature
     - AppsFlyerFramework
     - Clarity
     - FBAEMKit
@@ -239,13 +242,14 @@ SPEC REPOS:
     - UnityAds
 
 SPEC CHECKSUMS:
-  Adjust: afda46df69f035fd216310fb85f399c40c61830a
+  Adjust: f27daaa40d0df5550b89dd428cd8545d812e1f6d
+  AdjustSignature: f42d8c64cda8361ff5b5a31e4536d82076be4306
   AppsFlyerFramework: 0a68f5b72bbbadfa71d4ae3eaf040e82d62e8518
   Clarity: 763f81546834f113798b599a022f53725d57ed17
-  FBAEMKit: daac7466b918752f020345be5c7d9787f98cfc07
+  FBAEMKit: 9900b2edd99a2d21629a6277e6166f14c6215799
   FBAudienceNetwork: 80a035aa69cc3a71c99e44cb5c2874e4cef9909f
-  FBSDKCoreKit: 2cb033464b2134af0138f87d20b859eb3f9be359
-  FBSDKCoreKit_Basics: d37280da2e65872f0e931d15f45d97ea324fec37
+  FBSDKCoreKit: 0791f8f68a8630931a4c12aa23a56cc021551596
+  FBSDKCoreKit_Basics: 46d6b472c0dd0a5a7e972c025033d1c567f54eb4
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06
   FirebaseABTesting: e6e3c3e0e35813874f571d1b7bdae2aab319dd38
   FirebaseAnalytics: ec00fe8b93b41dc6fe4a28784b8e51da0647a248
@@ -269,6 +273,6 @@ SPEC CHECKSUMS:
   TikTokBusinessSDK: 5b4ae7130afbe5a2f673f62fad83c8eaa0cb01b3
   UnityAds: 4c2dbd3e82778b536b0bad23b640c16aae91dbb1
 
-PODFILE CHECKSUM: a2d68923d2d42d976b0bda8176788d5030582b31
+PODFILE CHECKSUM: 9bf03c2ad4e392dd920a541a81a8a95cd339b522
 
 COCOAPODS: 1.15.2

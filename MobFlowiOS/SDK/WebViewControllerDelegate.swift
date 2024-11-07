@@ -33,7 +33,9 @@ extension MobiFlowSwift: WebViewControllerDelegate
            {
                if self.customURL.isEmpty
                {
-                   self.createParamsURL()
+                   Task {
+                       await self.createParamsURL()
+                   }
                }
                let webView = self.initWebViewURL()
                
