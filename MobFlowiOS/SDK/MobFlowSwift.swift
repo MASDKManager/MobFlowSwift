@@ -18,7 +18,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.2"
+    private let mob_sdk_version = "3.2.3"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -210,20 +210,26 @@ public class MobiFlowSwift: NSObject
         //        }
         
         if self.rcTikTok.enabled {
-            
-            let config = TikTokConfig.init(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: rcTikTok.tiktokAppId)
+            let config = TikTokConfig(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: rcTikTok.tiktokAppId)
             config?.appTrackingDialogSuppressed = true
-            TikTokBusiness.initializeSdk(config)
             
-            let tiktokCallbackProperties : [AnyHashable : Any] = [
-                "m_sdk_ver" : mob_sdk_version,
-                "user_uuid" : generateUserUUID(),
-                "firebase_instance_id" : self.faid
-            ]
-            printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
-            
-            if (rcTikTok.eventName != "") {
-                TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties:tiktokCallbackProperties)
+            do {
+                try await TikTokBusiness.initializeSdk(config)
+                
+                let tiktokCallbackProperties: [AnyHashable: Any] = [
+                    "m_sdk_ver": mob_sdk_version,
+                    "user_uuid": generateUserUUID(),
+                    "firebase_instance_id": self.faid
+                ]
+                
+                printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
+                
+                // Track the event only after successful initialization
+                if rcTikTok.eventName != "" {
+                    TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties: tiktokCallbackProperties)
+                }
+            } catch {
+                debugPrint("Error initializing TikTok SDK: \(error)")
             }
         }
         

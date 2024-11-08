@@ -11,64 +11,56 @@ import UIKit
 
 extension MobiFlowSwift: WebViewControllerDelegate
 {
-   func present(dic: [String : Any])
-   {
-       self.delegate?.present(dic: dic)
-       requestPremission() 
-   }
-   
+    func present(dic: [String : Any])
+    {
+        self.delegate?.present(dic: dic)
+        requestPremission()
+    }
+    
     func set(schemeURL: String, addressURL: String, showAds: Bool)
-   {
-       self.schemeURL = schemeURL
-       self.addressURL = addressURL
-       self.showAdsBeforeNative = showAds
-   }
-   
-   func startApp()
-   {
- 
-       DispatchQueue.main.async {
-          
-           if self.schemeURL.isEmpty
-           {
-               if self.customURL.isEmpty
-               {
-                   Task {
-                       await self.createParamsURL()
-                   }
-               }
-               let webView = self.initWebViewURL()
-               
-               if(self.isReactNative){
-                   self.delegate!.present(dic: ["url" : webView.urlToOpen!])
-               }else{
-                   self.present(webView: webView)
-               }
-               
-           }
-           else
-           {
-               if self.showAdsBeforeNative {
-                   self.showRewardedAd { _ in
-                       self.showNativeWithPermission(dic: [String : Any]())
-                       let url = URL(string: self.schemeURL)
-                       if UIApplication.shared.canOpenURL(url!)
-                       {
-                           UIApplication.shared.open(url!)
-                       }
-                   }
-               }
-               else {
-                   self.showNativeWithPermission(dic: [String : Any]())
-                   let url = URL(string: self.schemeURL)
-                   if UIApplication.shared.canOpenURL(url!)
-                   {
-                       UIApplication.shared.open(url!)
-                   }
-               }
-           }
-          
-       }
-   }
+    {
+        self.schemeURL = schemeURL
+        self.addressURL = addressURL
+        self.showAdsBeforeNative = showAds
+    }
+    
+    func startApp() {
+        DispatchQueue.main.async {
+            // Check if `schemeURL` is empty
+            if self.schemeURL.isEmpty {
+                Task {
+                    // Ensure `createParamsURL` completes before moving forward
+                    if self.customURL.isEmpty {
+                        await self.createParamsURL()
+                    }
+                    
+                    let webView = self.initWebViewURL()
+                    
+                    // Present web view based on `isReactNative` flag
+                    if self.isReactNative {
+                        self.delegate?.present(dic: ["url" : webView.urlToOpen!])
+                    } else {
+                        self.present(webView: webView)
+                    }
+                }
+            } else {
+                // Handle when `schemeURL` is not empty and `showAdsBeforeNative` is true
+                if self.showAdsBeforeNative {
+                    self.showRewardedAd { _ in
+                        self.showNativeWithPermission(dic: [String : Any]())
+                        if let url = URL(string: self.schemeURL), UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                } else {
+                    // Handle when `schemeURL` is not empty and `showAdsBeforeNative` is false
+                    self.showNativeWithPermission(dic: [String : Any]())
+                    if let url = URL(string: self.schemeURL), UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
+        }
+    }
 }
 

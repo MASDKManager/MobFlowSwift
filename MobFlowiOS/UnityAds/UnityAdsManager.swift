@@ -60,7 +60,18 @@ class UnityAdsManager: NSObject {
     func showBannerAd(viewController: UIViewController) {
         let banner = UADSBannerView(placementId: self.bannerPlacementID, size: CGSize(width: 320, height: 50))
         banner.delegate = self
+        banner.translatesAutoresizingMaskIntoConstraints = false // Use Auto Layout
+
         viewController.view.addSubview(banner)
+        
+        // Position the banner at the bottom center
+        NSLayoutConstraint.activate([
+            banner.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
+            banner.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+            banner.widthAnchor.constraint(equalToConstant: 320),
+            banner.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
         banner.load()
     }
     
