@@ -18,7 +18,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.4"
+    private let mob_sdk_version = "3.2.5"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -290,8 +290,8 @@ public class MobiFlowSwift: NSObject
             
             Adjust.initSdk(adjustConfig)
             
-            Adjust.addGlobalCallbackParameter("m_sdk_ver", forKey: mob_sdk_version)
-            Adjust.addGlobalCallbackParameter("user_uuid", forKey: generateUserUUID())
+            Adjust.addGlobalCallbackParameter(mob_sdk_version, forKey: "m_sdk_ver")
+            Adjust.addGlobalCallbackParameter(generateUserUUID(), forKey: "user_uuid")
             
             await self.onDataReceived()
             
