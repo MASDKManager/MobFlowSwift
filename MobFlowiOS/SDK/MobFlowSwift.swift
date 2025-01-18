@@ -321,14 +321,15 @@ public class MobiFlowSwift: NSObject
                 saveFbDefferedDeeplink(encodedDefferedDeeplink)
             }
         }
-        
-        AppEvents.shared.logEvent(AppEvents.Name("MobFlowSDK"))
-        
     }
     
     private func initialiseOneSignal(oneSignalKey key: String){
+#if DEBUG
         // Remove this method to stop OneSignal Debugging
         OneSignal.Debug.setLogLevel(.LL_VERBOSE)
+#else
+        
+#endif
         
         //        OneSignal.setLaunchURLsInApp(false); // before Initialize
         
