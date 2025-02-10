@@ -78,14 +78,12 @@ public class MobiFlowSwift: NSObject
     //Facebook
     var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
     
-    
-    
     //Clarity SDK Project ID
     var clarityProjectID : String = ""
     
     let nc = NotificationCenter.default
     
-    public init(initDelegate: MobiFlowDelegate, unityGameId: String, bannerId: String = "", interstitialId: String = "", rewardedId: String = "", clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    public init(initDelegate: MobiFlowDelegate, clarityProjectId: String = "", launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         super.init()
         
         self.delegate = initDelegate
