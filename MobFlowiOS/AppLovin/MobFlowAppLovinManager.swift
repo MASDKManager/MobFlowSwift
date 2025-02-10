@@ -1,5 +1,5 @@
 //
-//  AppLovinManager.swift
+//  MobFlowAppLovinManager.swift
 //  MobFlowiOS
 //
 //  Created by Vishnu  on 13/07/23.
@@ -12,9 +12,9 @@
 //import Adjust
 //import FBAudienceNetwork
 //
-//class AppLovinManager : NSObject {
+//class MobFlowAppLovinManager : NSObject {
 //    
-//    static let shared = AppLovinManager()
+//    static let shared = MobFlowAppLovinManager()
 //        
 //    var interestialAdView : MAInterstitialAd?
 //    var retryInterestialAttempt = 0.0
@@ -41,13 +41,13 @@
 //    }
 //}
 //
-//extension AppLovinManager {
+//extension MobFlowAppLovinManager {
 //    
 //    func initializeAppLovin(appLovinKey: String, interestialId: String, bannerId: String, rewardedId: String, appOpenAdId: String) {
-//        AppLovinManager.shared.interestialId = interestialId
-//        AppLovinManager.shared.bannerId = bannerId
-//        AppLovinManager.shared.rewardedId = rewardedId
-//        AppLovinManager.shared.appOpenAdId = appOpenAdId
+//        MobFlowAppLovinManager.shared.interestialId = interestialId
+//        MobFlowAppLovinManager.shared.bannerId = bannerId
+//        MobFlowAppLovinManager.shared.rewardedId = rewardedId
+//        MobFlowAppLovinManager.shared.appOpenAdId = appOpenAdId
 //        
 //        //Meta Audience Network Data Processing Options, If you do not want to enable Limited Data Use (LDU) mode, pass SetDataProcessingOptions() an empty array
 //        FBAdSettings.setDataProcessingOptions([])
@@ -69,24 +69,24 @@
 //        appLovin.initialize(with: config) { configuration in
 //            debugPrint("AppLovin SDK is initialized, start loading ads now or later if ad gate is reached")
 //            
-//            if (AppLovinManager.shared.interestialId != "") {
-//                AppLovinManager.shared.loadInterestialAd()
+//            if (MobFlowAppLovinManager.shared.interestialId != "") {
+//                MobFlowAppLovinManager.shared.loadInterestialAd()
 //            }
 //            
-//            if (AppLovinManager.shared.rewardedId != "") {
-//                AppLovinManager.shared.loadRewardedAd()
+//            if (MobFlowAppLovinManager.shared.rewardedId != "") {
+//                MobFlowAppLovinManager.shared.loadRewardedAd()
 //            }
 //            
-//            if (AppLovinManager.shared.appOpenAdId != "") {
-//                AppLovinManager.shared.loadAppOpenAds()
+//            if (MobFlowAppLovinManager.shared.appOpenAdId != "") {
+//                MobFlowAppLovinManager.shared.loadAppOpenAds()
 //            }
 //        }
 //    }
 //    
 //    func loadBannerAd(vc : UIViewController) {
 //        
-//        AppLovinManager.shared.adView = MAAdView(adUnitIdentifier: AppLovinManager.shared.bannerId,sdk: appLovin)
-//        AppLovinManager.shared.adView.delegate = self
+//        MobFlowAppLovinManager.shared.adView = MAAdView(adUnitIdentifier: MobFlowAppLovinManager.shared.bannerId,sdk: appLovin)
+//        MobFlowAppLovinManager.shared.adView.delegate = self
 //        
 //        // Banner height on iPhone and iPad is 50 and 90, respectively
 //        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
@@ -94,28 +94,28 @@
 //        // Stretch to the width of the screen for banners to be fully functional
 //        let width: CGFloat = UIScreen.main.bounds.width
 //        
-//        AppLovinManager.shared.adView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - height - 15, width: width, height: height)
+//        MobFlowAppLovinManager.shared.adView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - height - 15, width: width, height: height)
 //        
 //        // Set background or background color for banners to be fully functional
-//        AppLovinManager.shared.adView.backgroundColor = .clear
+//        MobFlowAppLovinManager.shared.adView.backgroundColor = .clear
 //        
-//        vc.view.addSubview(AppLovinManager.shared.adView)
+//        vc.view.addSubview(MobFlowAppLovinManager.shared.adView)
 //        
 //        // Load the first ad
-//        AppLovinManager.shared.adView.loadAd()
+//        MobFlowAppLovinManager.shared.adView.loadAd()
 //    }
 //    
 //    private func loadInterestialAd() {
-//        AppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: AppLovinManager.shared.interestialId,sdk: appLovin)
-//        AppLovinManager.shared.interestialAdView?.delegate = self
-//        AppLovinManager.shared.interestialAdView?.load()
+//        MobFlowAppLovinManager.shared.interestialAdView = MAInterstitialAd(adUnitIdentifier: MobFlowAppLovinManager.shared.interestialId,sdk: appLovin)
+//        MobFlowAppLovinManager.shared.interestialAdView?.delegate = self
+//        MobFlowAppLovinManager.shared.interestialAdView?.load()
 //    }
 //    
 //    func showInterestialAd(onClose : @escaping (Bool) -> ()) {
 //        
-//        if (AppLovinManager.shared.interestialAdView?.isReady ?? false) {
-//            AppLovinManager.shared.interestialAdView?.show()
-//            AppLovinManager.shared.onClose = onClose
+//        if (MobFlowAppLovinManager.shared.interestialAdView?.isReady ?? false) {
+//            MobFlowAppLovinManager.shared.interestialAdView?.show()
+//            MobFlowAppLovinManager.shared.onClose = onClose
 //        } else {
 //            debugPrint("interestial ads failed to show")
 //            onClose(false)
@@ -123,15 +123,15 @@
 //    }
 //    
 //    private func loadRewardedAd() {
-//        AppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: AppLovinManager.shared.rewardedId,sdk: appLovin)
-//        AppLovinManager.shared.rewardedAdView?.delegate = self
-//        AppLovinManager.shared.rewardedAdView?.load()
+//        MobFlowAppLovinManager.shared.rewardedAdView = MARewardedAd.shared(withAdUnitIdentifier: MobFlowAppLovinManager.shared.rewardedId,sdk: appLovin)
+//        MobFlowAppLovinManager.shared.rewardedAdView?.delegate = self
+//        MobFlowAppLovinManager.shared.rewardedAdView?.load()
 //    }
 //    
 //    func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-//        if (AppLovinManager.shared.rewardedAdView?.isReady ?? false) {
-//            AppLovinManager.shared.rewardedAdView?.show()
-//            AppLovinManager.shared.onClose = onClose
+//        if (MobFlowAppLovinManager.shared.rewardedAdView?.isReady ?? false) {
+//            MobFlowAppLovinManager.shared.rewardedAdView?.show()
+//            MobFlowAppLovinManager.shared.onClose = onClose
 //        } else {
 //            print("rewarded ads failed to show")
 //            onClose(false)
@@ -139,27 +139,27 @@
 //    }
 //    
 //    private func loadAppOpenAds() {
-//        AppLovinManager.shared.appOpenAdView = MAAppOpenAd(adUnitIdentifier: AppLovinManager.shared.appOpenAdId, sdk: appLovin)
-//        AppLovinManager.shared.appOpenAdView?.delegate = self
-//        AppLovinManager.shared.appOpenAdView?.load()
+//        MobFlowAppLovinManager.shared.appOpenAdView = MAAppOpenAd(adUnitIdentifier: MobFlowAppLovinManager.shared.appOpenAdId, sdk: appLovin)
+//        MobFlowAppLovinManager.shared.appOpenAdView?.delegate = self
+//        MobFlowAppLovinManager.shared.appOpenAdView?.load()
 //    }
 //    
 //    func showAppOpenAds(onClose : @escaping (Bool) -> ()) {
 //        
-//        if AppLovinManager.shared.appOpenAdView?.isReady ?? false
+//        if MobFlowAppLovinManager.shared.appOpenAdView?.isReady ?? false
 //        {
-//            AppLovinManager.shared.appOpenAdView?.show()
-//            AppLovinManager.shared.onClose = onClose
+//            MobFlowAppLovinManager.shared.appOpenAdView?.show()
+//            MobFlowAppLovinManager.shared.onClose = onClose
 //        }
 //        else
 //        {
-//            AppLovinManager.shared.loadAppOpenAds()
+//            MobFlowAppLovinManager.shared.loadAppOpenAds()
 //            onClose(false)
 //        }
 //    }
 //}
 //
-//extension AppLovinManager: MAAdDelegate {
+//extension MobFlowAppLovinManager: MAAdDelegate {
 //    
 //    func didLoad(_ ad: MAAd) {
 //        debugPrint("Ad didLoad: \(ad.adUnitIdentifier)")
@@ -171,20 +171,20 @@
 //        
 //        debugPrint("Ad didFailToLoadAd with id:\(adUnitIdentifier)")
 //        
-//        if AppLovinManager.shared.retryInterestialAttempt < 3 {
-//            AppLovinManager.shared.retryInterestialAttempt += 1
+//        if MobFlowAppLovinManager.shared.retryInterestialAttempt < 3 {
+//            MobFlowAppLovinManager.shared.retryInterestialAttempt += 1
 //            let delaySec = 3.0
 //            
 //            DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
 //                
 //                if (adUnitIdentifier == self.interestialId) {
-//                    AppLovinManager.shared.interestialAdView?.load()
+//                    MobFlowAppLovinManager.shared.interestialAdView?.load()
 //                }
 //                if (adUnitIdentifier == self.rewardedId) {
-//                    AppLovinManager.shared.rewardedAdView?.load()
+//                    MobFlowAppLovinManager.shared.rewardedAdView?.load()
 //                }
 //                if (adUnitIdentifier == self.appOpenAdId) {
-//                    AppLovinManager.shared.appOpenAdView?.load()
+//                    MobFlowAppLovinManager.shared.appOpenAdView?.load()
 //                }
 //            }
 //        }
@@ -198,17 +198,17 @@
 //    
 //    func didHide(_ ad: MAAd) {
 //        debugPrint("Ad didHide \(ad.adUnitIdentifier)")
-//        if (ad.adUnitIdentifier == AppLovinManager.shared.interestialId){
-//            AppLovinManager.shared.onClose?(true)
-//            AppLovinManager.shared.loadInterestialAd()
+//        if (ad.adUnitIdentifier == MobFlowAppLovinManager.shared.interestialId){
+//            MobFlowAppLovinManager.shared.onClose?(true)
+//            MobFlowAppLovinManager.shared.loadInterestialAd()
 //        }
-//        if (ad.adUnitIdentifier == AppLovinManager.shared.rewardedId){
-//            AppLovinManager.shared.onClose?(true)
-//            AppLovinManager.shared.loadRewardedAd()
+//        if (ad.adUnitIdentifier == MobFlowAppLovinManager.shared.rewardedId){
+//            MobFlowAppLovinManager.shared.onClose?(true)
+//            MobFlowAppLovinManager.shared.loadRewardedAd()
 //        }
-//        if (ad.adUnitIdentifier == AppLovinManager.shared.appOpenAdId){
-//            AppLovinManager.shared.onClose?(true)
-//            AppLovinManager.shared.loadAppOpenAds()
+//        if (ad.adUnitIdentifier == MobFlowAppLovinManager.shared.appOpenAdId){
+//            MobFlowAppLovinManager.shared.onClose?(true)
+//            MobFlowAppLovinManager.shared.loadAppOpenAds()
 //        }
 //    }
 //    
@@ -218,13 +218,13 @@
 //    
 //    func didFail(toDisplay ad: MAAd, withError error: MAError) {
 //        debugPrint("Ad didFail \(ad.adUnitIdentifier)")
-//        AppLovinManager.shared.onClose?(false)
+//        MobFlowAppLovinManager.shared.onClose?(false)
 //    }
 //    
 //}
 //
 //
-//extension AppLovinManager : MARewardedAdDelegate {
+//extension MobFlowAppLovinManager : MARewardedAdDelegate {
 //    
 //    func didStartRewardedVideo(for ad: MAAd) {
 //        debugPrint("Ad didStartRewardedVideo")
@@ -232,18 +232,18 @@
 //    
 //    func didCompleteRewardedVideo(for ad: MAAd) {
 //        debugPrint("Ad didCompleteRewardedVideo")
-//        AppLovinManager.shared.rewardUser = true
+//        MobFlowAppLovinManager.shared.rewardUser = true
 //    }
 //    
 //    func didRewardUser(for ad: MAAd, with reward: MAReward) {
 //        debugPrint("Ad didRewardUser")
-//        AppLovinManager.shared.rewardUser = true
+//        MobFlowAppLovinManager.shared.rewardUser = true
 //    }
 //    
 //    
 //}
 //
-//extension AppLovinManager : MAAdViewAdDelegate {
+//extension MobFlowAppLovinManager : MAAdViewAdDelegate {
 //    //Banner Delegate
 //    func didExpand(_ ad: MAAd) {
 //        debugPrint("Ad didExpand")

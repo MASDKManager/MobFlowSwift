@@ -53,3 +53,9 @@ struct RCAppLovin : Codable {
     let rewarded_id: String
     let app_open_id: String
 }
+
+// MARK: - RCAppodeal
+struct RCAppodeal : Codable {
+    let enabled: Bool
+    let sdk_key: String
+}

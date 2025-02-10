@@ -23,7 +23,16 @@ target 'MobFlowiOS' do
   pod 'FBSDKCoreKit', '~> 17.0.0'
   pod 'FBAudienceNetwork'
   pod 'Clarity'
-  pod 'UnityAds'
+#  pod 'UnityAds'
+  
+  pod 'Appodeal', '3.4.1'
+  pod 'APDBidMachineAdapter', '3.4.1.1'
+  pod 'APDBidonAdapter', '3.4.1.0'
+  pod 'APDIABAdapter', '3.4.1.0'
+  pod 'APDSentryAdapter', '3.4.1.0'
+  pod 'APDUnityAdapter', '3.4.1.0'
+  pod 'BidonAdapterBidMachine', '0.7.1.1'
+  pod 'BidonAdapterUnityAds', '0.7.1.0'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

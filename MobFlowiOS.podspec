@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
 
   spec.platform = :ios
   spec.name         = "MobFlowiOS"
-  spec.version      = "3.2.6"
+  spec.version      = "3.2.7"
   spec.requires_arc =  true
   spec.summary      = "An sdk that inialize multiple library in order to run custom ad screen of MobFlowiOS."
   spec.description  = <<-DESC
@@ -32,7 +32,14 @@ Pod::Spec.new do |spec|
   spec.dependency 'FBSDKCoreKit','>= 17.0.0'
   spec.dependency 'FBAudienceNetwork'
   spec.dependency 'Clarity'
-  spec.dependency 'UnityAds'
+  spec.dependency 'Appodeal', '3.4.1'
+  spec.dependency 'APDBidMachineAdapter', '3.4.1.1'
+  spec.dependency 'APDBidonAdapter', '3.4.1.0'
+  spec.dependency 'APDIABAdapter', '3.4.1.0'
+  spec.dependency 'APDSentryAdapter', '3.4.1.0'
+  spec.dependency 'APDUnityAdapter', '3.4.1.0'
+  spec.dependency 'BidonAdapterBidMachine', '0.7.1.1'
+  spec.dependency 'BidonAdapterUnityAds', '0.7.1.0'
   spec.source_files  = "MobFlowiOS/**/*.{h,m,swift}"
   spec.resource_bundles = {
     'MobFlowiOS' => ['MobFlowiOS/**/*.{storyboard,xib,xcassets,lproj,png,xcprivacy}']

@@ -18,7 +18,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.6"
+    private let mob_sdk_version = "3.2.7"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -51,8 +51,11 @@ public class MobiFlowSwift: NSObject
     //AppFlyers
     var rcAppsFlyers : RCAppsFlyers = RCAppsFlyers(enabled: false, devKey: "", appStoreId: "", macros: "")
     
+    //AppLovin
+    var rcAppLovin : RCAppLovin = RCAppLovin(enabled: false, sdk_key: "", banner_id: "", interstitial_id: "", rewarded_id: "", app_open_id: "")
+    
     //    //AppLovin
-    //    var appLovinManager = AppLovinManager.shared
+    //    var appLovinManager = MobFlowAppLovinManager.shared
     //
     //    private var appLovinKey = ""
     //    private var appLovinInterestialId = ""
@@ -60,18 +63,22 @@ public class MobiFlowSwift: NSObject
     //    private var appLovinRewardedId = ""
     //    private var appLovinAppOpenAdId = ""
     
-    //Unity Ads
-    var unityAdsManager = UnityAdsManager.shared
-    private var unityGameId = ""
-    private var unityInterestialId = "Interstitial_iOS"
-    private var unityBannerId = "Banner_iOS"
-    private var unityRewardedId = "Rewarded_iOS"
+    //    //Unity Ads
+    //    var unityAdsManager = MobFlowUnityAdsManager.shared
+    //    private var unityGameId = ""
+    //    private var unityInterestialId = "Interstitial_iOS"
+    //    private var unityBannerId = "Banner_iOS"
+    //    private var unityRewardedId = "Rewarded_iOS"
+    
+    //Appodeal Ads
+    var rcAppodeal : RCAppodeal = RCAppodeal(enabled: false, sdk_key: "")
+    
+    var appodealAdsManager = MobFlowAppoDealManager.shared
     
     //Facebook
     var rcFacebook : RCFacebook = RCFacebook(enabled: false, appID: "", clientToken: "")
     
-    //AppLovin
-    var rcAppLovin : RCAppLovin = RCAppLovin(enabled: false, sdk_key: "", banner_id: "", interstitial_id: "", rewarded_id: "", app_open_id: "")
+    
     
     //Clarity SDK Project ID
     var clarityProjectID : String = ""
@@ -83,10 +90,10 @@ public class MobiFlowSwift: NSObject
         
         self.delegate = initDelegate
         self.launchOptions = launchOptions
-        self.unityGameId = unityGameId
-        self.unityBannerId = bannerId != "" ? bannerId : self.unityBannerId
-        self.unityInterestialId = interstitialId != "" ? interstitialId : self.unityInterestialId
-        self.unityRewardedId = rewardedId != "" ? rewardedId : self.unityRewardedId
+        //        self.unityGameId = unityGameId
+        //        self.unityBannerId = bannerId != "" ? bannerId : self.unityBannerId
+        //        self.unityInterestialId = interstitialId != "" ? interstitialId : self.unityInterestialId
+        //        self.unityRewardedId = rewardedId != "" ? rewardedId : self.unityRewardedId
         self.clarityProjectID = clarityProjectId
         
         self.basicSdkSetup()
@@ -99,8 +106,8 @@ public class MobiFlowSwift: NSObject
         //        //AppLovin Ads initialisation
         //        self.initialiseAppLovin()
         
-        //Unity Ads initialisation
-        self.initialiseUnityAds()
+        //        //Unity Ads initialisation
+        //        self.initialiseUnityAds()
         
         //Clarity by Microsoft for tracking user activity in App
         self.initialiseClarity()
@@ -164,6 +171,8 @@ public class MobiFlowSwift: NSObject
                         
                         //remote config removed as by this way ads take longer loading time
                         //self.rcAppLovin = RCValues.sharedInstance.getAppLovin()
+                        self.rcAppodeal = RCValues.sharedInstance.getAppodeal()
+                        
                         self.rcOneSignal = RCValues.sharedInstance.getOneSignal()
                         
                         if self.rcOneSignal.one_signal_key != "" {
@@ -209,28 +218,30 @@ public class MobiFlowSwift: NSObject
         //            self.initialiseAppLovin()
         //        }
         
+        //used for initialising Appodeal when values were fetched from remote config
+        if (self.showAds && self.rcAppodeal.enabled){
+            self.initialiseAppodeal()
+        }
+        
         if self.rcTikTok.enabled {
             let config = TikTokConfig(accessToken: rcTikTok.accessToken, appId: rcTikTok.appStoreId, tiktokAppId: rcTikTok.tiktokAppId)
             config?.appTrackingDialogSuppressed = true
             
-            do {
-                try await TikTokBusiness.initializeSdk(config)
-                
-                let tiktokCallbackProperties: [AnyHashable: Any] = [
-                    "m_sdk_ver": mob_sdk_version,
-                    "user_uuid": generateUserUUID(),
-                    "firebase_instance_id": self.faid
-                ]
-                
-                printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
-                
-                // Track the event only after successful initialization
-                if rcTikTok.eventName != "" {
-                    TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties: tiktokCallbackProperties)
-                }
-            } catch {
-                debugPrint("Error initializing TikTok SDK: \(error)")
+            TikTokBusiness.initializeSdk(config)
+            
+            let tiktokCallbackProperties: [AnyHashable: Any] = [
+                "m_sdk_ver": mob_sdk_version,
+                "user_uuid": generateUserUUID(),
+                "firebase_instance_id": self.faid
+            ]
+            
+            printMobLog(description: "tiktokCallbackProperties:", value: tiktokCallbackProperties.description)
+            
+            // Track the event only after successful initialization
+            if rcTikTok.eventName != "" {
+                TikTokBusiness.trackEvent(rcTikTok.eventName, withProperties: tiktokCallbackProperties)
             }
+            
         }
         
         if self.rcFacebook.enabled {
@@ -331,10 +342,10 @@ public class MobiFlowSwift: NSObject
         
 #endif
         
-        //        OneSignal.setLaunchURLsInApp(false); // before Initialize
-        
         // OneSignal initialization
         OneSignal.initialize(key,withLaunchOptions: launchOptions)
+        
+        OneSignal.login(generateUserUUID())
         
         self.isOneSignalInitialised = true
     }
@@ -364,33 +375,34 @@ public class MobiFlowSwift: NSObject
         return showAds
     }
     
-    private func initialiseUnityAds() {
-        self.unityAdsManager.initializeUnityAds(gameID: self.unityGameId, bannerPlacementID: self.unityBannerId, interstitialPlacementID: self.unityInterestialId, rewardedVideoPlacementID: self.unityRewardedId)
+    //    private func initialiseUnityAds() {
+    //        self.unityAdsManager.initializeUnityAds(gameID: self.unityGameId, bannerPlacementID: self.unityBannerId, interstitialPlacementID: self.unityInterestialId, rewardedVideoPlacementID: self.unityRewardedId)
+    //    }
+    
+    private func initialiseAppodeal(){
+            self.appodealAdsManager.initializeAppoDeal(rcAppodeal: rcAppodeal)
     }
     
     //Banner for UIKit
     @objc public func showBannerAd(vc : UIViewController) {
-        if (self.showAds){
-            self.unityAdsManager.showBannerAd(viewController: vc)
+        if (self.showAds && self.rcAppodeal.enabled) {
+            self.appodealAdsManager.showBannerInUIKit(in: vc, position: .bottom)
         }
     }
     
     //Banner for SwiftUI
     public func createBannerView() -> AnyView {
-        if self.showAds {
-            return AnyView(UnityBannerAdView())
+        if self.showAds && self.rcAppodeal.enabled {
+            return AnyView(appodealAdsManager.showBannerView(position: .bottom))
         } else {
-            return AnyView(EmptyBannerView())
+            return AnyView(MobFlowEmptyBannerView())
         }
     }
     
     //based on showAds value, Interestial Ads are shown
     @objc public func showInterestialAd(onClose : @escaping (Bool) -> ()) {
-        if (self.showAds) {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootVC = windowScene.windows.first?.rootViewController {
-                self.unityAdsManager.showInterstitialAds(viewController: rootVC, onClose: onClose)
-            }
+        if (self.showAds && self.rcAppodeal.enabled) {
+            appodealAdsManager.showAds(withAdType: .interstitial, onClose: onClose)
         } else {
             onClose(false)
         }
@@ -398,12 +410,8 @@ public class MobiFlowSwift: NSObject
     
     //based on showAds value, Rewarded Ads are shown
     @objc public func showRewardedAd(onClose : @escaping (Bool) -> ()) {
-        if (self.showAds) {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootVC = windowScene.windows.first?.rootViewController {
-                self.unityAdsManager.showRewardedAds(viewController: rootVC, onClose: onClose)
-            }
-            
+        if (self.showAds && self.rcAppodeal.enabled) {
+            appodealAdsManager.showAds(withAdType: .rewardedVideo, onClose: onClose)
         } else {
             onClose(false)
         }
