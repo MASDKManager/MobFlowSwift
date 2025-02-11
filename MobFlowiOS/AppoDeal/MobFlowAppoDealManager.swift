@@ -70,7 +70,7 @@ class MobFlowAppoDealManager: NSObject {
         if bannerAdView == nil {
             bannerAdView = BannerAdSwiftUIView(position: position)
         }
-        return MobFlowEmptyBannerView()
+        return bannerAdView
     }
     
     private struct BannerAdSwiftUIView: UIViewControllerRepresentable {
