@@ -22,7 +22,7 @@ target 'MobFlowiOS' do
   pod 'AppsFlyerFramework'
   pod 'FBSDKCoreKit', '~> 17.0.0'
   pod 'FBAudienceNetwork'
-  pod 'Clarity'
+  pod 'Clarity', '2.2.1'
 #  pod 'UnityAds'
   
   pod 'Appodeal', '3.4.1'
