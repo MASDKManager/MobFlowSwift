@@ -253,12 +253,12 @@ public class MobiFlowSwift: NSObject
             return
         }
         
-        // Only request tracking permission if showAtt is false
+        // Only request tracking permission if showAtt is true
         if (self.showAtt) {
-            print("showAtt is true, requesting tracking permission.")
+            debugPrint("showAtt is true, requesting tracking permission.")
             await self.awaitedTrackingPermissionRequest()
         } else {
-            print("showAtt is false, no tracking permission requested.")
+            debugPrint("showAtt is false")
         }
         
         if (rcAppsFlyers.enabled) { //Init Apps Flyers SDK
@@ -316,7 +316,7 @@ public class MobiFlowSwift: NSObject
                 }
             }
         } else {
-            print("App Tracking Transparency is not supported on this iOS version.")
+            debugPrint("App Tracking Transparency is not supported on this iOS version.")
         }
     }
     
