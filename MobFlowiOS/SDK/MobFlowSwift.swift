@@ -18,7 +18,7 @@ import Clarity
 public class MobiFlowSwift: NSObject
 {
     
-    private let mob_sdk_version = "3.2.6"
+    private let mob_sdk_version = "3.3.0"
     private var endpoint = ""
     private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     public var customURL = ""
@@ -36,6 +36,7 @@ public class MobiFlowSwift: NSObject
     private var backgroundColor = UIColor.white
     private var tintColor = UIColor.black
     private var showAds = true
+    private var showAtt = false // This variable controls whether permission
     
     //Adjust
     var rcAdjust : RCAdjust = RCAdjust(enabled: false, appToken: "", macros: "")
@@ -157,6 +158,7 @@ public class MobiFlowSwift: NSObject
                         let endp = RemoteConfig.remoteConfig()["sub_endios"].stringValue ?? ""
                         self.endpoint = endp.trimmingCharacters(in: .whitespaces)
                         self.showAds = RCValues.sharedInstance.showAds()
+                        self.showAtt = RCValues.sharedInstance.showAtt()
                         self.rcAdjust = RCValues.sharedInstance.getAdjust()
                         self.rcTikTok = RCValues.sharedInstance.getTikTok()
                         self.rcAppsFlyers = RCValues.sharedInstance.getAppsFlyers()
@@ -202,6 +204,7 @@ public class MobiFlowSwift: NSObject
         
         if self.rcOneSignal.enabled && self.rcOneSignal.one_signal_key != "" && !isOneSignalInitialised {
             self.initialiseOneSignal(oneSignalKey: self.rcOneSignal.one_signal_key)
+            
         }
         
         //used for initialising AppLovin when values were fetched from remote config
@@ -248,6 +251,14 @@ public class MobiFlowSwift: NSObject
                 self.showNativeWithPermission(dic: [String : Any]())
             }
             return
+        }
+        
+        // Only request tracking permission if showAtt is false
+        if (self.showAtt) {
+            print("showAtt is true, requesting tracking permission.")
+            await self.awaitedTrackingPermissionRequest()
+        } else {
+            print("showAtt is false, no tracking permission requested.")
         }
         
         if (rcAppsFlyers.enabled) { //Init Apps Flyers SDK
@@ -297,6 +308,17 @@ public class MobiFlowSwift: NSObject
             
         }
     }
+    private func awaitedTrackingPermissionRequest() async {
+        if #available(iOS 14, *) {
+            await withCheckedContinuation { continuation in
+                requestTrackingPermission {
+                    continuation.resume()  // Continue after completion
+                }
+            }
+        } else {
+            print("App Tracking Transparency is not supported on this iOS version.")
+        }
+    }
     
     private func initialiseFacebook() {
         
@@ -327,13 +349,17 @@ public class MobiFlowSwift: NSObject
     }
     
     private func initialiseOneSignal(oneSignalKey key: String){
+#if DEBUG
         // Remove this method to stop OneSignal Debugging
         OneSignal.Debug.setLogLevel(.LL_VERBOSE)
+#else
         
-        //        OneSignal.setLaunchURLsInApp(false); // before Initialize
+#endif
         
         // OneSignal initialization
         OneSignal.initialize(key,withLaunchOptions: launchOptions)
+        
+        OneSignal.login(generateUserUUID())
         
         self.isOneSignalInitialised = true
     }

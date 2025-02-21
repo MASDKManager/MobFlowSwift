@@ -61,27 +61,30 @@ func requestPremission()
     if #available(iOS 14, *)
     {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
-            
-            ATTrackingManager.requestTrackingAuthorization { (authStatus) in
-                switch authStatus
-                {
-                case .notDetermined:
-                    print("Not Determined")
-                case .restricted:
-                    print("Restricted")
-                case .denied:
-                    print("Denied")
-                case .authorized:
-                    print("Authorized")
-                @unknown default:
-                    break
-                }
-                
+            requestTrackingPermission {
                 askForNotificationPermission()
             }
         })
     }
+    
+}
 
+func requestTrackingPermission(onClose : @escaping () -> ()) {
+    ATTrackingManager.requestTrackingAuthorization { status in
+        switch status {
+        case .authorized:
+            print("Tracking Authorized: User has granted permission to track.")
+        case .denied:
+            print("Tracking Denied: User has denied permission to track.")
+        case .restricted:
+            print("Tracking Restricted: Tracking is restricted (e.g., parental controls).")
+        case .notDetermined:
+            print("Tracking Not Determined: User has not yet been asked for permission.")
+        @unknown default:
+            print("Unknown ATT status.")
+        }
+        onClose()
+    }
 }
 
 func askForNotificationPermission() {
@@ -108,6 +111,7 @@ func generateUserUUID() -> String {
     
     return md5UUID
 }
+
 
 func getUserUUID() -> String {
     return UserDefaults.standard.string(forKey: USERDEFAULT_CustomUUID) ?? ""
